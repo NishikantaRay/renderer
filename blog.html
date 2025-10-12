@@ -12,6 +12,9 @@
     <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
     
+    <!-- Global Blog Renderer -->
+    <script src="js/blog-renderer.js"></script>
+    
     <style>
         :root {
             /* Colors */
@@ -476,49 +479,7 @@
         </header>
 
         <div id="content" class="content">
-            <div class="blog-posts">
-                <a href="blog/typescript-modern-web.html" class="blog-post">
-                    <div class="post-date">October 12, 2024</div>
-                    <h2 class="post-title">Building Modern Web Applications with TypeScript</h2>
-                    <p class="post-excerpt">
-                        TypeScript has revolutionized the way we build web applications. In this comprehensive guide, 
-                        I'll share my experiences and best practices for implementing TypeScript in modern web development projects.
-                    </p>
-                    <div class="post-tags">
-                        <span class="post-tag">TypeScript</span>
-                        <span class="post-tag">Web Development</span>
-                        <span class="post-tag">JavaScript</span>
-                    </div>
-                </a>
-
-                <a href="blog/minimal-design.html" class="blog-post">
-                    <div class="post-date">October 8, 2024</div>
-                    <h2 class="post-title">The Art of Minimal Design</h2>
-                    <p class="post-excerpt">
-                        Exploring the philosophy and practice of minimal design in creating beautiful, functional user experiences. 
-                        Learn how less can truly be more in digital design.
-                    </p>
-                    <div class="post-tags">
-                        <span class="post-tag">Design</span>
-                        <span class="post-tag">UX/UI</span>
-                        <span class="post-tag">Philosophy</span>
-                    </div>
-                </a>
-
-                <a href="blog/open-source-journey.html" class="blog-post">
-                    <div class="post-date">September 28, 2024</div>
-                    <h2 class="post-title">My Journey into Open Source</h2>
-                    <p class="post-excerpt">
-                        From my first nervous pull request to becoming a maintainer, here's what I've learned about 
-                        contributing to open source projects and building meaningful connections in the developer community.
-                    </p>
-                    <div class="post-tags">
-                        <span class="post-tag">Open Source</span>
-                        <span class="post-tag">Community</span>
-                        <span class="post-tag">Career</span>
-                    </div>
-                </a>
-            </div>
+            <div class="loading">Loading blog posts...</div>
         </div>
     </main>
 
@@ -527,66 +488,26 @@
         <p>&copy; 2024 Personal Portfolio. Built with <a href="https://github.com/markedjs/marked" target="_blank">Marked.js</a>.</p>
     </footer>
 
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Blog Configuration -->
+    <script src="js/blog-config.js?v=2"></script>
+    
+    <!-- Global Blog Renderer -->
+    <script src="js/blog-renderer-fixed.js?v=2"></script>
+
     <script>
-        // Page App
-        class PortfolioPage {
-            constructor() {
-                this.currentTheme = localStorage.getItem('theme') || 
-                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                
-                this.init();
+        // Force blog renderer initialization for debugging
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, forcing blog renderer...');
+            if (window.BlogRenderer) {
+                console.log('BlogRenderer available, creating instance...');
+                new window.BlogRenderer();
+            } else {
+                console.error('BlogRenderer not available!');
             }
-
-            init() {
-                this.setupTheme();
-                this.setupEventListeners();
-            }
-
-            setupTheme() {
-                document.documentElement.setAttribute('data-theme', this.currentTheme);
-                
-                // Listen for system theme changes
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                    if (!localStorage.getItem('theme')) {
-                        this.currentTheme = e.matches ? 'dark' : 'light';
-                        document.documentElement.setAttribute('data-theme', this.currentTheme);
-                    }
-                });
-            }
-
-            setupEventListeners() {
-                // Theme toggle
-                document.getElementById('theme-toggle').addEventListener('click', () => {
-                    this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-theme', this.currentTheme);
-                    localStorage.setItem('theme', this.currentTheme);
-                });
-
-                // Mobile menu toggle
-                const mobileToggle = document.getElementById('mobile-menu-toggle');
-                const navLinks = document.querySelector('.nav-links');
-                
-                if (mobileToggle && navLinks) {
-                    mobileToggle.addEventListener('click', () => {
-                        navLinks.classList.toggle('mobile-open');
-                    });
-
-                    // Close mobile menu when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!mobileToggle.contains(e.target) && !navLinks.contains(e.target)) {
-                            navLinks.classList.remove('mobile-open');
-                        }
-                    });
-                }
-            }
-        }
-
-        // Initialize app when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => new PortfolioPage());
-        } else {
-            new PortfolioPage();
-        }
+        });
     </script>
 </body>
 </html>

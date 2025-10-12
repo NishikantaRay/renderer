@@ -1,0 +1,98 @@
+/**
+ * Blog Configuration
+ * Centralized configuration for all blog posts and settings
+ */
+
+const BLOG_CONFIG = {
+    // Blog metadata
+    title: "Personal Blog",
+    description: "Thoughts on web development, technology, design, and everything in between.",
+    
+    // Blog posts configuration
+    posts: [
+        {
+            id: 'typescript-modern-web',
+            title: 'Building Modern Web Applications with TypeScript',
+            description: 'TypeScript has revolutionized the way we build web applications. Learn about best practices, implementation strategies, and why TypeScript has become essential for modern development.',
+            date: 'October 12, 2024',
+            dateISO: '2024-10-12',
+            tags: ['TypeScript', 'Web Development', 'JavaScript'],
+            contentPath: 'typescript-modern-web.md',
+            author: 'Personal Portfolio',
+            readTime: '8 min read',
+            featured: true
+        },
+        {
+            id: 'minimal-design',
+            title: 'The Art of Minimal Design',
+            description: 'Exploring the philosophy and practice of minimal design in creating beautiful, functional user experiences that prioritize clarity and purpose.',
+            date: 'October 8, 2024',
+            dateISO: '2024-10-08',
+            tags: ['Design', 'UX/UI', 'Philosophy'],
+            contentPath: 'minimal-design.md',
+            author: 'Personal Portfolio',
+            readTime: '6 min read',
+            featured: false
+        },
+        {
+            id: 'open-source-journey',
+            title: 'My Journey into Open Source',
+            description: 'From my first nervous pull request to becoming a maintainer, here\'s what I\'ve learned about contributing to open source projects and building meaningful connections in the developer community.',
+            date: 'September 28, 2024',
+            dateISO: '2024-09-28',
+            tags: ['Open Source', 'Community', 'Career'],
+            contentPath: 'open-source-journey.md',
+            author: 'Personal Portfolio',
+            readTime: '10 min read',
+            featured: false
+        }
+    ],
+
+    // Navigation between posts
+    getPostNavigation(currentPostId) {
+        const posts = this.posts;
+        const currentIndex = posts.findIndex(post => post.id === currentPostId);
+        
+        if (currentIndex === -1) return { prev: null, next: null };
+
+        const prev = currentIndex > 0 ? posts[currentIndex - 1] : null;
+        const next = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+        return { prev, next };
+    },
+
+    // Get post by ID
+    getPostById(id) {
+        return this.posts.find(post => post.id === id);
+    },
+
+    // Get all posts sorted by date (newest first)
+    getAllPosts() {
+        return [...this.posts].sort((a, b) => new Date(b.dateISO) - new Date(a.dateISO));
+    },
+
+    // Get featured posts
+    getFeaturedPosts() {
+        return this.posts.filter(post => post.featured);
+    },
+
+    // Get posts by tag
+    getPostsByTag(tag) {
+        return this.posts.filter(post => 
+            post.tags.some(postTag => postTag.toLowerCase() === tag.toLowerCase())
+        );
+    },
+
+    // Get all unique tags
+    getAllTags() {
+        const allTags = this.posts.flatMap(post => post.tags);
+        return [...new Set(allTags)].sort();
+    }
+};
+
+// Export configuration
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = BLOG_CONFIG;
+} else {
+    window.BLOG_CONFIG = BLOG_CONFIG;
+}

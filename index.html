@@ -9,6 +9,12 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- Dashboard Configuration -->
+    <script src="js/dashboard-config.js"></script>
+    
     <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
     
@@ -234,6 +240,65 @@
             color: var(--bg);
         }
 
+        /* Hero Action Buttons */
+        .hero-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            margin-top: var(--space-8);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            border-radius: 0.5rem;
+            font-size: 0.925rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--text-accent);
+            color: var(--bg);
+            border-color: var(--text-accent);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--text-accent);
+            border-color: var(--text-accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] .btn-secondary:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
         /* Sections */
         .section {
             padding: var(--space-12) 0;
@@ -437,6 +502,466 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Dashboard Analytics */
+        .dashboard {
+            padding: var(--space-12) 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-8);
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .dashboard-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: var(--space-6);
+            transition: all 0.2s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--text-accent);
+        }
+
+        [data-theme="dark"] .dashboard-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-accent);
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            margin-bottom: var(--space-2);
+        }
+
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin-top: var(--space-4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-8);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: var(--space-4);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--space-1);
+        }
+
+        .trending-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .trending-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .trending-value {
+            color: var(--text-accent);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .activity-timeline {
+            position: relative;
+            padding-left: var(--space-6);
+        }
+
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: var(--space-2);
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .activity-item {
+            position: relative;
+            padding-bottom: var(--space-4);
+        }
+
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--space-6) + var(--space-1));
+            top: var(--space-1);
+            width: 8px;
+            height: 8px;
+            background: var(--text-accent);
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+        }
+
+        .activity-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .activity-description {
+            font-size: 0.875rem;
+            color: var(--text);
+            margin-top: var(--space-1);
+        }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            margin-top: var(--space-12);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-6);
+            color: var(--text);
+        }
+
+        /* Skills Progress */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .skill-item {
+            padding: var(--space-4);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            opacity: 0;
+            animation: slideInUp 0.5s ease forwards;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+
+        .skill-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .skill-percentage {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-accent);
+        }
+
+        .skill-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1.5s ease;
+            animation: progressExpand 2s ease;
+        }
+
+        /* Recent Activity */
+        .activity-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            margin-top: var(--space-1);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: var(--space-1);
+        }
+
+        .activity-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-1);
+        }
+
+        .activity-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Enhanced Stats Grid */
+        .stat-item {
+            text-align: center;
+            padding: var(--space-6);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-2);
+            display: block;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: var(--space-1);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        /* Code Quality */
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .quality-metric {
+            padding: var(--space-4);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text);
+            margin-bottom: var(--space-2);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .metric-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .metric-progress {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1.5s ease;
+        }
+
+        /* Learning Progress */
+        .learning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .learning-item {
+            padding: var(--space-4);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+        }
+
+        .learning-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+
+        .learning-topic {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .learning-percentage {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-accent);
+        }
+
+        .learning-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: var(--space-2);
+        }
+
+        .learning-progress {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1.5s ease;
+        }
+
+        .learning-target {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes progressExpand {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--progress-width, 0%);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .chart-container {
+                height: 180px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .skills-grid,
+            .quality-grid,
+            .learning-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-value,
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .dashboard-section {
+                margin-top: var(--space-8);
+            }
+        }
+
         /* Hidden */
         .hidden {
             display: none;
@@ -510,6 +1035,118 @@
                     Twitter
                 </a>
             </div>
+            
+            <!-- Action Buttons -->
+            <div class="hero-actions">
+                <a href="resume.html" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14,2 14,8 20,8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10,9 9,9 8,9"></polyline>
+                    </svg>
+                    Hire Me
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    Let's Talk
+                </a>
+            </div>
+        </section>
+
+        <!-- Dashboard Analytics Section -->
+        <section id="dashboard" class="dashboard">
+            <h2 class="dashboard-title">Dashboard & Analytics</h2>
+            
+            <!-- Main Analytics Grid -->
+            <div class="dashboard-grid">
+                <!-- Recent Projects Chart -->
+                <div class="dashboard-card chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Projects</h3>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 20V10"></path>
+                            <path d="M12 20V4"></path>
+                            <path d="M6 20v-6"></path>
+                        </svg>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Tech Stack Distribution -->
+                <div class="dashboard-card chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tech Stack</h3>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="projectChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <div class="dashboard-card chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Performance</h3>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12,6 12,12 16,14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Activity</h3>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12h18m-9-9v18"></path>
+                        </svg>
+                    </div>
+                    <div class="activity-container" id="recentActivity">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Progress Section -->
+            <div class="dashboard-section">
+                <h3 class="section-subtitle">Skills Progress</h3>
+                <div class="skills-grid" id="skillsProgress">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Statistics Grid -->
+            <div class="stats-grid" id="dashboardStats">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Code Quality Metrics -->
+            <div class="dashboard-section">
+                <h3 class="section-subtitle">Code Quality</h3>
+                <div class="quality-grid" id="codeQuality">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Learning Progress -->
+            <div class="dashboard-section">
+                <h3 class="section-subtitle">Currently Learning</h3>
+                <div class="learning-grid" id="learningProgress">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
         </section>
 
         <!-- About Section -->
@@ -558,6 +1195,7 @@
                 this.setupEventListeners();
                 this.loadAllContent();
                 this.setupNavigation();
+                this.setupDashboard();
             }
 
             setupTheme() {
@@ -733,13 +1371,410 @@
                     link.setAttribute('rel', 'noopener noreferrer');
                 });
             }
+            setupDashboard() {
+                // Initialize dashboard with configuration
+                setTimeout(() => {
+                    if (window.DASHBOARD_CONFIG) {
+                        this.initializeCharts();
+                        this.updateStats();
+                        this.initializeSkillsProgress();
+                        this.populateRecentActivity();
+                        this.initializeCodeQuality();
+                        this.initializeLearningProgress();
+                    }
+                }, 100);
+            }
+
+            initializeCharts() {
+                const config = window.DASHBOARD_CONFIG;
+                if (!config) return;
+
+                const isDark = this.currentTheme === 'dark';
+
+                // Initialize different chart types based on configuration
+                if (config.techStack.enabled) {
+                    this.initTechStackChart(config.techStack, isDark);
+                }
+
+                if (config.recentProjects.enabled) {
+                    this.initRecentProjectsChart(config.recentProjects, isDark);
+                }
+
+                if (config.performanceMetrics.enabled) {
+                    this.initPerformanceChart(config.performanceMetrics, isDark);
+                }
+            }
+
+            initTechStackChart(stackConfig, isDark) {
+                const ctx = document.getElementById('projectChart');
+                if (!ctx) return;
+
+                const colors = isDark ? stackConfig.categories.colors.dark : stackConfig.categories.colors.light;
+                const textColor = isDark ? '#737373' : '#737373';
+                const backgroundColor = isDark ? '#0a0a0a' : '#ffffff';
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: stackConfig.categories.labels,
+                        datasets: [{
+                            data: stackConfig.categories.values,
+                            backgroundColor: colors,
+                            borderColor: backgroundColor,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: textColor,
+                                    font: { size: 11 },
+                                    padding: 15,
+                                    usePointStyle: true
+                                }
+                            }
+                        },
+                        cutout: '65%'
+                    }
+                });
+            }
+
+            initRecentProjectsChart(projectsConfig, isDark) {
+                const ctx = document.getElementById('activityChart');
+                if (!ctx) return;
+
+                const datasets = projectsConfig.data.datasets.map(dataset => ({
+                    label: dataset.label,
+                    data: dataset.data,
+                    borderColor: isDark ? dataset.colors.dark : dataset.colors.light,
+                    backgroundColor: (isDark ? dataset.colors.dark : dataset.colors.light) + '20',
+                    borderWidth: 2,
+                    fill: projectsConfig.chartType === 'line',
+                    tension: 0.4,
+                    pointBackgroundColor: isDark ? dataset.colors.dark : dataset.colors.light,
+                    pointBorderColor: isDark ? '#0a0a0a' : '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4
+                }));
+
+                const textColor = isDark ? '#737373' : '#737373';
+                const borderColor = isDark ? '#262626' : '#e5e5e5';
+
+                new Chart(ctx, {
+                    type: projectsConfig.chartType,
+                    data: {
+                        labels: projectsConfig.data.labels,
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: projectsConfig.showLegend,
+                                position: 'bottom',
+                                labels: {
+                                    color: textColor,
+                                    font: { size: 11 },
+                                    padding: 15,
+                                    usePointStyle: true
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: borderColor,
+                                    borderColor: borderColor
+                                },
+                                ticks: {
+                                    color: textColor,
+                                    font: { size: 11 }
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    color: borderColor,
+                                    borderColor: borderColor
+                                },
+                                ticks: {
+                                    color: textColor,
+                                    font: { size: 11 }
+                                },
+                                beginAtZero: true
+                            }
+                        },
+                        elements: {
+                            point: {
+                                hoverRadius: 6
+                            }
+                        }
+                    }
+                });
+            }
+
+            updateStats() {
+                const config = window.DASHBOARD_CONFIG;
+                if (!config || !config.statistics.enabled) return;
+
+                const statsContainer = document.getElementById('dashboardStats');
+                if (!statsContainer) return;
+
+                const isDark = this.currentTheme === 'dark';
+
+                // Generate stats HTML
+                const statsHTML = config.statistics.metrics.map(metric => {
+                    const color = isDark ? metric.color.dark : metric.color.light;
+                    return `
+                        <div class="stat-item">
+                            <div class="stat-icon">${metric.icon}</div>
+                            <span class="stat-number" id="${metric.id}" style="color: ${color}">0${metric.suffix}</span>
+                            <span class="stat-label">${metric.label}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                statsContainer.innerHTML = statsHTML;
+
+                // Animate stat numbers based on configuration
+                config.statistics.metrics.forEach(metric => {
+                    this.animateNumber(metric.id, 0, metric.value, metric.suffix, metric.animationDuration);
+                });
+            }
+
+            animateNumber(elementId, start, end, suffix = '', duration = 2000) {
+                const element = document.getElementById(elementId);
+                if (!element) return;
+
+                const increment = (end - start) / (duration / 16);
+                let current = start;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= end) {
+                        current = end;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.round(current) + suffix;
+                }, 16);
+            }
+
+            initPerformanceChart(metricsConfig, isDark) {
+                const ctx = document.getElementById('performanceChart');
+                if (!ctx) return;
+
+                const data = metricsConfig.data;
+                const colors = isDark ? data.colors.dark : data.colors.light;
+                const textColor = isDark ? '#737373' : '#737373';
+                const borderColor = isDark ? '#262626' : '#e5e5e5';
+
+                if (metricsConfig.chartType === 'radar') {
+                    new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Performance Metrics',
+                                data: data.scores,
+                                borderColor: colors[0],
+                                backgroundColor: colors[0] + '20',
+                                borderWidth: 2,
+                                pointBackgroundColor: colors[0],
+                                pointBorderColor: isDark ? '#0a0a0a' : '#ffffff',
+                                pointBorderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                r: {
+                                    beginAtZero: true,
+                                    max: metricsConfig.maxScore,
+                                    grid: { color: borderColor },
+                                    angleLines: { color: borderColor },
+                                    pointLabels: {
+                                        color: textColor,
+                                        font: { size: 11 }
+                                    },
+                                    ticks: {
+                                        color: textColor,
+                                        font: { size: 10 },
+                                        stepSize: 20
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            initializeSkillsProgress() {
+                const config = window.DASHBOARD_CONFIG;
+                if (!config || !config.skillsProgress.enabled) return;
+
+                const skillsContainer = document.getElementById('skillsProgress');
+                if (!skillsContainer) return;
+
+                const isDark = this.currentTheme === 'dark';
+                
+                const skillsHTML = config.skillsProgress.skills.map((skill, index) => {
+                    const color = isDark ? skill.color.dark : skill.color.light;
+                    const delay = index * config.skillsProgress.animationDelay;
+                    
+                    return `
+                        <div class="skill-item" style="animation-delay: ${delay}ms">
+                            <div class="skill-info">
+                                <span class="skill-name">${skill.name}</span>
+                                <span class="skill-percentage">${skill.progress}%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: ${skill.progress}%; background-color: ${color}"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                skillsContainer.innerHTML = skillsHTML;
+            }
+
+            populateRecentActivity() {
+                const config = window.DASHBOARD_CONFIG;
+                if (!config || !config.recentActivity.enabled) return;
+
+                const activityContainer = document.getElementById('recentActivity');
+                if (!activityContainer) return;
+
+                const activities = config.recentActivity.activities.slice(0, config.recentActivity.maxItems);
+                
+                const activityHTML = activities.map(activity => {
+                    const date = new Date(activity.date);
+                    const formattedDate = config.recentActivity.dateFormat === 'MMM DD' 
+                        ? date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                        : date.toLocaleDateString();
+
+                    return `
+                        <div class="activity-item">
+                            ${config.recentActivity.showIcons ? `<span class="activity-icon">${activity.icon}</span>` : ''}
+                            <div class="activity-content">
+                                <div class="activity-title">${activity.title}</div>
+                                <div class="activity-description">${activity.description}</div>
+                                <div class="activity-date">${formattedDate}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                activityContainer.innerHTML = activityHTML;
+            }
+
+            initializeCodeQuality() {
+                const config = window.DASHBOARD_CONFIG;
+                if (!config || !config.codeQuality.enabled) return;
+
+                const qualityContainer = document.getElementById('codeQuality');
+                if (!qualityContainer) return;
+
+                const isDark = this.currentTheme === 'dark';
+                const metrics = config.codeQuality.metrics;
+
+                const qualityHTML = Object.entries(metrics).map(([key, metric]) => {
+                    const color = isDark ? metric.color.dark : metric.color.light;
+                    
+                    return `
+                        <div class="quality-metric">
+                            <div class="metric-label">${metric.label}</div>
+                            <div class="metric-value" style="color: ${color}">${metric.value}%</div>
+                            <div class="metric-bar">
+                                <div class="metric-progress" style="width: ${metric.value}%; background-color: ${color}"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                qualityContainer.innerHTML = qualityHTML;
+            }
+
+            initializeLearningProgress() {
+                const config = window.DASHBOARD_CONFIG;
+                if (!config || !config.learningProgress.enabled) return;
+
+                const learningContainer = document.getElementById('learningProgress');
+                if (!learningContainer) return;
+
+                const isDark = this.currentTheme === 'dark';
+                
+                const learningHTML = config.learningProgress.currentLearning.map(item => {
+                    const color = isDark ? item.color.dark : item.color.light;
+                    
+                    return `
+                        <div class="learning-item">
+                            <div class="learning-header">
+                                <span class="learning-topic">${item.topic}</span>
+                                <span class="learning-percentage">${item.progress}%</span>
+                            </div>
+                            <div class="learning-bar">
+                                <div class="learning-progress" style="width: ${item.progress}%; background-color: ${color}"></div>
+                            </div>
+                            ${config.learningProgress.showTargets ? `<div class="learning-target">${item.target}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+
+                learningContainer.innerHTML = learningHTML;
+            }
+        }
+
+        // Dashboard-specific functionality
+        class DashboardManager {
+            constructor(portfolioInstance) {
+                this.portfolio = portfolioInstance;
+                this.charts = {};
+            }
+
+            initialize() {
+                // Set up dashboard after portfolio is loaded
+                setTimeout(() => {
+                    this.portfolio.setupDashboard();
+                }, 500);
+            }
+
+            updateChartsTheme() {
+                // Re-initialize charts when theme changes
+                setTimeout(() => {
+                    this.portfolio.initializeCharts();
+                }, 100);
+            }
         }
 
         // Initialize app when DOM is ready
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => new MinimalPortfolio());
+            document.addEventListener('DOMContentLoaded', () => {
+                const portfolio = new MinimalPortfolio();
+                const dashboard = new DashboardManager(portfolio);
+                dashboard.initialize();
+                
+                // Update charts when theme changes
+                document.getElementById('theme-toggle').addEventListener('click', () => {
+                    setTimeout(() => dashboard.updateChartsTheme(), 200);
+                });
+            });
         } else {
-            new MinimalPortfolio();
+            const portfolio = new MinimalPortfolio();
+            const dashboard = new DashboardManager(portfolio);
+            dashboard.initialize();
+            
+            // Update charts when theme changes
+            document.getElementById('theme-toggle').addEventListener('click', () => {
+                setTimeout(() => dashboard.updateChartsTheme(), 200);
+            });
         }
     </script>
 </body>

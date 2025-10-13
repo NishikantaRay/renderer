@@ -9,6 +9,9 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
     <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
     
@@ -352,6 +355,191 @@
             }
         }
 
+        /* Project Analytics */
+        .analytics-section {
+            margin: var(--space-12) 0;
+            padding: var(--space-8) 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .analytics-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-8);
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .analytics-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: var(--space-6);
+            transition: all 0.2s ease;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--text-accent);
+        }
+
+        [data-theme="dark"] .analytics-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .card-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-accent);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-top: var(--space-4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-8);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: var(--space-4);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--space-1);
+        }
+
+        .timeline {
+            margin-top: var(--space-8);
+        }
+
+        .timeline-list {
+            list-style: none;
+            padding: 0;
+            position: relative;
+            padding-left: var(--space-6);
+        }
+
+        .timeline-list::before {
+            content: '';
+            position: absolute;
+            left: var(--space-2);
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--space-6);
+            margin-left: var(--space-4);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--space-6) - var(--space-2));
+            top: var(--space-1);
+            width: 10px;
+            height: 10px;
+            background: var(--text-accent);
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .chart-container {
+                height: 200px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+
         /* Animations */
         .fade-in {
             animation: fadeIn 0.6s ease-out;
@@ -360,6 +548,15 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
@@ -410,12 +607,72 @@
         <div id="content" class="content">
             <div class="loading">Loading...</div>
         </div>
+
+        <!-- Project Analytics Section -->
+        <section class="analytics-section">
+            <h2 class="analytics-title">Project Analytics & Activity</h2>
+            
+            <div class="analytics-grid">
+                <!-- Weekly Activity Chart -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Weekly Development Activity</h3>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3v18h18"></path>
+                            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+                        </svg>
+                    </div>
+                    <p class="card-description">Code commits and development work over the past week</p>
+                    <div class="chart-container">
+                        <canvas id="weeklyActivityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Project Statistics Chart -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Project Distribution</h3>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <path d="M9 9h6v6H9z"></path>
+                        </svg>
+                    </div>
+                    <p class="card-description">Breakdown of projects by category and technology focus</p>
+                    <div class="chart-container">
+                        <canvas id="projectStatsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Timeline -->
+            <div class="analytics-card timeline">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Project Milestones</h3>
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                    </svg>
+                </div>
+                <p class="card-description">Latest project updates and achievements</p>
+                <ul class="timeline-list" id="projectTimeline">
+                    <!-- Timeline items will be populated by JavaScript -->
+                </ul>
+            </div>
+
+            <!-- Project Statistics -->
+            <div class="stats-grid" id="projectStats">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2024 Your Name. Built with <a href="https://github.com/markedjs/marked" target="_blank">Marked.js</a>.</p>
     </footer>
+
+    <!-- Project Analytics Configuration -->
+    <script src="js/project-analytics-config.js"></script>
 
     <script>
         // Page App
@@ -431,6 +688,7 @@
                 this.setupTheme();
                 this.setupEventListeners();
                 this.loadContent();
+                this.setupAnalytics();
             }
 
             setupTheme() {
@@ -512,6 +770,209 @@
                     link.setAttribute('target', '_blank');
                     link.setAttribute('rel', 'noopener noreferrer');
                 });
+            }
+
+            setupAnalytics() {
+                // Initialize analytics after a short delay to ensure DOM is ready
+                setTimeout(() => {
+                    if (window.PROJECT_ANALYTICS_CONFIG) {
+                        this.initializeCharts();
+                        this.populateTimeline();
+                        this.populateStats();
+                    }
+                }, 200);
+            }
+
+            initializeCharts() {
+                const config = window.PROJECT_ANALYTICS_CONFIG;
+                const isDark = this.currentTheme === 'dark';
+
+                // Initialize Weekly Activity Chart
+                if (config.weeklyActivity.enabled) {
+                    this.initWeeklyActivityChart(config.weeklyActivity, isDark);
+                }
+
+                // Initialize Project Stats Chart
+                if (config.projectStats.enabled) {
+                    this.initProjectStatsChart(config.projectStats, isDark);
+                }
+            }
+
+            initWeeklyActivityChart(activityConfig, isDark) {
+                const ctx = document.getElementById('weeklyActivityChart');
+                if (!ctx) return;
+
+                const colors = activityConfig.colors;
+                const chartColors = {
+                    commits: isDark ? colors.commits.dark : colors.commits.light,
+                    pullRequests: isDark ? colors.pullRequests.dark : colors.pullRequests.light,
+                    issues: isDark ? colors.issues.dark : colors.issues.light
+                };
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: activityConfig.data.labels,
+                        datasets: [
+                            {
+                                label: 'Commits',
+                                data: activityConfig.data.commits,
+                                borderColor: chartColors.commits,
+                                backgroundColor: chartColors.commits + '20',
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: chartColors.commits,
+                                pointBorderColor: isDark ? '#0a0a0a' : '#ffffff',
+                                pointBorderWidth: 2,
+                                pointRadius: 4
+                            },
+                            {
+                                label: 'Pull Requests',
+                                data: activityConfig.data.pullRequests,
+                                borderColor: chartColors.pullRequests,
+                                backgroundColor: chartColors.pullRequests + '20',
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.4,
+                                pointBackgroundColor: chartColors.pullRequests,
+                                pointBorderColor: isDark ? '#0a0a0a' : '#ffffff',
+                                pointBorderWidth: 2,
+                                pointRadius: 3
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: isDark ? '#737373' : '#737373',
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    font: { size: 12 }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: isDark ? '#262626' : '#e5e5e5',
+                                    borderColor: isDark ? '#262626' : '#e5e5e5'
+                                },
+                                ticks: {
+                                    color: isDark ? '#737373' : '#737373',
+                                    font: { size: 11 }
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    color: isDark ? '#262626' : '#e5e5e5',
+                                    borderColor: isDark ? '#262626' : '#e5e5e5'
+                                },
+                                ticks: {
+                                    color: isDark ? '#737373' : '#737373',
+                                    font: { size: 11 }
+                                },
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            initProjectStatsChart(statsConfig, isDark) {
+                const ctx = document.getElementById('projectStatsChart');
+                if (!ctx) return;
+
+                const categoryData = statsConfig.data.categories;
+                const colors = isDark ? categoryData.colors.dark : categoryData.colors.light;
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: categoryData.labels,
+                        datasets: [{
+                            data: categoryData.values,
+                            backgroundColor: colors,
+                            borderColor: isDark ? '#0a0a0a' : '#ffffff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: isDark ? '#737373' : '#737373',
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    font: { size: 12 }
+                                }
+                            }
+                        },
+                        cutout: '65%'
+                    }
+                });
+            }
+
+            populateTimeline() {
+                const config = window.PROJECT_ANALYTICS_CONFIG;
+                const timelineContainer = document.getElementById('projectTimeline');
+                
+                if (!timelineContainer || !config.timeline.enabled) return;
+
+                const timelineHTML = config.timeline.events.map(event => `
+                    <li class="timeline-item">
+                        <div class="timeline-date">${event.date}</div>
+                        <div class="timeline-title">${event.title}</div>
+                        <div class="timeline-description">${event.description}</div>
+                    </li>
+                `).join('');
+
+                timelineContainer.innerHTML = timelineHTML;
+            }
+
+            populateStats() {
+                const config = window.PROJECT_ANALYTICS_CONFIG;
+                const statsContainer = document.getElementById('projectStats');
+                
+                if (!statsContainer || !config.stats.enabled) return;
+
+                const statsHTML = config.stats.metrics.map(metric => `
+                    <div class="stat-item">
+                        <span class="stat-number" id="${metric.id}">${metric.value}${metric.suffix}</span>
+                        <span class="stat-label">${metric.label}</span>
+                    </div>
+                `).join('');
+
+                statsContainer.innerHTML = statsHTML;
+
+                // Animate numbers
+                config.stats.metrics.forEach(metric => {
+                    this.animateNumber(metric.id, 0, metric.value, metric.suffix, metric.animationDuration);
+                });
+            }
+
+            animateNumber(elementId, start, end, suffix = '', duration = 2000) {
+                const element = document.getElementById(elementId);
+                if (!element) return;
+
+                const increment = (end - start) / (duration / 16);
+                let current = start;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= end) {
+                        current = end;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.round(current) + suffix;
+                }, 16);
             }
         }
 

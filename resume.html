@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Your Name</title>
+    <meta name="description" content="Professional resume and CV - Developer, Designer, Creator">
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    
+    <style>
+        :root {
+            /* Colors */
+            --bg: #ffffff;
+            --text: #171717;
+            --text-muted: #737373;
+            --text-accent: #0969da;
+            --border: #e5e5e5;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            
+            /* Typography */
+            --font-sans: 'Inter var', 'Inter', system-ui, sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            
+            /* Layout */
+            --container-width: 800px;
+            --sidebar-width: 280px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #f5f5f5;
+            --text-muted: #737373;
+            --text-accent: #58a6ff;
+            --border: #262626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--space-4);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: var(--space-4);
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text);
+            background: var(--border);
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--text-accent);
+            color: var(--bg);
+            text-decoration: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: var(--space-8) var(--space-4);
+        }
+
+        /* Resume Layout */
+        .resume {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            gap: var(--space-8);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .resume {
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(135deg, var(--text-accent), #4f46e5);
+            color: white;
+            padding: var(--space-8);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            margin: 0 auto var(--space-4);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 300;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .profile-title {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: var(--space-4);
+        }
+
+        .contact-info {
+            margin-bottom: var(--space-8);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+            font-size: 0.875rem;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.8;
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar-section {
+            margin-bottom: var(--space-8);
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .skill-item {
+            margin-bottom: var(--space-4);
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+            font-size: 0.875rem;
+        }
+
+        .skill-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 3px;
+            transition: width 2s ease;
+        }
+
+        .language-item, .interest-item {
+            font-size: 0.875rem;
+            margin-bottom: var(--space-2);
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: var(--space-8);
+        }
+
+        .section {
+            margin-bottom: var(--space-8);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            margin-bottom: var(--space-6);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .summary {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .experience-item, .education-item, .project-item {
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .experience-item:last-child, .education-item:last-child, .project-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-3);
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .item-company {
+            font-size: 1rem;
+            color: var(--text-accent);
+            font-weight: 500;
+        }
+
+        .item-date {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            background: var(--border);
+            padding: var(--space-1) var(--space-3);
+            border-radius: 1rem;
+            white-space: nowrap;
+        }
+
+        .item-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .item-description ul {
+            margin: var(--space-3) 0;
+            padding-left: var(--space-6);
+        }
+
+        .item-description li {
+            margin-bottom: var(--space-2);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+        }
+
+        .tech-tag {
+            font-size: 0.75rem;
+            padding: var(--space-1) var(--space-2);
+            background: var(--text-accent);
+            color: var(--bg);
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .achievement-item {
+            text-align: center;
+            padding: var(--space-4);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+        }
+
+        .achievement-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-accent);
+            display: block;
+        }
+
+        .achievement-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--space-1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-4);
+            }
+
+            .resume {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .sidebar {
+                order: 2;
+                background: var(--bg);
+                color: var(--text);
+                border-top: 1px solid var(--border);
+            }
+
+            .sidebar .profile-name,
+            .sidebar .profile-title,
+            .sidebar .contact-item,
+            .sidebar .language-item,
+            .sidebar .interest-item {
+                color: var(--text);
+            }
+
+            .sidebar .sidebar-title {
+                color: var(--text-accent);
+            }
+
+            .skill-bar {
+                background: var(--border);
+            }
+
+            .skill-progress {
+                background: var(--text-accent);
+            }
+
+            .profile-section {
+                display: none;
+            }
+
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav {
+                padding: 0 var(--space-4);
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header {
+                display: none;
+            }
+
+            .container {
+                max-width: none;
+                padding: 0;
+            }
+
+            .resume {
+                box-shadow: none;
+                border: none;
+            }
+
+            .sidebar {
+                background: #f8f9fa !important;
+                color: #333 !important;
+            }
+
+            .section-title {
+                color: #333 !important;
+            }
+
+            .tech-tag {
+                background: #e9ecef !important;
+                color: #333 !important;
+            }
+        }
+
+        /* Animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+        .section:nth-child(5) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="nav-brand">← Back to Portfolio</a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <a href="#" class="btn-download" onclick="window.print()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6,9 6,2 18,2 18,9"></polyline>
+                        <path d="M6,18H4a2,2 0,0 1,-2,-2v-5a2,2 0,0 1,2,-2H20a2,2 0,0 1,2,2v5a2,2 0,0 1,-2,2H18"></path>
+                        <polyline points="6,14 18,14 18,22 6,22 6,14"></polyline>
+                    </svg>
+                    Download PDF
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="resume">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Profile Section -->
+                <div class="profile-section">
+                    <div class="profile-image">YN</div>
+                    <h1 class="profile-name">Your Name</h1>
+                    <p class="profile-title">Full Stack Developer</p>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <a href="mailto:your.email@example.com">your.email@example.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>San Francisco, CA</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                        <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Technical Skills</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>JavaScript/TypeScript</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>React/Next.js</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Node.js/Express</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Python/Django</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>AWS/Cloud</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Languages -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Languages</h3>
+                    <div class="language-item">English (Native)</div>
+                    <div class="language-item">Spanish (Intermediate)</div>
+                    <div class="language-item">French (Basic)</div>
+                </div>
+
+                <!-- Interests -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Interests</h3>
+                    <div class="interest-item">Open Source Contributing</div>
+                    <div class="interest-item">UI/UX Design</div>
+                    <div class="interest-item">Photography</div>
+                    <div class="interest-item">Travel & Culture</div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Professional Summary -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Professional Summary
+                    </h2>
+                    <div class="summary">
+                        Passionate Full Stack Developer with 5+ years of experience building scalable web applications and leading development teams. Expertise in React, Node.js, and cloud technologies. Proven track record of delivering high-quality software solutions that drive business growth and enhance user experience.
+                    </div>
+                </section>
+
+                <!-- Key Achievements -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"></path>
+                        </svg>
+                        Key Achievements
+                    </h2>
+                    <div class="achievements">
+                        <div class="achievement-item">
+                            <span class="achievement-number">50+</span>
+                            <span class="achievement-label">Projects Delivered</span>
+                        </div>
+                        <div class="achievement-item">
+                            <span class="achievement-number">25+</span>
+                            <span class="achievement-label">Happy Clients</span>
+                        </div>
+                        <div class="achievement-item">
+                            <span class="achievement-number">1.2M+</span>
+                            <span class="achievement-label">Lines of Code</span>
+                        </div>
+                        <div class="achievement-item">
+                            <span class="achievement-number">99.5%</span>
+                            <span class="achievement-label">Uptime Record</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Work Experience -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        Work Experience
+                    </h2>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">Senior Full Stack Developer</h3>
+                                <p class="item-company">Tech Innovation Corp</p>
+                            </div>
+                            <span class="item-date">2022 - Present</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Lead development of enterprise-scale web applications serving 100K+ users. Architected microservices infrastructure and mentored junior developers.</p>
+                            <ul>
+                                <li>Reduced application load time by 40% through performance optimization</li>
+                                <li>Led migration from monolith to microservices architecture</li>
+                                <li>Implemented CI/CD pipelines reducing deployment time by 60%</li>
+                                <li>Mentored 5 junior developers and conducted code reviews</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">TypeScript</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                                <span class="tech-tag">AWS</span>
+                                <span class="tech-tag">Docker</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">Full Stack Developer</h3>
+                                <p class="item-company">StartupXYZ</p>
+                            </div>
+                            <span class="item-date">2020 - 2022</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Developed MVP products and scaled them to production. Built responsive web applications and RESTful APIs.</p>
+                            <ul>
+                                <li>Built 3 successful MVP products from concept to launch</li>
+                                <li>Implemented real-time features using WebSocket technology</li>
+                                <li>Optimized database queries improving response time by 50%</li>
+                                <li>Collaborated with designers to create pixel-perfect UIs</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Vue.js</span>
+                                <span class="tech-tag">Express.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                                <span class="tech-tag">Socket.io</span>
+                                <span class="tech-tag">Redis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">Frontend Developer</h3>
+                                <p class="item-company">Digital Agency Pro</p>
+                            </div>
+                            <span class="item-date">2019 - 2020</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Created responsive websites and web applications for various clients. Focused on performance and user experience.</p>
+                            <ul>
+                                <li>Delivered 20+ client projects with 100% satisfaction rate</li>
+                                <li>Implemented responsive designs across all device types</li>
+                                <li>Achieved 95+ PageSpeed scores on all projects</li>
+                                <li>Collaborated with cross-functional teams using Agile methodology</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">HTML5</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">jQuery</span>
+                                <span class="tech-tag">SASS</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Education -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                        Education & Certifications
+                    </h2>
+
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">Bachelor of Science in Computer Science</h3>
+                                <p class="item-company">University of Technology</p>
+                            </div>
+                            <span class="item-date">2015 - 2019</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Graduated with honors (GPA: 3.8/4.0). Specialized in software engineering and web technologies.</p>
+                        </div>
+                    </div>
+
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">AWS Certified Solutions Architect</h3>
+                                <p class="item-company">Amazon Web Services</p>
+                            </div>
+                            <span class="item-date">2023</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Professional level certification demonstrating expertise in designing distributed systems on AWS.</p>
+                        </div>
+                    </div>
+
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">React Developer Certification</h3>
+                                <p class="item-company">Meta (Facebook)</p>
+                            </div>
+                            <span class="item-date">2022</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Advanced certification covering React, Redux, and modern JavaScript development practices.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Featured Projects -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16,18 22,12 16,6"></polyline>
+                            <polyline points="8,6 2,12 8,18"></polyline>
+                        </svg>
+                        Featured Projects
+                    </h2>
+
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">E-Commerce Platform</h3>
+                                <p class="item-company">Personal Project</p>
+                            </div>
+                            <span class="item-date">2024</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Full-featured e-commerce platform with payment integration, inventory management, and admin dashboard.</p>
+                            <ul>
+                                <li>Built with Next.js and Stripe payment integration</li>
+                                <li>Implemented real-time inventory tracking</li>
+                                <li>Created comprehensive admin panel</li>
+                                <li>Deployed on Vercel with 99.9% uptime</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Next.js</span>
+                                <span class="tech-tag">Stripe</span>
+                                <span class="tech-tag">Prisma</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="item-title">Task Management SaaS</h3>
+                                <p class="item-company">Freelance Project</p>
+                            </div>
+                            <span class="item-date">2023</span>
+                        </div>
+                        <div class="item-description">
+                            <p>Cloud-based task management application with team collaboration features and real-time updates.</p>
+                            <ul>
+                                <li>Supports 1000+ concurrent users</li>
+                                <li>Real-time collaboration with WebSocket</li>
+                                <li>Advanced reporting and analytics</li>
+                                <li>Mobile-responsive design</li>
+                            </ul>
+                            <div class="tech-stack">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">Socket.io</span>
+                                <span class="tech-tag">MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        class ResumeTheme {
+            constructor() {
+                this.currentTheme = localStorage.getItem('resume-theme') || 
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                this.init();
+            }
+
+            init() {
+                this.applyTheme();
+                this.setupEventListeners();
+                this.animateSkills();
+            }
+
+            applyTheme() {
+                document.documentElement.setAttribute('data-theme', this.currentTheme);
+                this.updateThemeIcon();
+            }
+
+            updateThemeIcon() {
+                const toggle = document.getElementById('theme-toggle');
+                const icon = this.currentTheme === 'dark' 
+                    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                       </svg>`
+                    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                         <circle cx="12" cy="12" r="5"></circle>
+                         <line x1="12" y1="1" x2="12" y2="3"></line>
+                         <line x1="12" y1="21" x2="12" y2="23"></line>
+                         <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                         <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                         <line x1="1" y1="12" x2="3" y2="12"></line>
+                         <line x1="21" y1="12" x2="23" y2="12"></line>
+                         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                       </svg>`;
+                toggle.innerHTML = icon;
+            }
+
+            toggleTheme() {
+                this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('resume-theme', this.currentTheme);
+                this.applyTheme();
+            }
+
+            setupEventListeners() {
+                document.getElementById('theme-toggle').addEventListener('click', () => {
+                    this.toggleTheme();
+                });
+            }
+
+            animateSkills() {
+                const skillBars = document.querySelectorAll('.skill-progress');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const width = entry.target.style.width;
+                            entry.target.style.width = '0%';
+                            setTimeout(() => {
+                                entry.target.style.width = width;
+                            }, 200);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                skillBars.forEach(bar => observer.observe(bar));
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                new ResumeTheme();
+            });
+        } else {
+            new ResumeTheme();
+        }
+    </script>
+</body>
+</html>

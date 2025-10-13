@@ -8,6 +8,12 @@ const BLOG_CONFIG = {
     title: "Personal Blog",
     description: "Thoughts on web development, technology, design, and everything in between.",
     
+    // Pagination settings
+    pagination: {
+        postsPerPage: 1,
+        enabled: true
+    },
+    
     // Blog posts configuration
     posts: [
         {
@@ -87,6 +93,44 @@ const BLOG_CONFIG = {
     getAllTags() {
         const allTags = this.posts.flatMap(post => post.tags);
         return [...new Set(allTags)].sort();
+    },
+
+    // Pagination methods
+    getPaginatedPosts(page = 1) {
+        if (!this.pagination.enabled) {
+            return {
+                posts: this.getAllPosts(),
+                totalPages: 1,
+                currentPage: 1,
+                hasNext: false,
+                hasPrev: false
+            };
+        }
+
+        const allPosts = this.getAllPosts();
+        const { postsPerPage } = this.pagination;
+        const totalPosts = allPosts.length;
+        const totalPages = Math.ceil(totalPosts / postsPerPage);
+        const currentPage = Math.max(1, Math.min(page, totalPages));
+        
+        const startIndex = (currentPage - 1) * postsPerPage;
+        const endIndex = startIndex + postsPerPage;
+        const posts = allPosts.slice(startIndex, endIndex);
+        
+        return {
+            posts,
+            totalPages,
+            currentPage,
+            totalPosts,
+            hasNext: currentPage < totalPages,
+            hasPrev: currentPage > 1,
+            nextPage: currentPage < totalPages ? currentPage + 1 : null,
+            prevPage: currentPage > 1 ? currentPage - 1 : null
+        };
+    },
+
+    getPostsPerPage() {
+        return this.pagination.postsPerPage;
     }
 };
 

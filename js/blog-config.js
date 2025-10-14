@@ -23,10 +23,25 @@ const BLOG_CONFIG = {
             date: 'October 12, 2024',
             dateISO: '2024-10-12',
             tags: ['TypeScript', 'Web Development', 'JavaScript'],
+            category: 'Development',
             contentPath: 'typescript-modern-web.md',
             author: 'Personal Portfolio',
+            authorProfile: 'https://github.com/yourprofile',
             readTime: '8 min read',
-            featured: true
+            featured: true,
+            repoUrl: 'https://github.com/yourrepo/typescript-modern-web',
+            demoUrl: 'https://demo.example.com/typescript-modern-web',
+            image: 'https://dummyimage.com/600x400/0066cc/ffffff&text=TypeScript+Web',
+            license: 'MIT',
+            contributors: ['Alice', 'Bob'],
+            status: 'published',
+            features: [
+                'Type safety for large codebases',
+                'Seamless integration with modern frameworks',
+                'Improved developer productivity',
+                'Better tooling and editor support'
+            ],
+            related: ['minimal-design', 'open-source-journey']
         },
         {
             id: 'minimal-design',
@@ -35,10 +50,25 @@ const BLOG_CONFIG = {
             date: 'October 8, 2024',
             dateISO: '2024-10-08',
             tags: ['Design', 'UX/UI', 'Philosophy'],
+            category: 'Design',
             contentPath: 'minimal-design.md',
             author: 'Personal Portfolio',
+            authorProfile: 'https://github.com/yourprofile',
             readTime: '6 min read',
-            featured: false
+            featured: false,
+            repoUrl: 'https://github.com/yourrepo/minimal-design',
+            demoUrl: 'https://demo.example.com/minimal-design',
+            image: 'https://dummyimage.com/600x400/222/fff&text=Minimal+Design',
+            license: 'MIT',
+            contributors: ['Alice'],
+            status: 'published',
+            features: [
+                'Focus on clarity and usability',
+                'Reduction of visual clutter',
+                'Enhanced user engagement',
+                'Timeless design principles'
+            ],
+            related: ['typescript-modern-web']
         },
         {
             id: 'open-source-journey',
@@ -47,10 +77,25 @@ const BLOG_CONFIG = {
             date: 'September 28, 2024',
             dateISO: '2024-09-28',
             tags: ['Open Source', 'Community', 'Career'],
+            category: 'Community',
             contentPath: 'open-source-journey.md',
             author: 'Personal Portfolio',
+            authorProfile: 'https://github.com/yourprofile',
             readTime: '10 min read',
-            featured: false
+            featured: false,
+            repoUrl: 'https://github.com/yourrepo/open-source-journey',
+            demoUrl: 'https://demo.example.com/open-source-journey',
+            image: 'https://dummyimage.com/600x400/333/fff&text=Open+Source+Journey',
+            license: 'MIT',
+            contributors: ['Bob'],
+            status: 'published',
+            features: [
+                'How to start contributing',
+                'Building a network in OSS',
+                'Learning from code reviews',
+                'Growing as a maintainer'
+            ],
+            related: ['typescript-modern-web']
         }
     ],
 

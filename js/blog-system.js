@@ -119,14 +119,33 @@ class BlogSystem {
 
     createPostCard(post) {
         const tagsHtml = post.tags.map(tag => `<span class="post-tag">${tag}</span>`).join('');
+        const featuresHtml = post.features ? post.features.slice(0, 2).map(feature => `<li>${feature}</li>`).join('') : '';
+        const contributorsHtml = post.contributors ? post.contributors.slice(0, 3).map(contributor => `<span class="contributor">${contributor}</span>`).join('') : '';
         
         return `
             <a href="?post=${post.id}" class="blog-post" onclick="BlogSystem.navigateToPost('${post.id}'); return false;">
-                <div class="post-date">${post.date}</div>
-                <h2 class="post-title">${post.title}</h2>
-                <p class="post-description">${post.description}</p>
-                <div class="post-tags">
-                    ${tagsHtml}
+                ${post.image ? `<div class="post-image"><img src="${post.image}" alt="${post.title}" loading="lazy"></div>` : ''}
+                <div class="post-content">
+                    <div class="post-header">
+                        <div class="post-date">${post.date}</div>
+                        ${post.status ? `<span class="post-status status-${post.status}">${post.status}</span>` : ''}
+                        ${post.featured ? `<span class="post-badge featured">Featured</span>` : ''}
+                    </div>
+                    <h2 class="post-title">${post.title}</h2>
+                    <p class="post-description">${post.description}</p>
+                    ${featuresHtml ? `<ul class="post-features">${featuresHtml}</ul>` : ''}
+                    <div class="post-meta">
+                        <div class="post-tags">
+                            ${tagsHtml}
+                        </div>
+                        ${contributorsHtml ? `<div class="post-contributors">${contributorsHtml}</div>` : ''}
+                    </div>
+                    ${post.repoUrl || post.demoUrl ? `
+                        <div class="post-links">
+                            ${post.repoUrl ? `<span class="post-link-icon">🔗 Repo</span>` : ''}
+                            ${post.demoUrl ? `<span class="post-link-icon">🚀 Demo</span>` : ''}
+                        </div>
+                    ` : ''}
                 </div>
             </a>
         `;
@@ -242,6 +261,11 @@ class BlogSystem {
         const navigation = this.config.getPostNavigation(post.id);
         const navHtml = this.createPostNavigation(navigation);
         
+        // Create post metadata
+        const tagsHtml = post.tags.map(tag => `<span class="article-tag">${tag}</span>`).join('');
+        const featuresHtml = post.features ? post.features.map(feature => `<li>${feature}</li>`).join('') : '';
+        const contributorsHtml = post.contributors ? post.contributors.map(contributor => `<span class="article-contributor">${contributor}</span>`).join('') : '';
+        
         const postHtml = `
             <div class="content">
                 <a href="?" class="back-button" onclick="BlogSystem.navigateToIndex(); return false;">
@@ -249,10 +273,36 @@ class BlogSystem {
                 </a>
                 
                 <article class="article">
+                    ${post.image ? `<div class="article-image"><img src="${post.image}" alt="${post.title}"></div>` : ''}
+                    
                     <header class="article-header">
-                        <div class="article-meta">${post.date} • ${post.readTime || '5 min read'}</div>
+                        <div class="article-meta">
+                            <span>${post.date} • ${post.readTime || '5 min read'}</span>
+                            ${post.status ? `<span class="article-status status-${post.status}">${post.status}</span>` : ''}
+                            ${post.featured ? `<span class="article-badge featured">Featured</span>` : ''}
+                        </div>
                         <h1 class="article-title">${post.title}</h1>
                         <p class="article-description">${post.description}</p>
+                        
+                        ${post.repoUrl || post.demoUrl || post.license ? `
+                            <div class="article-links">
+                                ${post.repoUrl ? `<a href="${post.repoUrl}" target="_blank" class="article-link">🔗 Repository</a>` : ''}
+                                ${post.demoUrl ? `<a href="${post.demoUrl}" target="_blank" class="article-link">🚀 Live Demo</a>` : ''}
+                                ${post.license ? `<span class="article-license">📄 ${post.license} License</span>` : ''}
+                            </div>
+                        ` : ''}
+                        
+                        ${featuresHtml ? `
+                            <div class="article-features">
+                                <h3>Key Features:</h3>
+                                <ul>${featuresHtml}</ul>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="article-footer-meta">
+                            <div class="article-tags">${tagsHtml}</div>
+                            ${contributorsHtml ? `<div class="article-contributors">Contributors: ${contributorsHtml}</div>` : ''}
+                        </div>
                     </header>
                     
                     <div class="article-content">

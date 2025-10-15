@@ -65,8 +65,33 @@
     
     <!-- Blog Configuration -->
     <script src="js/blog-config.js"></script>
+    <script src="js/blog-config-toml.js"></script>
     
     <!-- Dynamic Blog System -->
     <script src="js/blog-system.js"></script>
+    
+    <!-- Initialize Blog System -->
+    <script>
+        // Ensure all dependencies are loaded before initializing
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof marked !== 'undefined') {
+                // Configure marked.js options
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: false,
+                    pedantic: false,
+                    sanitize: false,
+                    silent: false,
+                    smartLists: true,
+                    smartypants: false,
+                    xhtml: false
+                });
+            }
+            
+            // Initialize the blog system
+            window.blogSystem = new BlogSystem();
+        });
+    </script>
 </body>
 </html>

@@ -504,6 +504,329 @@ body {
     }
 }
 
+/* Freelance Projects Section */
+.freelance-projects,
+.latest-products {
+    padding: var(--space-12) 0;
+    border-top: 1px solid var(--border);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.section-actions {
+    text-align: center;
+    margin-top: var(--space-8);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-accent);
+    border: 2px solid var(--text-accent);
+    padding: var(--space-3) var(--space-6);
+    border-radius: 0.5rem;
+    font-size: 0.925rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.btn-outline:hover {
+    background: var(--text-accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(9, 105, 218, 0.3);
+}
+
+/* Projects Container */
+.projects-container,
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+/* Client Boxes for Projects Container */
+.projects-container {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-3);
+    max-width: 100%;
+}
+
+/* Client Box Styles */
+.client-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: var(--space-4);
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.client-box:hover {
+    border-color: var(--text-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .client-box:hover {
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.05);
+}
+
+.client-logo {
+    font-size: 2rem;
+    margin-bottom: var(--space-1);
+    filter: grayscale(1);
+    transition: filter 0.3s ease;
+}
+
+.client-box:hover .client-logo {
+    filter: grayscale(0);
+}
+
+.client-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.client-status {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+
+.client-status.status-completed {
+    background: #10b981;
+}
+
+.client-status.status-in-progress {
+    background: #f59e0b;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.7; 
+        transform: scale(1.2);
+    }
+}
+
+/* Product Card Styles (keep existing) */
+.product-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: var(--space-6);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--text-accent), #8b5cf6);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    border-color: var(--text-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-card:hover::before {
+    transform: scaleX(1);
+}
+
+[data-theme="dark"] .product-card:hover {
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.05);
+}
+
+.product-card:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.project-header,
+.product-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.project-title,
+.product-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+}
+
+.project-status,
+.product-status {
+    padding: var(--space-1) var(--space-2);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-completed {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.status-in-progress {
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+}
+
+.status-launched {
+    background: rgba(139, 92, 246, 0.1);
+    color: #7c3aed;
+}
+
+.project-description,
+.product-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+    font-size: 0.95rem;
+}
+
+.project-tech,
+.product-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.tech-tag {
+    background: var(--border);
+    color: var(--text);
+    padding: var(--space-1) var(--space-2);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.project-meta,
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+}
+
+.project-client,
+.product-users {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.project-date,
+.product-version {
+    font-size: 0.875rem;
+    color: var(--text-accent);
+    font-weight: 500;
+}
+
+.project-links,
+.product-links {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.project-link,
+.product-link {
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+    text-decoration: none;
+    padding: var(--space-1);
+    border-radius: 4px;
+}
+
+.project-link:hover,
+.product-link:hover {
+    color: var(--text-accent);
+    background: rgba(9, 105, 218, 0.1);
+}
+
+/* Loading states */
+.projects-loading,
+.products-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-12);
+    color: var(--text-muted);
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    border-top-color: var(--text-accent);
+    animation: spin 1s ease-in-out infinite;
+    margin-right: var(--space-2);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* Dashboard Analytics */
 .dashboard {
     padding: var(--space-12) 0;
@@ -963,6 +1286,71 @@ body {
 
     .dashboard-section {
         margin-top: var(--space-8);
+    }
+
+    /* New sections mobile styles */
+    .projects-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: var(--space-2);
+    }
+
+    .products-container {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .client-box {
+        padding: var(--space-3);
+        min-height: 100px;
+        gap: var(--space-1);
+    }
+
+    .client-logo {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+
+    .client-name {
+        font-size: 0.75rem;
+        line-height: 1.2;
+    }
+
+    .client-status {
+        width: 6px;
+        height: 6px;
+        top: 6px;
+        right: 6px;
+    }
+
+    .product-card {
+        padding: var(--space-4);
+    }
+
+    .product-title {
+        font-size: 1.125rem;
+    }
+
+    .product-tech {
+        gap: var(--space-1);
+    }
+
+    .tech-tag {
+        font-size: 0.75rem;
+        padding: var(--space-1);
+    }
+
+    .product-meta {
+        flex-direction: column;
+        gap: var(--space-2);
+        align-items: flex-start;
     }
 }
 

@@ -17,6 +17,8 @@ class MinimalPortfolio {
     this.setupNavigation();
     this.setupDashboard();
     await this.setupSocialLinks();
+    await this.loadFreelanceProjects();
+    await this.loadLatestProducts();
   }
 
   setupTheme() {
@@ -626,6 +628,227 @@ class MinimalPortfolio {
       // Fallback to default
       socialContainer.innerHTML = '<p>Social links not available</p>';
     }
+  }
+
+  async loadFreelanceProjects() {
+    const container = document.getElementById('freelanceProjectsContainer');
+    if (!container) return;
+
+    // Show loading state
+    container.innerHTML = '<div class="projects-loading"><div class="loading-spinner"></div>Loading projects...</div>';
+
+    try {
+      // Simulate API call - replace with actual data source
+      const projects = await this.getFreelanceProjects();
+      this.renderFreelanceProjects(container, projects);
+    } catch (error) {
+      console.error('Failed to load freelance projects:', error);
+      container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Failed to load projects</p>';
+    }
+  }
+
+  async getFreelanceProjects() {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Client logos data - focused on visual client showcase
+    return [
+      {
+        id: 1,
+        client: "TechStart Inc.",
+        logo: "🚀",
+        status: "completed",
+        period: "Oct-Dec 2024",
+        project: "E-commerce Platform"
+      },
+      {
+        id: 2,
+        client: "DataCorp",
+        logo: "📊",
+        status: "completed", 
+        period: "Sep-Nov 2024",
+        project: "Analytics Dashboard"
+      },
+      {
+        id: 3,
+        client: "AppStudio",
+        logo: "📱",
+        status: "in-progress",
+        period: "Dec 2024 - Present",
+        project: "Mobile App Backend"
+      },
+      {
+        id: 4,
+        client: "FinanceFlow",
+        logo: "💰",
+        status: "completed",
+        period: "Jul-Sep 2024",
+        project: "Financial Dashboard"
+      },
+      {
+        id: 5,
+        client: "RetailMax",
+        logo: "🛍️",
+        status: "completed",
+        period: "May-Jul 2024",
+        project: "Inventory System"
+      },
+      {
+        id: 6,
+        client: "CloudTech",
+        logo: "☁️",
+        status: "completed",
+        period: "Mar-May 2024",
+        project: "Cloud Migration"
+      },
+      {
+        id: 7,
+        client: "EduLearn",
+        logo: "📚",
+        status: "completed",
+        period: "Jan-Mar 2024",
+        project: "Learning Platform"
+      },
+      {
+        id: 8,
+        client: "HealthPlus",
+        logo: "🏥",
+        status: "completed",
+        period: "Nov-Dec 2023",
+        project: "Patient Portal"
+      }
+    ];
+  }
+
+  renderFreelanceProjects(container, projects) {
+    if (!projects || projects.length === 0) {
+      container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No clients available</p>';
+      return;
+    }
+
+    const projectsHtml = projects.map((project, index) => `
+      <div class="client-box" style="animation: slideInUp 0.6s ease ${index * 0.1}s both" title="${project.project} - ${project.period}">
+        <div class="client-logo">${project.logo}</div>
+        <div class="client-name">${project.client}</div>
+        <div class="client-status status-${project.status}"></div>
+      </div>
+    `).join('');
+
+    container.innerHTML = projectsHtml;
+  }
+
+  async loadLatestProducts() {
+    const container = document.getElementById('productsContainer');
+    if (!container) return;
+
+    // Show loading state
+    container.innerHTML = '<div class="products-loading"><div class="loading-spinner"></div>Loading products...</div>';
+
+    try {
+      // Simulate API call - replace with actual data source
+      const products = await this.getLatestProducts();
+      this.renderLatestProducts(container, products);
+    } catch (error) {
+      console.error('Failed to load latest products:', error);
+      container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Failed to load products</p>';
+    }
+  }
+
+  async getLatestProducts() {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // Mock data - replace with actual API call
+    return [
+      {
+        id: 1,
+        title: "Portfolio Builder",
+        description: "A drag-and-drop portfolio builder for developers and designers. Create stunning portfolios in minutes with customizable templates.",
+        status: "launched",
+        technologies: ["React", "Node.js", "MongoDB", "Tailwind"],
+        version: "v2.1.0",
+        users: "500+ users",
+        links: {
+          live: "https://portfoliobuilder.example.com",
+          github: "https://github.com/yourusername/portfolio-builder"
+        }
+      },
+      {
+        id: 2,
+        title: "Code Snippet Manager",
+        description: "Organize, search, and share your code snippets with syntax highlighting and team collaboration features.",
+        status: "launched",
+        technologies: ["Vue.js", "Firebase", "Prism.js", "PWA"],
+        version: "v1.5.2",
+        users: "250+ users",
+        links: {
+          live: "https://snippets.example.com",
+          github: "https://github.com/yourusername/snippet-manager"
+        }
+      },
+      {
+        id: 3,
+        title: "API Testing Tool",
+        description: "Lightweight API testing tool with request collections, environment variables, and automated testing capabilities.",
+        status: "in-progress",
+        technologies: ["Electron", "TypeScript", "Jest", "Axios"],
+        version: "v0.8.0 beta",
+        users: "Beta testing",
+        links: {
+          live: null,
+          github: "https://github.com/yourusername/api-tester"
+        }
+      }
+    ];
+  }
+
+  renderLatestProducts(container, products) {
+    if (!products || products.length === 0) {
+      container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No products available</p>';
+      return;
+    }
+
+    const productsHtml = products.map((product, index) => `
+      <div class="product-card" style="animation: slideInUp 0.6s ease ${index * 0.1}s both" onclick="this.classList.toggle('expanded')">
+        <div class="product-header">
+          <h3 class="product-title">${product.title}</h3>
+          <span class="product-status status-${product.status}">${product.status}</span>
+        </div>
+        <p class="product-description">${product.description}</p>
+        <div class="product-tech">
+          ${product.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+        </div>
+        <div class="product-meta">
+          <div>
+            <div class="product-users">${product.users}</div>
+          </div>
+          <div class="product-version">${product.version}</div>
+        </div>
+        ${product.links.live || product.links.github ? `
+          <div class="product-links">
+            ${product.links.live ? `<a href="${product.links.live}" class="product-link" target="_blank" title="View Product" onclick="event.stopPropagation()">🚀</a>` : ''}
+            ${product.links.github ? `<a href="${product.links.github}" class="product-link" target="_blank" title="View Code" onclick="event.stopPropagation()">📂</a>` : ''}
+          </div>
+        ` : ''}
+      </div>
+    `).join('');
+
+    container.innerHTML = productsHtml;
+    
+    // Add click handlers for product cards
+    container.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Toggle expanded state with animation
+        if (card.classList.contains('expanded')) {
+          card.classList.remove('expanded');
+          card.style.transform = '';
+        } else {
+          card.classList.add('expanded');
+          card.style.transform = 'scale(1.02)';
+        }
+      });
+    });
   }
 }
 

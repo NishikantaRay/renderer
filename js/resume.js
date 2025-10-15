@@ -1,7 +1,7 @@
 class ResumeTheme {
   constructor() {
     this.currentTheme =
-      localStorage.getItem("resume-theme") ||
+      localStorage.getItem("theme") ||
       (window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light");
@@ -18,7 +18,7 @@ class ResumeTheme {
   toggleTheme() {
     this.currentTheme = this.currentTheme === "light" ? "dark" : "light";
     this.applyTheme();
-    localStorage.setItem("resume-theme", this.currentTheme);
+    localStorage.setItem("theme", this.currentTheme);
   }
 
   applyTheme() {

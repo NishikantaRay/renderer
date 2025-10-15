@@ -7,16 +7,16 @@ class MinimalPortfolio {
         : "light");
     this.contentCache = new Map();
 
-    this.init();
+    this.init().catch(error => console.error('Failed to initialize portfolio:', error));
   }
 
-  init() {
+  async init() {
     this.setupTheme();
     this.setupEventListeners();
-    this.loadAllContent();
+    await this.loadAllContent();
     this.setupNavigation();
     this.setupDashboard();
-    this.setupSocialLinks();
+    await this.setupSocialLinks();
   }
 
   setupTheme() {
@@ -605,18 +605,27 @@ class MinimalPortfolio {
     learningContainer.innerHTML = learningHTML;
   }
 
-  setupSocialLinks() {
-    // Check if social config is available
-    if (typeof window.SOCIAL_CONFIG === "undefined") {
-      console.warn("Social config not found");
+  async setupSocialLinks() {
+    // Use the new TOML-based social configuration
+    if (typeof window.socialConfig === "undefined") {
+      console.warn("TOML social config not found");
       return;
     }
 
     const socialContainer = document.getElementById("social-links");
     if (!socialContainer) return;
 
-    // Generate and insert social links HTML
-    socialContainer.innerHTML = window.SOCIAL_CONFIG.generateSocialLinksHTML();
+    try {
+      // Ensure the configuration is loaded
+      await window.socialConfig.init();
+      
+      // Update social links using the TOML configuration
+      await window.socialConfig.updateSocialLinks('#social-links');
+    } catch (error) {
+      console.error('Failed to setup social links:', error);
+      // Fallback to default
+      socialContainer.innerHTML = '<p>Social links not available</p>';
+    }
   }
 }
 

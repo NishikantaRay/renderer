@@ -1,0 +1,108 @@
+# Social Links Configuration
+# Configure all social media links and icons from one place
+
+[settings]
+show_text = false        # Set to false for icons only
+show_tooltips = true     # Show tooltips on hover
+max_visible = 6          # Maximum number of links to display
+icon_size = "20px"       # Size of the icons
+spacing = "1rem"         # Spacing between links
+
+# Social Media Links
+# Set enabled = true to show the link, false to hide it
+
+[[links]]
+id = "github"
+name = "GitHub"
+url = "https://github.com/NishikantaRay"
+icon = "fab fa-github"
+target = "_blank"
+enabled = true
+
+[[links]]
+id = "linkedin"
+name = "LinkedIn"
+url = "https://linkedin.com/in/nishikantaray"
+icon = "fab fa-linkedin"
+target = "_blank"
+enabled = true
+
+[[links]]
+id = "twitter"
+name = "Twitter"
+url = "https://twitter.com/nishikantaray"
+icon = "fab fa-twitter"
+target = "_blank"
+enabled = true
+
+[[links]]
+id = "email"
+name = "Email"
+url = "mailto:nishikantaray@example.com"
+icon = "fas fa-envelope"
+target = "_self"
+enabled = true
+
+[[links]]
+id = "instagram"
+name = "Instagram"
+url = "https://instagram.com/yourusername"
+icon = "fab fa-instagram"
+target = "_blank"
+enabled = false
+
+[[links]]
+id = "youtube"
+name = "YouTube"
+url = "https://youtube.com/@yourusername"
+icon = "fab fa-youtube"
+target = "_blank"
+enabled = false
+
+[[links]]
+id = "discord"
+name = "Discord"
+url = "https://discord.gg/yourinvite"
+icon = "fab fa-discord"
+target = "_blank"
+enabled = false
+
+[[links]]
+id = "mastodon"
+name = "Mastodon"
+url = "https://mastodon.social/@yourusername"
+icon = "fab fa-mastodon"
+target = "_blank"
+enabled = false
+
+[[links]]
+id = "stackoverflow"
+name = "Stack Overflow"
+url = "https://stackoverflow.com/users/your-id"
+icon = "fab fa-stack-overflow"
+target = "_blank"
+enabled = false
+
+[[links]]
+id = "codepen"
+name = "CodePen"
+url = "https://codepen.io/yourusername"
+icon = "fab fa-codepen"
+target = "_blank"
+enabled = false
+
+[[links]]
+id = "dribbble"
+name = "Dribbble"
+url = "https://dribbble.com/yourusername"
+icon = "fab fa-dribbble"
+target = "_blank"
+enabled = false
+
+[[links]]
+id = "behance"
+name = "Behance"
+url = "https://behance.net/yourusername"
+icon = "fab fa-behance"
+target = "_blank"
+enabled = false

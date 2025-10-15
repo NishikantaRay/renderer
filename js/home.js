@@ -6,6 +6,7 @@ class MinimalPortfolio {
         ? "dark"
         : "light");
     this.contentCache = new Map();
+    this.homeConfig = null;
 
     this.init().catch(error => console.error('Failed to initialize portfolio:', error));
   }
@@ -13,12 +14,16 @@ class MinimalPortfolio {
   async init() {
     this.setupTheme();
     this.setupEventListeners();
+    await this.loadHomeConfig();
     await this.loadAllContent();
     this.setupNavigation();
     this.setupDashboard();
     await this.setupSocialLinks();
     await this.loadFreelanceProjects();
     await this.loadLatestProducts();
+    this.updateHeroContent();
+    this.updateSectionHeaders();
+    this.updateFooter();
   }
 
   setupTheme() {
@@ -143,6 +148,217 @@ class MinimalPortfolio {
     }
   }
 
+  async loadHomeConfig() {
+    try {
+      console.log('Loading home configuration...');
+      console.log('TOML library available:', typeof window.toml);
+      
+      // Try to load TOML configuration
+      const response = await fetch('./config/home.toml');
+      console.log('Fetch response status:', response.status, response.ok);
+      
+      if (response.ok) {
+        const tomlText = await response.text();
+        console.log('TOML text loaded, length:', tomlText.length);
+        console.log('First 200 chars:', tomlText.substring(0, 200));
+        
+        // Use the global TOML parser if available
+        if (window.toml && window.toml.parse) {
+          this.homeConfig = window.toml.parse(tomlText);
+          console.log('Home config loaded from TOML:', this.homeConfig);
+        } else {
+          console.error('TOML parser not available - using fallback');
+          throw new Error('TOML parser not available');
+        }
+      } else {
+        throw new Error('Failed to fetch home.toml');
+      }
+    } catch (error) {
+      console.warn('Loading home config fallback:', error);
+      this.homeConfig = this.getHomeConfigFallback();
+      console.log('Using fallback config:', this.homeConfig);
+    }
+  }
+
+  getHomeConfigFallback() {
+    return {
+      hero: {
+        name: "Your Name",
+        title: "Full-Stack Developer & Designer",
+        intro: [
+          "I work on web development, user experience design, and modern frontend technologies among other digital things.",
+          "This website is an archive of my work and thoughts. Currently, I'm into React, TypeScript, and building modern web applications."
+        ],
+        actions: {
+          primary_text: "Hire Me",
+          primary_link: "resume.html",
+          secondary_text: "Let's Talk",
+          secondary_link: "#contact"
+        }
+      },
+      freelance_clients: {
+        enabled: true,
+        title: "Trusted by Clients",
+        subtitle: "Companies I've worked with",
+        contact_email: "nishikantaray@example.com",
+        contact_text: "Contact Me",
+        clients: [
+          {
+            id: 1,
+            name: "TechStart Inc.",
+            logo: "🚀",
+            logo_type: "emoji",
+            status: "completed",
+            period: "Oct-Dec 2024",
+            project: "E-commerce Platform"
+          },
+          {
+            id: 2,
+            name: "DataCorp",
+            logo: "📊",
+            logo_type: "emoji",
+            status: "completed",
+            period: "Sep-Nov 2024",
+            project: "Analytics Dashboard"
+          }
+        ]
+      },
+      latest_products: {
+        enabled: true,
+        title: "Latest Products",
+        subtitle: "Tools and apps I've built",
+        view_all_text: "View All Products",
+        view_all_link: "projects.html#products",
+        products: [
+          {
+            id: 1,
+            title: "Portfolio Builder",
+            description: "A drag-and-drop portfolio builder for developers and designers.",
+            status: "launched",
+            technologies: ["React", "Node.js", "MongoDB", "Tailwind"],
+            version: "v2.1.0",
+            users: "500+ users",
+            live_url: "https://portfoliobuilder.example.com",
+            github_url: "https://github.com/yourusername/portfolio-builder"
+          },
+          {
+            id: 2,
+            title: "Code Snippet Manager",
+            description: "Organize, search, and share your code snippets with syntax highlighting.",
+            status: "launched",
+            technologies: ["Vue.js", "Firebase", "Prism.js", "PWA"],
+            version: "v1.5.2",
+            users: "250+ users",
+            live_url: "https://snippets.example.com",
+            github_url: "https://github.com/yourusername/snippet-manager"
+          }
+        ]
+      },
+      dashboard: {
+        enabled: false,
+        title: "Dashboard & Analytics",
+        subtitle: "Development metrics and insights",
+        sections: {
+          charts: false,
+          recent_activity: false,
+          skills_progress: false,
+          statistics: false,
+          code_quality: false,
+          learning_progress: false
+        }
+      },
+      footer: {
+        text: "Built with Marked.js",
+        link: "https://github.com/markedjs/marked",
+        year: 2024
+      }
+    };
+  }
+
+  updateHeroContent() {
+    if (!this.homeConfig?.hero) return;
+
+    const hero = this.homeConfig.hero;
+    
+    // Update hero title
+    const titleElement = document.querySelector('.hero-title');
+    if (titleElement && hero.name) {
+      titleElement.textContent = hero.name;
+    }
+
+    // Update hero intro
+    const introElement = document.querySelector('.hero-intro');
+    if (introElement && hero.intro) {
+      introElement.innerHTML = hero.intro.map(paragraph => `<p>${paragraph}</p>`).join('');
+    }
+
+    // Update action buttons
+    if (hero.actions) {
+      const primaryBtn = document.querySelector('.btn-primary');
+      if (primaryBtn) {
+        primaryBtn.href = hero.actions.primary_link;
+        const btnText = primaryBtn.querySelector('svg').nextSibling;
+        if (btnText) btnText.textContent = hero.actions.primary_text;
+      }
+
+      const secondaryBtn = document.querySelector('.btn-secondary');
+      if (secondaryBtn) {
+        secondaryBtn.href = hero.actions.secondary_link;
+        const btnText = secondaryBtn.querySelector('svg').nextSibling;
+        if (btnText) btnText.textContent = hero.actions.secondary_text;
+      }
+    }
+  }
+
+  updateFooter() {
+    if (!this.homeConfig?.footer) return;
+
+    const footer = this.homeConfig.footer;
+    const footerElement = document.querySelector('.footer p');
+    
+    if (footerElement) {
+      footerElement.innerHTML = `&copy; ${footer.year} ${this.homeConfig.hero?.name || 'Your Name'}. ${footer.text ? `Built with <a href="${footer.link}" target="_blank">${footer.text}</a>.` : ''}`;
+    }
+  }
+
+  updateSectionHeaders() {
+    // Update freelance clients section
+    if (this.homeConfig?.freelance_clients) {
+      const section = this.homeConfig.freelance_clients;
+      const titleElement = document.querySelector('#freelance-projects .section-title');
+      const subtitleElement = document.querySelector('#freelance-projects .section-subtitle');
+      const contactBtn = document.querySelector('#freelance-projects .btn-outline');
+      
+      if (titleElement && section.title) titleElement.textContent = section.title;
+      if (subtitleElement && section.subtitle) subtitleElement.textContent = section.subtitle;
+      if (contactBtn && section.contact_email && section.contact_text) {
+        contactBtn.href = `mailto:${section.contact_email}`;
+        contactBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          ${section.contact_text}
+        `;
+      }
+    }
+
+    // Update latest products section
+    if (this.homeConfig?.latest_products) {
+      const section = this.homeConfig.latest_products;
+      const titleElement = document.querySelector('#latest-products .section-title');
+      const subtitleElement = document.querySelector('#latest-products .section-subtitle');
+      const viewAllBtn = document.querySelector('#latest-products .btn-outline');
+      
+      if (titleElement && section.title) titleElement.textContent = section.title;
+      if (subtitleElement && section.subtitle) subtitleElement.textContent = section.subtitle;
+      if (viewAllBtn && section.view_all_link && section.view_all_text) {
+        viewAllBtn.href = section.view_all_link;
+        viewAllBtn.textContent = section.view_all_text;
+      }
+    }
+  }
+
   async loadAllContent() {
     const sections = ["about", "projects", "contact"];
 
@@ -200,9 +416,12 @@ class MinimalPortfolio {
     });
   }
   setupDashboard() {
+    // Control dashboard visibility based on configuration
+    this.controlDashboardSections();
+    
     // Initialize dashboard with configuration
     setTimeout(() => {
-      if (window.DASHBOARD_CONFIG) {
+      if (window.DASHBOARD_CONFIG && this.isDashboardEnabled()) {
         this.initializeCharts();
         this.updateStats();
         this.initializeSkillsProgress();
@@ -211,6 +430,72 @@ class MinimalPortfolio {
         this.initializeLearningProgress();
       }
     }, 100);
+  }
+
+  isDashboardEnabled() {
+    return this.homeConfig?.dashboard?.enabled === true;
+  }
+
+  controlDashboardSections() {
+    const dashboardSection = document.getElementById('dashboard');
+    if (!dashboardSection) return;
+
+    // Show/hide main dashboard section
+    if (this.isDashboardEnabled()) {
+      dashboardSection.style.display = 'block';
+      
+      // Update dashboard title and subtitle
+      if (this.homeConfig?.dashboard?.title) {
+        const titleElement = dashboardSection.querySelector('.dashboard-title');
+        if (titleElement) titleElement.textContent = this.homeConfig.dashboard.title;
+      }
+      
+      // Control individual sections
+      this.controlDashboardSubSections();
+    } else {
+      dashboardSection.style.display = 'none';
+    }
+  }
+
+  controlDashboardSubSections() {
+    const sections = this.homeConfig?.dashboard?.sections;
+    if (!sections) return;
+
+    // Control charts section
+    const chartElements = document.querySelectorAll('[data-section="charts"]');
+    chartElements.forEach(el => {
+      el.style.display = sections.charts ? 'block' : 'none';
+    });
+
+    // Control recent activity
+    const activityElements = document.querySelectorAll('[data-section="recent_activity"]');
+    activityElements.forEach(el => {
+      el.style.display = sections.recent_activity ? 'block' : 'none';
+    });
+
+    // Control skills progress
+    const skillsElements = document.querySelectorAll('[data-section="skills_progress"]');
+    skillsElements.forEach(el => {
+      el.style.display = sections.skills_progress ? 'block' : 'none';
+    });
+
+    // Control statistics
+    const statsElements = document.querySelectorAll('[data-section="statistics"]');
+    statsElements.forEach(el => {
+      el.style.display = sections.statistics ? 'block' : 'none';
+    });
+
+    // Control code quality
+    const qualityElements = document.querySelectorAll('[data-section="code_quality"]');
+    qualityElements.forEach(el => {
+      el.style.display = sections.code_quality ? 'block' : 'none';
+    });
+
+    // Control learning progress
+    const learningElements = document.querySelectorAll('[data-section="learning_progress"]');
+    learningElements.forEach(el => {
+      el.style.display = sections.learning_progress ? 'block' : 'none';
+    });
   }
 
   initializeCharts() {
@@ -632,14 +917,19 @@ class MinimalPortfolio {
 
   async loadFreelanceProjects() {
     const container = document.getElementById('freelanceProjectsContainer');
-    if (!container) return;
+    if (!container) {
+      console.error('Freelance projects container not found');
+      return;
+    }
 
+    console.log('Loading freelance projects...');
     // Show loading state
     container.innerHTML = '<div class="projects-loading"><div class="loading-spinner"></div>Loading projects...</div>';
 
     try {
       // Simulate API call - replace with actual data source
       const projects = await this.getFreelanceProjects();
+      console.log('Freelance projects loaded:', projects);
       this.renderFreelanceProjects(container, projects);
     } catch (error) {
       console.error('Failed to load freelance projects:', error);
@@ -648,74 +938,39 @@ class MinimalPortfolio {
   }
 
   async getFreelanceProjects() {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Client logos data - focused on visual client showcase
+    // Return clients from configuration if available
+    if (this.homeConfig?.freelance_clients?.clients) {
+      return this.homeConfig.freelance_clients.clients;
+    }
+
+    // Fallback data if configuration is not available
     return [
       {
         id: 1,
-        client: "TechStart Inc.",
+        name: "TechStart Inc.",
         logo: "🚀",
+        logo_type: "emoji",
         status: "completed",
         period: "Oct-Dec 2024",
         project: "E-commerce Platform"
       },
       {
         id: 2,
-        client: "DataCorp",
+        name: "DataCorp",
         logo: "📊",
-        status: "completed", 
+        logo_type: "emoji",
+        status: "completed",
         period: "Sep-Nov 2024",
         project: "Analytics Dashboard"
       },
       {
         id: 3,
-        client: "AppStudio",
+        name: "AppStudio",
         logo: "📱",
+        logo_type: "emoji",
         status: "in-progress",
         period: "Dec 2024 - Present",
         project: "Mobile App Backend"
-      },
-      {
-        id: 4,
-        client: "FinanceFlow",
-        logo: "💰",
-        status: "completed",
-        period: "Jul-Sep 2024",
-        project: "Financial Dashboard"
-      },
-      {
-        id: 5,
-        client: "RetailMax",
-        logo: "🛍️",
-        status: "completed",
-        period: "May-Jul 2024",
-        project: "Inventory System"
-      },
-      {
-        id: 6,
-        client: "CloudTech",
-        logo: "☁️",
-        status: "completed",
-        period: "Mar-May 2024",
-        project: "Cloud Migration"
-      },
-      {
-        id: 7,
-        client: "EduLearn",
-        logo: "📚",
-        status: "completed",
-        period: "Jan-Mar 2024",
-        project: "Learning Platform"
-      },
-      {
-        id: 8,
-        client: "HealthPlus",
-        logo: "🏥",
-        status: "completed",
-        period: "Nov-Dec 2023",
-        project: "Patient Portal"
       }
     ];
   }
@@ -726,27 +981,43 @@ class MinimalPortfolio {
       return;
     }
 
-    const projectsHtml = projects.map((project, index) => `
-      <div class="client-box" style="animation: slideInUp 0.6s ease ${index * 0.1}s both" title="${project.project} - ${project.period}">
-        <div class="client-logo">${project.logo}</div>
-        <div class="client-name">${project.client}</div>
-        <div class="client-status status-${project.status}"></div>
-      </div>
-    `).join('');
+    const projectsHtml = projects.map((project, index) => {
+      // Determine logo display based on type
+      let logoHtml;
+      if (project.logo_type === 'image') {
+        logoHtml = `<img src="${project.logo}" alt="${project.name}" class="client-logo-img">`;
+      } else {
+        // Default to emoji or text
+        logoHtml = `<span class="client-logo-emoji">${project.logo}</span>`;
+      }
+
+      return `
+        <div class="client-box" style="animation: slideInUp 0.6s ease ${index * 0.1}s both" title="${project.project} - ${project.period}">
+          <div class="client-logo">${logoHtml}</div>
+          <div class="client-name">${project.name}</div>
+          <div class="client-status status-${project.status}"></div>
+        </div>
+      `;
+    }).join('');
 
     container.innerHTML = projectsHtml;
   }
 
   async loadLatestProducts() {
     const container = document.getElementById('productsContainer');
-    if (!container) return;
+    if (!container) {
+      console.error('Products container not found');
+      return;
+    }
 
+    console.log('Loading latest products...');
     // Show loading state
     container.innerHTML = '<div class="products-loading"><div class="loading-spinner"></div>Loading products...</div>';
 
     try {
       // Simulate API call - replace with actual data source
       const products = await this.getLatestProducts();
+      console.log('Products loaded:', products);
       this.renderLatestProducts(container, products);
     } catch (error) {
       console.error('Failed to load latest products:', error);
@@ -755,59 +1026,52 @@ class MinimalPortfolio {
   }
 
   async getLatestProducts() {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+    console.log('getLatestProducts called');
     
-    // Mock data - replace with actual API call
+    // Return products from configuration if available
+    if (this.homeConfig?.latest_products?.products && this.homeConfig.latest_products.products.length > 0) {
+      console.log('Returning products from config:', this.homeConfig.latest_products.products.length, 'products');
+      return this.homeConfig.latest_products.products;
+    }
+
+    console.log('Using fallback products');
+    // Fallback data if configuration is not available
     return [
       {
         id: 1,
         title: "Portfolio Builder",
-        description: "A drag-and-drop portfolio builder for developers and designers. Create stunning portfolios in minutes with customizable templates.",
+        description: "A drag-and-drop portfolio builder for developers and designers.",
         status: "launched",
         technologies: ["React", "Node.js", "MongoDB", "Tailwind"],
         version: "v2.1.0",
         users: "500+ users",
-        links: {
-          live: "https://portfoliobuilder.example.com",
-          github: "https://github.com/yourusername/portfolio-builder"
-        }
+        live_url: "https://portfoliobuilder.example.com",
+        github_url: "https://github.com/yourusername/portfolio-builder"
       },
       {
         id: 2,
-        title: "Code Snippet Manager",
-        description: "Organize, search, and share your code snippets with syntax highlighting and team collaboration features.",
+        title: "Code Snippet Manager", 
+        description: "Organize, search, and share your code snippets with syntax highlighting.",
         status: "launched",
         technologies: ["Vue.js", "Firebase", "Prism.js", "PWA"],
         version: "v1.5.2",
         users: "250+ users",
-        links: {
-          live: "https://snippets.example.com",
-          github: "https://github.com/yourusername/snippet-manager"
-        }
-      },
-      {
-        id: 3,
-        title: "API Testing Tool",
-        description: "Lightweight API testing tool with request collections, environment variables, and automated testing capabilities.",
-        status: "in-progress",
-        technologies: ["Electron", "TypeScript", "Jest", "Axios"],
-        version: "v0.8.0 beta",
-        users: "Beta testing",
-        links: {
-          live: null,
-          github: "https://github.com/yourusername/api-tester"
-        }
+        live_url: "https://snippets.example.com",
+        github_url: "https://github.com/yourusername/snippet-manager"
       }
     ];
   }
 
   renderLatestProducts(container, products) {
+    console.log('renderLatestProducts called with:', products);
+    
     if (!products || products.length === 0) {
+      console.warn('No products to render, showing fallback message');
       container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No products available</p>';
       return;
     }
 
+    console.log('Rendering', products.length, 'products');
     const productsHtml = products.map((product, index) => `
       <div class="product-card" style="animation: slideInUp 0.6s ease ${index * 0.1}s both" onclick="this.classList.toggle('expanded')">
         <div class="product-header">
@@ -816,24 +1080,25 @@ class MinimalPortfolio {
         </div>
         <p class="product-description">${product.description}</p>
         <div class="product-tech">
-          ${product.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+          ${product.technologies ? product.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('') : ''}
         </div>
         <div class="product-meta">
           <div>
-            <div class="product-users">${product.users}</div>
+            <div class="product-users">${product.users || ''}</div>
           </div>
-          <div class="product-version">${product.version}</div>
+          <div class="product-version">${product.version || ''}</div>
         </div>
-        ${product.links.live || product.links.github ? `
+        ${product.live_url || product.github_url ? `
           <div class="product-links">
-            ${product.links.live ? `<a href="${product.links.live}" class="product-link" target="_blank" title="View Product" onclick="event.stopPropagation()">🚀</a>` : ''}
-            ${product.links.github ? `<a href="${product.links.github}" class="product-link" target="_blank" title="View Code" onclick="event.stopPropagation()">📂</a>` : ''}
+            ${product.live_url ? `<a href="${product.live_url}" class="product-link" target="_blank" title="View Product" onclick="event.stopPropagation()">🚀</a>` : ''}
+            ${product.github_url ? `<a href="${product.github_url}" class="product-link" target="_blank" title="View Code" onclick="event.stopPropagation()">📂</a>` : ''}
           </div>
         ` : ''}
       </div>
     `).join('');
 
     container.innerHTML = productsHtml;
+    console.log('Products rendered successfully');
     
     // Add click handlers for product cards
     container.querySelectorAll('.product-card').forEach(card => {

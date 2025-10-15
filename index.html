@@ -15,6 +15,9 @@
     <!-- Chart.js for analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     
+    <!-- TOML parser -->
+    <script src="https://cdn.jsdelivr.net/npm/js-toml@0.5.0/dist/toml.min.js"></script>
+    
     <!-- Dashboard Configuration -->
     <script src="js/dashboard-config.js"></script>
     
@@ -131,13 +134,13 @@
         </section>
 
         <!-- Dashboard Analytics Section -->
-        <!-- <section id="dashboard" class="dashboard"> -->
-            <!-- <h2 class="dashboard-title">Dashboard & Analytics</h2> -->
+        <section id="dashboard" class="dashboard" style="display: none;">
+            <h2 class="dashboard-title">Dashboard & Analytics</h2>
             
             <!-- Main Analytics Grid -->
-            <!-- <div class="dashboard-grid"> -->
+            <div class="dashboard-grid">
                 <!-- Recent Projects Chart -->
-                <!-- <div class="dashboard-card chart-card">
+                <div class="dashboard-card chart-card" data-section="charts">
                     <div class="card-header">
                         <h3 class="card-title">Recent Projects</h3>
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -149,10 +152,10 @@
                     <div class="chart-container">
                         <canvas id="activityChart"></canvas>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- Tech Stack Distribution -->
-                <!-- <div class="dashboard-card chart-card">
+                <div class="dashboard-card chart-card" data-section="charts">
                     <div class="card-header">
                         <h3 class="card-title">Tech Stack</h3>
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -162,10 +165,10 @@
                     <div class="chart-container">
                         <canvas id="projectChart"></canvas>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- Performance Metrics -->
-                <!-- <div class="dashboard-card chart-card">
+                <div class="dashboard-card chart-card" data-section="charts">
                     <div class="card-header">
                         <h3 class="card-title">Performance</h3>
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -176,10 +179,10 @@
                     <div class="chart-container">
                         <canvas id="performanceChart"></canvas>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- Recent Activity -->
-                <!-- <div class="dashboard-card">
+                <div class="dashboard-card" data-section="recent_activity">
                     <div class="card-header">
                         <h3 class="card-title">Recent Activity</h3>
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -189,38 +192,38 @@
                     <div class="activity-container" id="recentActivity">
                       
                     </div>
-                </div> -->
-            <!-- </div> -->
+                </div>
+            </div>
 
             <!-- Skills Progress Section -->
-            <!-- <div class="dashboard-section">
+            <div class="dashboard-section" data-section="skills_progress">
                 <h3 class="section-subtitle">Skills Progress</h3>
                 <div class="skills-grid" id="skillsProgress">
                    
                 </div>
-            </div> -->
+            </div>
 
             <!-- Statistics Grid -->
-            <!-- <div class="stats-grid" id="dashboardStats">
+            <div class="stats-grid" id="dashboardStats" data-section="statistics">
                
-            </div> -->
+            </div>
 
             <!-- Code Quality Metrics -->
-            <!-- <div class="dashboard-section">
+            <div class="dashboard-section" data-section="code_quality">
                 <h3 class="section-subtitle">Code Quality</h3>
                 <div class="quality-grid" id="codeQuality">
                     
                 </div>
-            </div> -->
+            </div>
 
             <!-- Learning Progress -->
-            <!-- <div class="dashboard-section">
+            <div class="dashboard-section" data-section="learning_progress">
                 <h3 class="section-subtitle">Currently Learning</h3>
                 <div class="learning-grid" id="learningProgress">
                     
                 </div>
-            </div> -->
-        <!-- </section> -->
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->

@@ -1,0 +1,170 @@
+# Home Page Configuration
+# Configure all content and settings for the home page
+
+[hero]
+name = "Your Name"
+title = "Full-Stack Developer & Designer"
+intro = [
+    "I work on web development, user experience design, and modern frontend technologies among other digital things.",
+    "This website is an archive of my work and thoughts. Currently, I'm into React, TypeScript, and building modern web applications. If you fancy a longer introduction, try the about page, or check out my blog for recent thoughts and insights."
+]
+
+[hero.actions]
+primary_text = "Hire Me"
+primary_link = "resume.html"
+secondary_text = "Let's Talk"
+secondary_link = "#contact"
+
+[sections]
+# Configure which sections to show and their order
+enabled_sections = ["freelance-clients", "latest-products", "dashboard"]
+
+[freelance_clients]
+enabled = true
+title = "Trusted by Clients"
+subtitle = "Companies I've worked with"
+contact_email = "nishikantaray@example.com"
+contact_text = "Contact Me"
+
+# Client logos and information - supports emoji or image URL
+[[freelance_clients.clients]]
+id = 1
+name = "TechStart Inc."
+logo = "🚀"  # Use emoji or set logo_type = "image" and logo = "path/to/image.png"
+logo_type = "emoji"  # "emoji" or "image"
+status = "completed"
+period = "Oct-Dec 2024"
+project = "E-commerce Platform"
+
+[[freelance_clients.clients]]
+id = 2
+name = "DataCorp"
+logo = "📊"
+logo_type = "emoji"
+status = "completed"
+period = "Sep-Nov 2024"
+project = "Analytics Dashboard"
+
+[[freelance_clients.clients]]
+id = 3
+name = "AppStudio"
+logo = "📱"
+logo_type = "emoji"
+status = "in-progress"
+period = "Dec 2024 - Present"
+project = "Mobile App Backend"
+
+[[freelance_clients.clients]]
+id = 4
+name = "FinanceFlow"
+logo = "💰"
+logo_type = "emoji"
+status = "completed"
+period = "Jul-Sep 2024"
+project = "Financial Dashboard"
+
+[[freelance_clients.clients]]
+id = 5
+name = "RetailMax"
+logo = "🛍️"
+logo_type = "emoji"
+status = "completed"
+period = "May-Jul 2024"
+project = "Inventory System"
+
+[[freelance_clients.clients]]
+id = 6
+name = "CloudTech"
+logo = "☁️"
+logo_type = "emoji"
+status = "completed"
+period = "Mar-May 2024"
+project = "Cloud Migration"
+
+[[freelance_clients.clients]]
+id = 7
+name = "EduLearn"
+logo = "📚"
+logo_type = "emoji"
+status = "completed"
+period = "Jan-Mar 2024"
+project = "Learning Platform"
+
+[[freelance_clients.clients]]
+id = 8
+name = "HealthPlus"
+logo = "🏥"
+logo_type = "emoji"
+status = "completed"
+period = "Nov-Dec 2023"
+project = "Patient Portal"
+
+# Example with image logo
+[[freelance_clients.clients]]
+id = 9
+name = "TechCorp"
+logo = "assets/images/techcorp-logo.svg"
+logo_type = "image"
+status = "completed"
+period = "Sep-Oct 2023"
+project = "Corporate Website"
+
+[latest_products]
+enabled = true
+title = "Latest Products"
+subtitle = "Tools and apps I've built"
+view_all_text = "View All Products"
+view_all_link = "projects.html#products"
+
+# Product showcase
+[[latest_products.products]]
+id = 1
+title = "Portfolio Builder"
+description = "A drag-and-drop portfolio builder for developers and designers. Create stunning portfolios in minutes with customizable templates."
+status = "launched"
+technologies = ["React", "Node.js", "MongoDB", "Tailwind"]
+version = "v2.1.0"
+users = "500+ users"
+live_url = "https://portfoliobuilder.example.com"
+github_url = "https://github.com/yourusername/portfolio-builder"
+
+[[latest_products.products]]
+id = 2
+title = "Code Snippet Manager"
+description = "Organize, search, and share your code snippets with syntax highlighting and team collaboration features."
+status = "launched"
+technologies = ["Vue.js", "Firebase", "Prism.js", "PWA"]
+version = "v1.5.2"
+users = "250+ users"
+live_url = "https://snippets.example.com"
+github_url = "https://github.com/yourusername/snippet-manager"
+
+[[latest_products.products]]
+id = 3
+title = "API Testing Tool"
+description = "Lightweight API testing tool with request collections, environment variables, and automated testing capabilities."
+status = "in-progress"
+technologies = ["Electron", "TypeScript", "Jest", "Axios"]
+version = "v0.8.0 beta"
+users = "Beta testing"
+live_url = ""
+github_url = "https://github.com/yourusername/api-tester"
+
+[dashboard]
+enabled = false  # Set to true to enable dashboard
+title = "Dashboard & Analytics"
+subtitle = "Development metrics and insights"
+
+# Dashboard sections control
+[dashboard.sections]
+charts = false           # Recent Projects, Tech Stack, Performance charts
+recent_activity = false  # Recent activity feed
+skills_progress = false  # Skills progress bars
+statistics = false       # Stats grid
+code_quality = false     # Code quality metrics
+learning_progress = false # Currently learning section
+
+[footer]
+text = "Built with Marked.js"
+link = "https://github.com/markedjs/marked"
+year = 2024

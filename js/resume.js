@@ -8,11 +8,59 @@ class ResumeTheme {
     this.init();
   }
 
-  init() {
+  async init() {
     this.applyTheme();
+    this.setupEventListeners();
+    await this.loadResumeContent();
+  }
+
+  setupEventListeners() {
     document
       .getElementById("theme-toggle")
       .addEventListener("click", () => this.toggleTheme());
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        this.currentTheme = e.matches ? 'dark' : 'light';
+        this.applyTheme();
+      }
+    });
+  }
+
+  async loadResumeContent() {
+    try {
+      // Initialize and load TOML configuration
+      const success = await window.resumeConfig.init();
+      
+      if (success) {
+        console.log('Resume configuration loaded successfully');
+      } else {
+        console.warn('Resume configuration failed, using fallback');
+      }
+      
+      // Update resume content
+      await window.resumeConfig.updateResume('#resume-container');
+      
+    } catch (error) {
+      console.error('Failed to load resume content:', error);
+      this.renderError();
+    }
+  }
+
+  renderError() {
+    const container = document.getElementById('resume-container');
+    if (container) {
+      container.innerHTML = `
+        <div class="error" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+          <h2>Resume Content Not Available</h2>
+          <p>Please check the configuration file: config/resume.toml</p>
+          <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--text-accent); color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Retry Loading
+          </button>
+        </div>
+      `;
+    }
   }
 
   toggleTheme() {

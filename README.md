@@ -1,6 +1,28 @@
-# Minimal Portfolio
+<div align="center">
 
-A clean, minimal personal portfolio website built with vanilla HTML, CSS, and JavaScript. Features a multipage structure with Markdown content rendering and **comprehensive TOML-based configuration system** for complete customization without touching code.
+```
+██████╗ ███████╗███╗   ██╗██████╗ ███████╗██████╗ ███████╗██████╗ 
+██╔══██╗██╔════╝████╗  ██║██╔══██╗██╔════╝██╔══██╗██╔════╝██╔══██╗
+██████╔╝█████╗  ██╔██╗ ██║██║  ██║█████╗  ██████╔╝█████╗  ██████╔╝
+██╔══██╗██╔══╝  ██║╚██╗██║██║  ██║██╔══╝  ██╔══██╗██╔══╝  ██╔══██╗
+██║  ██║███████╗██║ ╚████║██████╔╝███████╗██║  ██║███████╗██║  ██║
+╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+```
+
+### 🌟 _"Render your story, configure your future"_ 🌟
+
+[![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/NishikantaRay)
+[![Vanilla JS](https://img.shields.io/badge/Vanilla-JS-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![TOML Config](https://img.shields.io/badge/Config-TOML-blue.svg)](https://toml.io/)
+[![Zero Build](https://img.shields.io/badge/Build-Zero-green.svg)](https://github.com/NishikantaRay/renderer)
+
+**✨ A powerful, configuration-driven portfolio system that transforms your story into a stunning web presence**
+
+*Built with vanilla HTML, CSS, and JavaScript • Powered by TOML configuration • Designed for developers, designers, and dreamers*
+
+</div>
+
+---
 
 ## ✨ Features
 

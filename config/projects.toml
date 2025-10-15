@@ -1,0 +1,153 @@
+# Projects Page Configuration
+# Configure all features and content for the projects page
+
+[page]
+title = "Projects"
+subtitle = "A showcase of my recent work in web development, design, and open source contributions."
+
+# Main content settings
+[content]
+enable_markdown_content = true     # Load content from projects.md
+enable_fallback_content = true     # Show fallback content if markdown fails
+show_intro = true                  # Show introduction paragraph
+show_loading_indicator = true      # Show loading spinner
+
+# Navigation settings
+[navigation]
+enabled = true
+show_theme_toggle = true           # Dark/light mode toggle
+show_mobile_menu = true            # Mobile hamburger menu
+sticky_navigation = false         # Make navigation sticky on scroll
+
+# Featured projects section
+[featured_projects]
+enabled = true
+title = "Featured Work"
+show_tech_stack = true             # Show technology badges
+show_features_list = true          # Show key features list
+show_project_links = true          # Show demo/github/case study links
+enable_hover_effects = true       # Interactive hover animations
+show_categories = true             # Project category labels
+
+# Project statistics overview
+[project_stats]
+enabled = true
+title = "Project Overview"
+show_completed_count = true        # Projects completed
+show_active_count = true           # Currently active projects  
+show_opensource_count = true       # Open source contributions
+show_technologies_count = true     # Technologies used
+animate_numbers = true             # Animate stats on scroll
+
+# Analytics section
+[analytics]
+enabled = false
+title = "Project Analytics & Activity"
+description = "Development metrics and project insights"
+
+# Individual analytics components
+[analytics.charts]
+enabled = true
+weekly_activity = true             # Weekly development activity chart
+project_distribution = true       # Project distribution by category
+show_chart_descriptions = true     # Show chart descriptions
+
+[analytics.timeline]
+enabled = true
+title = "Recent Project Milestones"
+description = "Latest project updates and achievements"
+show_event_types = true            # Show event type indicators
+max_events = 10                    # Maximum events to display
+
+[analytics.statistics]
+enabled = true
+show_animated_stats = true         # Animate statistics
+show_stat_descriptions = true      # Show stat descriptions
+
+# Open source section
+[opensource]
+enabled = true
+title = "Open Source Contributions"
+show_github_stats = true           # GitHub stars, PRs, repos
+show_contribution_details = true   # Individual project details
+show_repository_links = true       # Links to repositories
+show_star_counts = true           # Star counts for projects
+
+# Side projects section
+[side_projects]
+enabled = true
+title = "Side Projects"
+show_descriptions = true           # Project descriptions
+show_tech_focus = true            # Technology focus areas
+grid_layout = true                # Use grid layout vs list
+
+# Contact CTA
+[contact_cta]
+enabled = true
+text = "Interested in collaborating or learning more about any of these projects?"
+link_text = "Let's connect!"
+link_url = "contact.html"
+
+# Footer settings
+[footer]
+enabled = true
+text = "Built with"
+link_text = "Marked.js"
+link_url = "https://github.com/markedjs/marked"
+year = 2024
+
+# SEO and meta settings
+[seo]
+meta_description = "My projects - Developer, Designer, Creator"
+og_title = "Projects - Your Name"
+og_description = "A showcase of my recent work in web development, design, and open source contributions."
+
+# Performance settings
+[performance]
+lazy_load_images = true            # Lazy load project images
+preload_critical_content = true   # Preload above-fold content
+enable_service_worker = false     # PWA capabilities
+cache_content = true              # Cache loaded content
+
+# Accessibility settings
+[accessibility]
+high_contrast_mode = false        # High contrast theme option
+focus_indicators = true           # Enhanced focus indicators
+screen_reader_support = true      # Screen reader optimizations
+keyboard_navigation = true        # Full keyboard navigation
+
+# Interactive features
+[interactive]
+project_filtering = false         # Filter projects by technology/category
+search_functionality = false     # Search through projects
+sort_options = false             # Sort projects by date/tech/popularity
+bookmarking = false              # Allow bookmarking projects
+sharing_buttons = false          # Social sharing for individual projects
+
+# UI enhancements
+[ui]
+animations = true                 # CSS animations and transitions
+smooth_scrolling = true          # Smooth scroll behavior
+back_to_top = false              # Back to top button
+breadcrumbs = false              # Page breadcrumbs
+progress_indicator = false       # Reading/scroll progress
+
+# External integrations
+[integrations]
+github_api = false               # Live GitHub data integration
+analytics_tracking = false      # Google Analytics or similar
+contact_form = false            # Contact form integration
+newsletter_signup = false       # Newsletter subscription
+
+# Development features
+[development]
+debug_mode = false              # Show debug information
+performance_metrics = false    # Show performance timing
+error_logging = false          # Log JavaScript errors
+feature_flags = true           # Enable experimental features
+
+# Customization
+[customization]
+custom_css = false             # Load custom CSS file
+theme_overrides = false        # Allow theme customizations
+layout_variants = false        # Multiple layout options

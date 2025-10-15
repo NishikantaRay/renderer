@@ -5,15 +5,98 @@ class PortfolioPage {
       (window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light");
-
+    
+    this.config = null;
     this.init();
   }
 
-  init() {
+  async init() {
+    // Load configuration first
+    await this.loadConfiguration();
+    
     this.setupTheme();
     this.setupEventListeners();
     this.loadContent();
     this.setupAnalytics();
+  }
+
+  async loadConfiguration() {
+    try {
+      if (window.projectsConfig) {
+        this.config = await window.projectsConfig.loadConfig();
+        console.log('Projects config loaded:', this.config?.analytics?.enabled);
+        window.projectsConfig.applyStyles();
+        
+        // Update page metadata based on configuration
+        this.updatePageMetadata();
+        
+        // Apply configuration-based features
+        this.applyConfigurationFeatures();
+        
+        // Force hide analytics section if disabled
+        if (!window.projectsConfig.isEnabled('analytics')) {
+          setTimeout(() => {
+            const analyticsSection = document.querySelector('.analytics-section');
+            if (analyticsSection) {
+              analyticsSection.style.display = 'none';
+              console.log('Force hiding analytics section after config load');
+            }
+          }, 100);
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to load projects configuration:', error);
+    }
+  }
+
+  updatePageMetadata() {
+    if (!this.config) return;
+    
+    const meta = window.projectsConfig.getPageMeta();
+    
+    // Update page title and subtitle
+    const pageTitle = document.querySelector('.page-title');
+    if (pageTitle && meta.title) {
+      pageTitle.textContent = meta.title;
+    }
+    
+    const pageSubtitle = document.querySelector('.page-subtitle');
+    if (pageSubtitle && meta.subtitle) {
+      pageSubtitle.textContent = meta.subtitle;
+    }
+    
+    // Update document title
+    document.title = `${meta.title} - Your Name`;
+    
+    // Update meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && meta.description) {
+      metaDesc.setAttribute('content', meta.description);
+    }
+  }
+
+  applyConfigurationFeatures() {
+    if (!this.config) return;
+    
+    // Apply performance optimizations
+    if (window.projectsConfig.isEnabled('performance', 'lazy_load_images')) {
+      this.setupLazyLoading();
+    }
+    
+    // Apply UI enhancements
+    if (window.projectsConfig.isEnabled('ui', 'back_to_top')) {
+      this.addBackToTopButton();
+    }
+    
+    // Apply interactive features
+    if (window.projectsConfig.isEnabled('interactive', 'project_filtering')) {
+      this.setupProjectFiltering();
+    }
+    
+    // Setup debug mode if enabled
+    if (window.projectsConfig.isEnabled('development', 'debug_mode')) {
+      this.enableDebugMode();
+    }
   }
 
   setupTheme() {
@@ -60,6 +143,12 @@ class PortfolioPage {
   }
 
   async loadContent() {
+    // Check if markdown content is enabled
+    if (!window.projectsConfig?.isEnabled('content', 'enable_markdown_content')) {
+      this.renderFallbackContent();
+      return;
+    }
+
     try {
       const response = await fetch("./content/projects.md");
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -70,7 +159,13 @@ class PortfolioPage {
       this.renderContent(html);
     } catch (error) {
       console.error("Failed to load content:", error);
-      this.renderFallbackContent();
+      
+      // Only show fallback if enabled in config
+      if (window.projectsConfig?.isEnabled('content', 'enable_fallback_content')) {
+        this.renderFallbackContent();
+      } else {
+        this.renderError();
+      }
     }
   }
 
@@ -86,200 +181,296 @@ class PortfolioPage {
   renderFallbackContent() {
     const container = document.getElementById("content");
     if (container) {
-      container.innerHTML = `
-        <div class="projects-content">
-          <p class="intro">Here are some of the projects I've worked on recently. Each represents a unique challenge and learning experience in modern web development.</p>
-          
-          <!-- Project Stats Overview -->
-          <div class="project-stats">
-            <div class="stat-card">
-              <span class="stat-number">15+</span>
-              <span class="stat-label">Projects Completed</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">5</span>
-              <span class="stat-label">Active Projects</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">8+</span>
-              <span class="stat-label">Open Source</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">12+</span>
-              <span class="stat-label">Technologies</span>
-            </div>
-          </div>
-          
-          <h2>Featured Work</h2>
-          
-          <div class="project-card" data-category="web-app" data-tech="react,typescript,nodejs">
-            <h3>🌐 Modern Web App</h3>
-            <p class="tech-stack"><em>React • TypeScript • Node.js • PostgreSQL</em></p>
-            <p>A comprehensive full-stack web application featuring real-time collaboration, advanced data visualization, and progressive web app capabilities. Built with modern development practices and extensive testing coverage.</p>
-            
-            <div class="features">
-              <strong>Key Features:</strong>
-              <ul>
-                <li>Real-time collaborative editing with WebSocket integration</li>
-                <li>Advanced data visualization with D3.js and Chart.js</li>
-                <li>Progressive Web App with offline functionality</li>
-                <li>Comprehensive test coverage (90%+ code coverage)</li>
-                <li>Responsive design optimized for all devices</li>
-                <li>Role-based authentication and authorization</li>
-              </ul>
-            </div>
-            
-            <div class="project-links">
-              <a href="https://example.com" target="_blank" rel="noopener noreferrer">🚀 Live Demo</a>
-              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
-              <a href="#" onclick="alert('Case study coming soon!')">📖 Case Study</a>
-            </div>
-          </div>
+      let contentHTML = '';
 
-          <div class="project-card" data-category="dashboard" data-tech="vue,express,postgresql">
-            <h3>📱 Mobile-First Dashboard</h3>
-            <p class="tech-stack"><em>Vue.js • Express • PostgreSQL • Redis</em></p>
-            <p>An intuitive analytics dashboard designed with mobile-first principles. Features interactive data visualizations, real-time updates, and accessibility compliance for enterprise use.</p>
-            
-            <div class="features">
-              <strong>Key Features:</strong>
-              <ul>
-                <li>Interactive data visualizations with custom Vue components</li>
-                <li>Real-time data updates using Server-Sent Events</li>
-                <li>WCAG 2.1 AA accessibility compliance</li>
-                <li>Advanced filtering and search capabilities</li>
-                <li>Offline-first architecture with smart caching</li>
-                <li>Multi-tenant support with role management</li>
-              </ul>
-            </div>
-            
-            <div class="project-links">
-              <a href="https://example.com" target="_blank" rel="noopener noreferrer">🚀 Live Demo</a>
-              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
-              <a href="#" onclick="alert('Documentation available on GitHub!')">📚 Docs</a>
-            </div>
-          </div>
+      // Add intro if enabled
+      if (window.projectsConfig?.isEnabled('content', 'show_intro')) {
+        contentHTML += `
+          <div class="projects-content">
+            <p class="intro">Here are some of the projects I've worked on recently. Each represents a unique challenge and learning experience in modern web development.</p>
+        `;
+      } else {
+        contentHTML += '<div class="projects-content">';
+      }
 
-          <div class="project-card" data-category="design-system" data-tech="react,storybook,typescript">
-            <h3>🎨 Component Design System</h3>
-            <p class="tech-stack"><em>React • Storybook • TypeScript • Rollup</em></p>
-            <p>A comprehensive design system and component library used across multiple products. Features automated testing, extensive documentation, and seamless integration workflows.</p>
-            
-            <div class="features">
-              <strong>Key Features:</strong>
-              <ul>
-                <li>50+ reusable components with consistent API design</li>
-                <li>Comprehensive Storybook documentation with examples</li>
-                <li>Dark/light theme support with CSS custom properties</li>
-                <li>Automated visual regression testing with Chromatic</li>
-                <li>TypeScript definitions for enhanced developer experience</li>
-                <li>Automated NPM publishing with semantic versioning</li>
-              </ul>
-            </div>
-            
-            <div class="project-links">
-              <a href="https://example.com" target="_blank" rel="noopener noreferrer">🎨 Storybook</a>
-              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
-              <a href="#" onclick="alert('NPM package available!')">📦 NPM</a>
-            </div>
-          </div>
+      // Add project stats if enabled
+      if (window.projectsConfig?.isEnabled('project_stats')) {
+        const statsConfig = window.projectsConfig?.getSection('project_stats');
+        contentHTML += this.generateProjectStats(statsConfig);
+      }
 
-          <div class="project-card" data-category="tool" data-tech="javascript,markdown,css">
-            <h3>🚀 Static Site Generator</h3>
-            <p class="tech-stack"><em>JavaScript • Markdown • Sass • Rollup</em></p>
-            <p>A fast, flexible static site generator optimized for blogs and documentation. Features hot reloading, plugin architecture, and exceptional build performance.</p>
-            
-            <div class="features">
-              <strong>Key Features:</strong>
-              <ul>
-                <li>Lightning-fast builds with smart incremental compilation</li>
-                <li>Plugin architecture for extensible functionality</li>
-                <li>Hot module reloading for development efficiency</li>
-                <li>SEO optimization with automatic meta tag generation</li>
-                <li>Multiple theme support with easy customization</li>
-                <li>Built-in syntax highlighting and code processing</li>
-              </ul>
-            </div>
-            
-            <div class="project-links">
-              <a href="https://example.com" target="_blank" rel="noopener noreferrer">🚀 Live Demo</a>
-              <a href="https://github.com/yourusername/project" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
-              <a href="#" onclick="alert('CLI tool available via NPM!')">⚡ CLI Tool</a>
-            </div>
-          </div>
+      // Add featured projects if enabled
+      if (window.projectsConfig?.isEnabled('featured_projects')) {
+        const featuredConfig = window.projectsConfig?.getSection('featured_projects');
+        contentHTML += this.generateFeaturedProjects(featuredConfig);
+      }
 
-          <h2>Open Source Contributions</h2>
-          <div class="project-stats">
-            <div class="stat-card">
-              <span class="stat-number">1.2k</span>
-              <span class="stat-label">GitHub Stars</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">150+</span>
-              <span class="stat-label">Pull Requests</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">25+</span>
-              <span class="stat-label">Repositories</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">50+</span>
-              <span class="stat-label">Contributors</span>
-            </div>
-          </div>
-          
-          <p>I actively contribute to open source projects and maintain several popular repositories:</p>
-          <ul style="list-style: none; padding: 0;">
-            <li style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
-              <strong>awesome-web-dev</strong> - Curated list of web development resources ⭐ 1.2k
-              <br><small style="color: var(--text-muted);">Comprehensive collection of tools, libraries, and learning resources for modern web development</small>
-            </li>
-            <li style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
-              <strong>react-hooks-collection</strong> - Useful React hooks library ⭐ 856
-              <br><small style="color: var(--text-muted);">Production-ready custom React hooks for common use cases with TypeScript support</small>
-            </li>
-            <li style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
-              <strong>css-grid-examples</strong> - CSS Grid layout examples ⭐ 432
-              <br><small style="color: var(--text-muted);">Interactive examples and templates for CSS Grid layouts with responsive design patterns</small>
-            </li>
-          </ul>
+      // Add open source section if enabled
+      if (window.projectsConfig?.isEnabled('opensource')) {
+        const opensourceConfig = window.projectsConfig?.getSection('opensource');
+        contentHTML += this.generateOpenSourceSection(opensourceConfig);
+      }
 
-          <h2>Side Projects</h2>
-          
-          <div class="side-projects">
-            <div class="side-project">
-              <h3>📝 Blog Platform</h3>
-              <p>A minimalist blogging platform built with Next.js and markdown. Features automatic SEO optimization, comment system integration, and customizable themes.</p>
-            </div>
+      // Add side projects if enabled
+      if (window.projectsConfig?.isEnabled('side_projects')) {
+        const sideProjectsConfig = window.projectsConfig?.getSection('side_projects');
+        contentHTML += this.generateSideProjects(sideProjectsConfig);
+      }
 
-            <div class="side-project">
-              <h3>🔧 Developer Tools</h3>
-              <p>A collection of CLI tools and browser extensions designed to improve developer productivity, including code formatters, build optimizers, and debugging utilities.</p>
-            </div>
+      // Add contact CTA if enabled
+      if (window.projectsConfig?.isEnabled('contact_cta')) {
+        const ctaConfig = window.projectsConfig?.getSection('contact_cta');
+        contentHTML += this.generateContactCTA(ctaConfig);
+      }
 
-            <div class="side-project">
-              <h3>🎯 Learning Projects</h3>
-              <p>Experimental projects exploring cutting-edge technologies like WebAssembly, GraphQL federation, and serverless architectures to stay current with industry trends.</p>
-            </div>
-
-            <div class="side-project">
-              <h3>🤖 AI-Powered Tools</h3>
-              <p>Exploring machine learning integration in web applications, including natural language processing for content generation and computer vision for image analysis.</p>
-            </div>
-          </div>
-
-          <div class="cta">
-            <p><em>Interested in collaborating or learning more about any of these projects? <a href="contact.html">Let's connect!</a></em></p>
-          </div>
-        </div>
-      `;
+      contentHTML += '</div>';
+      
+      container.innerHTML = contentHTML;
       container.classList.add("fade-in");
       this.setupContentLinks(container);
       this.addProjectInteractions();
     }
   }
 
+  generateProjectStats(config) {
+    if (!config?.enabled) return '';
+    
+    return `
+      <!-- Project Stats Overview -->
+      <div class="project-stats" data-section="project-stats">
+        ${config.show_completed_count ? '<div class="stat-card"><span class="stat-number">15+</span><span class="stat-label">Projects Completed</span></div>' : ''}
+        ${config.show_active_count ? '<div class="stat-card"><span class="stat-number">5</span><span class="stat-label">Active Projects</span></div>' : ''}
+        ${config.show_opensource_count ? '<div class="stat-card"><span class="stat-number">8+</span><span class="stat-label">Open Source</span></div>' : ''}
+        ${config.show_technologies_count ? '<div class="stat-card"><span class="stat-number">12+</span><span class="stat-label">Technologies</span></div>' : ''}
+      </div>
+    `;
+  }
+
+  generateFeaturedProjects(config) {
+    if (!config?.enabled) return '';
+    
+    const title = config?.title || 'Featured Work';
+    
+    return `
+      <h2>${title}</h2>
+      
+      <div class="featured-projects" data-section="featured-projects">
+        ${this.generateProjectCard({
+          title: '🌐 Modern Web App',
+          techStack: 'React • TypeScript • Node.js • PostgreSQL',
+          description: 'A comprehensive full-stack web application featuring real-time collaboration, advanced data visualization, and progressive web app capabilities.',
+          features: [
+            'Real-time collaborative editing with WebSocket integration',
+            'Advanced data visualization with D3.js and Chart.js',
+            'Progressive Web App with offline functionality',
+            'Comprehensive test coverage (90%+ code coverage)',
+            'Responsive design optimized for all devices',
+            'Role-based authentication and authorization'
+          ],
+          links: [
+            { text: '🚀 Live Demo', url: 'https://example.com' },
+            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '📖 Case Study', url: '#', onclick: "alert('Case study coming soon!')" }
+          ],
+          category: 'web-app',
+          tech: 'react,typescript,nodejs'
+        }, config)}
+        
+        ${this.generateProjectCard({
+          title: '📱 Mobile-First Dashboard',
+          techStack: 'Vue.js • Express • PostgreSQL • Redis',
+          description: 'An intuitive analytics dashboard designed with mobile-first principles. Features interactive data visualizations, real-time updates, and accessibility compliance.',
+          features: [
+            'Interactive data visualizations with custom Vue components',
+            'Real-time data updates using Server-Sent Events',
+            'WCAG 2.1 AA accessibility compliance',
+            'Advanced filtering and search capabilities',
+            'Offline-first architecture with smart caching',
+            'Multi-tenant support with role management'
+          ],
+          links: [
+            { text: '🚀 Live Demo', url: 'https://example.com' },
+            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '📚 Docs', url: '#', onclick: "alert('Documentation available on GitHub!')" }
+          ],
+          category: 'dashboard',
+          tech: 'vue,express,postgresql'
+        }, config)}
+        
+        ${this.generateProjectCard({
+          title: '🎨 Component Design System',
+          techStack: 'React • Storybook • TypeScript • Rollup',
+          description: 'A comprehensive design system and component library used across multiple products. Features automated testing, extensive documentation, and seamless integration workflows.',
+          features: [
+            '50+ reusable components with consistent API design',
+            'Comprehensive Storybook documentation with examples',
+            'Dark/light theme support with CSS custom properties',
+            'Automated visual regression testing with Chromatic',
+            'TypeScript definitions for enhanced developer experience',
+            'Automated NPM publishing with semantic versioning'
+          ],
+          links: [
+            { text: '🎨 Storybook', url: 'https://example.com' },
+            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '📦 NPM', url: '#', onclick: "alert('NPM package available!')" }
+          ],
+          category: 'design-system',
+          tech: 'react,storybook,typescript'
+        }, config)}
+        
+        ${this.generateProjectCard({
+          title: '🚀 Static Site Generator',
+          techStack: 'JavaScript • Markdown • Sass • Rollup',
+          description: 'A fast, flexible static site generator optimized for blogs and documentation. Features hot reloading, plugin architecture, and exceptional build performance.',
+          features: [
+            'Lightning-fast builds with smart incremental compilation',
+            'Plugin architecture for extensible functionality',
+            'Hot module reloading for development efficiency',
+            'SEO optimization with automatic meta tag generation',
+            'Multiple theme support with easy customization',
+            'Built-in syntax highlighting and code processing'
+          ],
+          links: [
+            { text: '🚀 Live Demo', url: 'https://example.com' },
+            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '⚡ CLI Tool', url: '#', onclick: "alert('CLI tool available via NPM!')" }
+          ],
+          category: 'tool',
+          tech: 'javascript,markdown,css'
+        }, config)}
+      </div>
+    `;
+  }
+
+  generateProjectCard(project, config) {
+    return `
+      <div class="project-card" data-category="${project.category}" data-tech="${project.tech}">
+        <h3>${project.title}</h3>
+        ${config?.show_tech_stack ? `<p class="tech-stack"><em>${project.techStack}</em></p>` : ''}
+        <p>${project.description}</p>
+        
+        ${config?.show_features_list ? `
+          <div class="features">
+            <strong>Key Features:</strong>
+            <ul>
+              ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+        
+        ${config?.show_project_links ? `
+          <div class="project-links">
+            ${project.links.map(link => `
+              <a href="${link.url}" ${link.onclick ? `onclick="${link.onclick}"` : 'target="_blank" rel="noopener noreferrer"'}>${link.text}</a>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  generateOpenSourceSection(config) {
+    if (!config?.enabled) return '';
+    
+    const title = config?.title || 'Open Source Contributions';
+    
+    let content = `<h2>${title}</h2><div data-section="opensource">`;
+    
+    if (config?.show_github_stats) {
+      content += `
+        <div class="project-stats">
+          <div class="stat-card">
+            <span class="stat-number">1.2k</span>
+            <span class="stat-label">GitHub Stars</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">150+</span>
+            <span class="stat-label">Pull Requests</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">25+</span>
+            <span class="stat-label">Repositories</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Contributors</span>
+          </div>
+        </div>
+      `;
+    }
+    
+    if (config?.show_contribution_details) {
+      content += `
+        <p>I actively contribute to open source projects and maintain several popular repositories:</p>
+        <ul style="list-style: none; padding: 0;">
+          <li style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
+            <strong>awesome-web-dev</strong> - Curated list of web development resources ${config?.show_star_counts ? '⭐ 1.2k' : ''}
+            <br><small style="color: var(--text-muted);">Comprehensive collection of tools, libraries, and learning resources for modern web development</small>
+          </li>
+          <li style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
+            <strong>react-hooks-collection</strong> - Useful React hooks library ${config?.show_star_counts ? '⭐ 856' : ''}
+            <br><small style="color: var(--text-muted);">Production-ready custom React hooks for common use cases with TypeScript support</small>
+          </li>
+          <li style="margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 8px;">
+            <strong>css-grid-examples</strong> - CSS Grid layout examples ${config?.show_star_counts ? '⭐ 432' : ''}
+            <br><small style="color: var(--text-muted);">Interactive examples and templates for CSS Grid layouts with responsive design patterns</small>
+          </li>
+        </ul>
+      `;
+    }
+    
+    content += '</div>';
+    return content;
+  }
+
+  generateSideProjects(config) {
+    if (!config?.enabled) return '';
+    
+    const title = config?.title || 'Side Projects';
+    
+    return `
+      <h2>${title}</h2>
+      
+      <div class="side-projects ${config?.grid_layout ? 'grid-layout' : ''}" data-section="side-projects">
+        <div class="side-project">
+          <h3>📝 Blog Platform</h3>
+          ${config?.show_descriptions ? '<p>A minimalist blogging platform built with Next.js and markdown. Features automatic SEO optimization, comment system integration, and customizable themes.</p>' : ''}
+        </div>
+
+        <div class="side-project">
+          <h3>🔧 Developer Tools</h3>
+          ${config?.show_descriptions ? '<p>A collection of CLI tools and browser extensions designed to improve developer productivity, including code formatters, build optimizers, and debugging utilities.</p>' : ''}
+        </div>
+
+        <div class="side-project">
+          <h3>🎯 Learning Projects</h3>
+          ${config?.show_descriptions ? '<p>Experimental projects exploring cutting-edge technologies like WebAssembly, GraphQL federation, and serverless architectures to stay current with industry trends.</p>' : ''}
+        </div>
+
+        <div class="side-project">
+          <h3>🤖 AI-Powered Tools</h3>
+          ${config?.show_descriptions ? '<p>Exploring machine learning integration in web applications, including natural language processing for content generation and computer vision for image analysis.</p>' : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  generateContactCTA(config) {
+    if (!config?.enabled) return '';
+    
+    return `
+      <div class="cta" data-section="contact-cta">
+        <p><em>${config?.text || 'Interested in collaborating?'} <a href="${config?.link_url || 'contact.html'}">${config?.link_text || "Let's connect!"}</a></em></p>
+      </div>
+    `;
+  }
+
   addProjectInteractions() {
+    // Only add interactions if enabled in config
+    if (!window.projectsConfig?.isEnabled('featured_projects', 'enable_hover_effects')) {
+      return;
+    }
+
     // Add click handlers for project cards
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach(card => {
@@ -292,19 +483,18 @@ class PortfolioPage {
       });
     });
 
-    // Add filter functionality (can be extended)
-    const techTags = document.querySelectorAll('[data-tech]');
-    techTags.forEach(tag => {
-      tag.addEventListener('click', (e) => {
-        if (e.target.closest('.project-links')) return; // Don't filter when clicking links
-        
-        const tech = tag.getAttribute('data-tech');
-        console.log('Project uses technologies:', tech);
-        // Can implement filtering logic here
-      });
-    });
+    // Add filter functionality if enabled
+    if (window.projectsConfig?.isEnabled('interactive', 'project_filtering')) {
+      this.setupProjectFiltering();
+    }
 
-    // Animate stats on scroll
+    // Animate stats on scroll if enabled
+    if (window.projectsConfig?.isEnabled('project_stats', 'animate_numbers')) {
+      this.setupStatsAnimation();
+    }
+  }
+
+  setupStatsAnimation() {
     const statNumbers = document.querySelectorAll('.stat-number');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -321,6 +511,121 @@ class PortfolioPage {
     });
 
     statNumbers.forEach(stat => observer.observe(stat));
+  }
+
+  setupProjectFiltering() {
+    // Add filter functionality for project cards
+    const techTags = document.querySelectorAll('[data-tech]');
+    techTags.forEach(tag => {
+      tag.addEventListener('click', (e) => {
+        if (e.target.closest('.project-links')) return; // Don't filter when clicking links
+        
+        const tech = tag.getAttribute('data-tech');
+        console.log('Project uses technologies:', tech);
+        // Implement filtering logic here
+        this.filterProjectsByTech(tech);
+      });
+    });
+  }
+
+  filterProjectsByTech(tech) {
+    const allProjects = document.querySelectorAll('.project-card');
+    allProjects.forEach(project => {
+      const projectTech = project.getAttribute('data-tech');
+      if (!tech || projectTech.includes(tech)) {
+        project.style.display = 'block';
+      } else {
+        project.style.display = 'none';
+      }
+    });
+  }
+
+  setupLazyLoading() {
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+              imageObserver.unobserve(img);
+            }
+          }
+        });
+      });
+
+      // Observe all images with data-src attribute
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
+  }
+
+  addBackToTopButton() {
+    const backToTop = document.createElement('button');
+    backToTop.innerHTML = '↑';
+    backToTop.className = 'back-to-top';
+    backToTop.style.cssText = `
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    `;
+
+    document.body.appendChild(backToTop);
+
+    // Show/hide based on scroll position
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.style.opacity = '1';
+      } else {
+        backToTop.style.opacity = '0';
+      }
+    });
+
+    // Scroll to top on click
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  enableDebugMode() {
+    console.log('🔧 Debug mode enabled for Projects page');
+    console.log('Configuration:', window.projectsConfig?.getConfig());
+    
+    // Add debug info to page
+    const debugInfo = document.createElement('div');
+    debugInfo.style.cssText = `
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 9999;
+      max-width: 300px;
+    `;
+    debugInfo.innerHTML = `
+      <strong>Debug Mode</strong><br>
+      Theme: ${this.currentTheme}<br>
+      Config Loaded: ${!!this.config}<br>
+      Analytics: ${window.projectsConfig?.isEnabled('analytics')}<br>
+      Featured Projects: ${window.projectsConfig?.isEnabled('featured_projects')}
+    `;
+    document.body.appendChild(debugInfo);
   }
 
   animateNumber(element, start, end, suffix = "", duration = 1000) {
@@ -357,6 +662,17 @@ class PortfolioPage {
   }
 
   setupAnalytics() {
+    // Only setup analytics if enabled in configuration
+    if (!window.projectsConfig?.isEnabled('analytics')) {
+      // Hide analytics section if disabled
+      const analyticsSection = document.querySelector('.analytics-section');
+      if (analyticsSection) {
+        analyticsSection.style.display = 'none';
+        console.log('Analytics section hidden via setupAnalytics');
+      }
+      return;
+    }
+
     // Initialize analytics after a short delay to ensure DOM is ready
     setTimeout(() => {
       if (window.PROJECT_ANALYTICS_CONFIG) {
@@ -371,14 +687,22 @@ class PortfolioPage {
     const config = window.PROJECT_ANALYTICS_CONFIG;
     const isDark = this.currentTheme === "dark";
 
-    // Initialize Weekly Activity Chart
-    if (config.weeklyActivity.enabled) {
+    // Initialize Weekly Activity Chart if enabled
+    if (config.weeklyActivity.enabled && window.projectsConfig?.isEnabled('analytics', 'weekly_activity')) {
       this.initWeeklyActivityChart(config.weeklyActivity, isDark);
+    } else {
+      // Hide the chart container
+      const chartContainer = document.getElementById("weeklyActivityChart")?.closest('.analytics-card');
+      if (chartContainer) chartContainer.style.display = 'none';
     }
 
-    // Initialize Project Stats Chart
-    if (config.projectStats.enabled) {
+    // Initialize Project Stats Chart if enabled
+    if (config.projectStats.enabled && window.projectsConfig?.isEnabled('analytics', 'project_distribution')) {
       this.initProjectStatsChart(config.projectStats, isDark);
+    } else {
+      // Hide the chart container
+      const chartContainer = document.getElementById("projectStatsChart")?.closest('.analytics-card');
+      if (chartContainer) chartContainer.style.display = 'none';
     }
   }
 
@@ -514,9 +838,16 @@ class PortfolioPage {
     const config = window.PROJECT_ANALYTICS_CONFIG;
     const timelineContainer = document.getElementById("projectTimeline");
 
-    if (!timelineContainer || !config.timeline.enabled) return;
+    if (!timelineContainer || !config.timeline.enabled || !window.projectsConfig?.isEnabled('analytics', 'timeline')) {
+      const timelineCard = timelineContainer?.closest('.analytics-card');
+      if (timelineCard) timelineCard.style.display = 'none';
+      return;
+    }
 
-    const timelineHTML = config.timeline.events
+    const maxEvents = window.projectsConfig?.getSection('analytics')?.timeline?.max_events || 10;
+    const eventsToShow = config.timeline.events.slice(0, maxEvents);
+
+    const timelineHTML = eventsToShow
       .map(
         (event) => `
                     <li class="timeline-item">
@@ -535,7 +866,10 @@ class PortfolioPage {
     const config = window.PROJECT_ANALYTICS_CONFIG;
     const statsContainer = document.getElementById("projectStats");
 
-    if (!statsContainer || !config.stats.enabled) return;
+    if (!statsContainer || !config.stats.enabled || !window.projectsConfig?.isEnabled('analytics', 'statistics')) {
+      if (statsContainer) statsContainer.style.display = 'none';
+      return;
+    }
 
     const statsHTML = config.stats.metrics
       .map(
@@ -550,16 +884,18 @@ class PortfolioPage {
 
     statsContainer.innerHTML = statsHTML;
 
-    // Animate numbers
-    config.stats.metrics.forEach((metric) => {
-      this.animateNumber(
-        metric.id,
-        0,
-        metric.value,
-        metric.suffix,
-        metric.animationDuration
-      );
-    });
+    // Animate numbers if enabled
+    if (window.projectsConfig?.isEnabled('analytics', 'show_animated_stats')) {
+      config.stats.metrics.forEach((metric) => {
+        this.animateNumber(
+          metric.id,
+          0,
+          metric.value,
+          metric.suffix,
+          metric.animationDuration
+        );
+      });
+    }
   }
 
   animateNumber(elementId, start, end, suffix = "", duration = 2000) {

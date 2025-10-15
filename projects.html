@@ -6,11 +6,15 @@
     <title>Projects - Your Name</title>
     <meta name="description" content="My projects - Developer, Designer, Creator">
     <link rel="stylesheet" href="./css/projects.css">
+    <link rel="stylesheet" href="./css/projects-config-override.css">
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     
     <!-- Chart.js for analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- TOML parser -->
+    <script src="https://cdn.jsdelivr.net/npm/js-toml@0.5.0/dist/toml.min.js"></script>
     
     <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
@@ -18,7 +22,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="nav">
+    <nav class="nav" data-section="navigation">
         <div class="nav-container">
             <div class="nav-mobile-spacer"></div>
             <ul class="nav-links">
@@ -29,14 +33,14 @@
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
             <div class="nav-controls">
-                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu" data-feature="mobile-menu">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <line x1="3" y1="12" x2="21" y2="12"></line>
                         <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
                 </button>
-                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" data-feature="theme-toggle">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -60,17 +64,17 @@
             <p class="page-subtitle">A showcase of my recent work in web development, design, and open source contributions.</p>
         </header>
 
-        <div id="content" class="content">
-            <div class="loading">Loading...</div>
+        <div id="content" class="content" data-section="main-content">
+            <div class="loading" data-feature="loading-indicator">Loading...</div>
         </div>
 
         <!-- Project Analytics Section -->
-        <section class="analytics-section">
+        <section class="analytics-section" data-section="analytics">
             <h2 class="analytics-title">Project Analytics & Activity</h2>
             
             <div class="analytics-grid">
                 <!-- Weekly Activity Chart -->
-                <div class="analytics-card">
+                <div class="analytics-card" data-section="charts" data-chart="weekly-activity">
                     <div class="card-header">
                         <h3 class="card-title">Weekly Development Activity</h3>
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -85,7 +89,7 @@
                 </div>
 
                 <!-- Project Statistics Chart -->
-                <div class="analytics-card">
+                <div class="analytics-card" data-section="charts" data-chart="project-distribution">
                     <div class="card-header">
                         <h3 class="card-title">Project Distribution</h3>
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -101,7 +105,7 @@
             </div>
 
             <!-- Project Timeline -->
-            <div class="analytics-card timeline">
+            <div class="analytics-card timeline" data-section="timeline">
                 <div class="card-header">
                     <h3 class="card-title">Recent Project Milestones</h3>
                     <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -116,17 +120,20 @@
             </div>
 
             <!-- Project Statistics -->
-            <div class="stats-grid" id="projectStats">
+            <div class="stats-grid" id="projectStats" data-section="statistics">
                 <!-- Stats will be populated by JavaScript -->
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" data-section="footer">
         <p>&copy; 2024 Your Name. Built with <a href="https://github.com/markedjs/marked" target="_blank">Marked.js</a>.</p>
     </footer>
 
+    <!-- Projects Configuration -->
+    <script src="js/projects-config-toml.js"></script>
+    
     <!-- Project Analytics Configuration -->
     <script src="js/project-analytics-config.js"></script>
     <script src="./js/projects.js"></script>

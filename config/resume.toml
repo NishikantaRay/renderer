@@ -2,13 +2,13 @@
 # Configure your resume content from this single file
 
 [personal]
-name = "Nishikanta Ray"
+name = "John Doe"
 title = "Full Stack Developer & Software Engineer"
 phone = "+1 (555) 123-4567"
-email = "nishikantaray@email.com"
-website = "https://nishikantaray.dev"
-github = "https://github.com/NishikantaRay"
-linkedin = "https://linkedin.com/in/nishikantaray"
+email = "john@email.com"
+website = "https://john.dev"
+github = "https://github.com/john"
+linkedin = "https://linkedin.com/in/john"
 location = "San Francisco, CA"
 
 [summary]
@@ -18,6 +18,7 @@ text = "Experienced Full Stack Developer with 5+ years of expertise in modern we
 [[experience]]
 position = "Senior Full Stack Developer"
 company = "TechCorp Solutions"
+company_url = "https://techcorp.com"
 location = "San Francisco, CA"
 start_date = "Jan 2022"
 end_date = "Present"
@@ -32,6 +33,7 @@ achievements = [
 [[experience]]
 position = "Full Stack Developer"
 company = "StartupXYZ"
+company_url = "https://startupxyz.io"
 location = "San Francisco, CA"
 start_date = "Jun 2020"
 end_date = "Dec 2021"
@@ -46,6 +48,7 @@ achievements = [
 [[experience]]
 position = "Junior Web Developer"
 company = "Digital Agency Pro"
+company_url = "https://digitalagencypro.com"
 location = "San Jose, CA"
 start_date = "Sep 2019"
 end_date = "May 2020"
@@ -61,6 +64,7 @@ achievements = [
 [[education]]
 degree = "Bachelor of Science in Computer Science"
 institution = "University of California, Berkeley"
+institution_url = "https://www.berkeley.edu"
 location = "Berkeley, CA"
 graduation_year = "2019"
 gpa = "3.8"
@@ -76,6 +80,7 @@ honors = ["Cum Laude", "Dean's List (6 semesters)"]
 [[education]]
 degree = "Associate of Science in Web Development"
 institution = "City College of San Francisco"
+institution_url = "https://www.ccsf.edu"
 location = "San Francisco, CA"
 graduation_year = "2017"
 gpa = "3.9"
@@ -226,5 +231,4 @@ show_location = true
 show_phone = true
 date_format = "MMM YYYY"  # Options: "MMM YYYY", "MM/YYYY", "YYYY"
 max_achievements_per_section = 6
-enable_download_button = true
-enable_print_button = true
+enable_share_button = true

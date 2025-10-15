@@ -115,8 +115,7 @@ class ResumeConfig {
                 show_location: true,
                 show_phone: true,
                 date_format: "MMM YYYY",
-                enable_download_button: true,
-                enable_print_button: true
+                enable_share_button: true
             }
         };
     }
@@ -163,7 +162,12 @@ class ResumeConfig {
                 <div class="item-header">
                     <div>
                         <div class="item-title">${exp.position}</div>
-                        <div class="item-company">${exp.company}</div>
+                        <div class="item-company">
+                            ${exp.company_url ? 
+                                `<a href="${exp.company_url}" target="_blank" class="company-link">${exp.company}</a>` : 
+                                exp.company
+                            }
+                        </div>
                         ${this.config.settings.show_location && exp.location ? `<div class="item-location">${exp.location}</div>` : ''}
                     </div>
                     <div class="item-duration">${this.formatDateRange(exp.start_date, exp.end_date, exp.is_current)}</div>
@@ -196,7 +200,12 @@ class ResumeConfig {
                 <div class="item-header">
                     <div>
                         <div class="item-title">${edu.degree}</div>
-                        <div class="item-company">${edu.institution}</div>
+                        <div class="item-company">
+                            ${edu.institution_url ? 
+                                `<a href="${edu.institution_url}" target="_blank" class="institution-link">${edu.institution}</a>` : 
+                                edu.institution
+                            }
+                        </div>
                         ${this.config.settings.show_location && edu.location ? `<div class="item-location">${edu.location}</div>` : ''}
                     </div>
                     <div class="item-duration">Graduated ${edu.graduation_year}</div>
@@ -327,21 +336,141 @@ class ResumeConfig {
     // Generate download section HTML
     generateDownloadSection() {
         const settings = this.config.settings;
-        if (!settings.enable_download_button && !settings.enable_print_button) return '';
+        if (!settings.enable_share_button) return '';
 
-        let buttonsHtml = '';
-        if (settings.enable_print_button) {
-            buttonsHtml += '<button onclick="window.print()">📄 Download PDF Resume</button>';
-        }
-        if (settings.enable_download_button && settings.enable_print_button) {
-            // Could add additional download functionality here
-        }
+        return this.generateShareSection();
+    }
 
-        return buttonsHtml ? `
-            <div class="download-btn">
-                ${buttonsHtml}
+    // Generate share section HTML
+    generateShareSection() {
+        const settings = this.config.settings;
+        if (!settings.enable_share_button) return '';
+
+        return `
+            <div class="share-section">
+                <button onclick="window.resumeConfig.shareResume()" class="share-btn">🔗 Share Resume Link</button>
+                <button onclick="window.resumeConfig.copyResumeLink()" class="copy-link-btn">📋 Copy Link</button>
             </div>
-        ` : '';
+        `;
+    }
+
+    // Share resume functionality
+    async shareResume() {
+        const resumeUrl = window.location.href;
+        const personalName = this.config.personal?.name || 'Professional';
+        const shareData = {
+            title: `${personalName} - Resume`,
+            text: `Check out ${personalName}'s professional resume`,
+            url: resumeUrl
+        };
+
+        try {
+            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                await navigator.share(shareData);
+                console.log('Resume shared successfully');
+            } else {
+                // Fallback to copying link
+                await this.copyResumeLink();
+            }
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.log('User cancelled sharing');
+            } else {
+                console.error('Error sharing:', error);
+                // Fallback to copying link
+                await this.copyResumeLink();
+            }
+        }
+    }
+
+    // Copy resume link to clipboard
+    async copyResumeLink() {
+        const resumeUrl = window.location.href;
+        
+        try {
+            await navigator.clipboard.writeText(resumeUrl);
+            this.showNotification('Resume link copied to clipboard! 📋', 'success');
+        } catch (error) {
+            console.error('Failed to copy link:', error);
+            // Fallback for older browsers
+            this.fallbackCopyLink(resumeUrl);
+        }
+    }
+
+    // Fallback copy method for older browsers
+    fallbackCopyLink(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            this.showNotification('Resume link copied to clipboard! 📋', 'success');
+        } catch (error) {
+            console.error('Failed to copy link:', error);
+            this.showNotification('Failed to copy link. Please copy manually: ' + text, 'error');
+        }
+        
+        document.body.removeChild(textArea);
+    }
+
+    // Show notification to user
+    showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.resume-notification');
+        existingNotifications.forEach(notification => notification.remove());
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `resume-notification ${type}`;
+        notification.textContent = message;
+        
+        // Style the notification
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '12px 20px',
+            borderRadius: '6px',
+            color: 'white',
+            fontWeight: '500',
+            zIndex: '1000',
+            transition: 'all 0.3s ease',
+            transform: 'translateX(100%)',
+            maxWidth: '300px',
+            wordWrap: 'break-word'
+        });
+
+        // Set background color based on type
+        if (type === 'success') {
+            notification.style.background = '#10b981';
+        } else if (type === 'error') {
+            notification.style.background = '#ef4444';
+        } else {
+            notification.style.background = '#3b82f6';
+        }
+
+        document.body.appendChild(notification);
+
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
     }
 
     // Generate complete resume HTML
@@ -392,6 +521,11 @@ class ResumeConfig {
         if (!this.config) {
             await this.init();
         }
+
+        console.log('Updating resume with config:', this.config);
+        console.log('Experience items:', this.config.experience?.length || 0);
+        console.log('Projects items:', this.config.projects?.length || 0);
+        console.log('Education items:', this.config.education?.length || 0);
 
         // Generate and insert resume HTML
         const resumeHTML = this.generateResumeHTML();

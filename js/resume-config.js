@@ -24,6 +24,7 @@ window.RESUME_CONFIG_JS = {
         {
             position: "Senior Full Stack Developer",
             company: "TechCorp Solutions",
+            company_url: "https://techcorp.com",
             location: "San Francisco, CA",
             start_date: "Jan 2022",
             end_date: "Present",
@@ -38,6 +39,7 @@ window.RESUME_CONFIG_JS = {
         {
             position: "Full Stack Developer",
             company: "StartupXYZ",
+            company_url: "https://startupxyz.io",
             location: "San Francisco, CA",
             start_date: "Jun 2020",
             end_date: "Dec 2021",
@@ -52,6 +54,7 @@ window.RESUME_CONFIG_JS = {
         {
             position: "Junior Web Developer",
             company: "Digital Agency Pro",
+            company_url: "https://digitalagencypro.com",
             location: "San Jose, CA",
             start_date: "Sep 2019",
             end_date: "May 2020",
@@ -69,6 +72,7 @@ window.RESUME_CONFIG_JS = {
         {
             degree: "Bachelor of Science in Computer Science",
             institution: "University of California, Berkeley",
+            institution_url: "https://www.berkeley.edu",
             location: "Berkeley, CA",
             graduation_year: "2019",
             gpa: "3.8",
@@ -84,6 +88,7 @@ window.RESUME_CONFIG_JS = {
         {
             degree: "Associate of Science in Web Development",
             institution: "City College of San Francisco",
+            institution_url: "https://www.ccsf.edu",
             location: "San Francisco, CA",
             graduation_year: "2017",
             gpa: "3.9",
@@ -238,7 +243,6 @@ window.RESUME_CONFIG_JS = {
         show_phone: true,
         date_format: "MMM YYYY",
         max_achievements_per_section: 6,
-        enable_download_button: true,
-        enable_print_button: true
+        enable_share_button: true
     }
 };

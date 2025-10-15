@@ -189,6 +189,283 @@ body {
   padding-bottom: var(--space-12);
 }
 
+/* Contact Content Styling */
+.contact-content {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.intro {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+
+/* Simple Contact Info */
+.contact-info {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.contact-info h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+  color: var(--text);
+}
+
+.contact-info p {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+}
+
+.contact-info a {
+  color: var(--text-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  margin: var(--space-8) 0;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.social-link:hover {
+  color: var(--text-accent);
+  background: rgba(9, 105, 218, 0.1);
+  transform: translateY(-1px);
+}
+
+.social-link i {
+  font-size: 1.125rem;
+}
+
+/* Simple Status */
+.status-section {
+  text-align: center;
+  margin: var(--space-12) 0;
+}
+
+.status-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  color: var(--text);
+}
+
+.status-section p {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    padding: var(--space-4);
+    gap: var(--space-2);
+    display: none;
+  }
+
+  [data-theme="dark"] .nav-links {
+    background: rgba(10, 10, 10, 0.95);
+  }
+
+  .nav-links.mobile-open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: var(--space-3) var(--space-6);
+    margin: 0 var(--space-6);
+    text-align: center;
+    border-radius: 0.5rem;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .nav-controls {
+    position: static;
+    gap: var(--space-2);
+  }
+
+  .nav-mobile-spacer {
+    display: block;
+    width: 60px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .intro {
+    font-size: 1.125rem;
+  }
+
+  .social-links {
+    gap: var(--space-4);
+  }
+
+  .social-link {
+    font-size: 0.8rem;
+  }
+
+  .social-link i {
+    font-size: 1rem;
+  }
+
+  .contact-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-info p {
+    font-size: 1rem;
+  }
+
+  .status-section h2 {
+    font-size: 1.25rem;
+  }
+
+  .status-section p {
+    font-size: 1rem;
+  }
+}
+
+/* Contact Form (if you want to add one later) */
+.contact-form {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--text-accent);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-submit {
+  background: var(--text-accent);
+  color: white;
+  border: none;
+  padding: var(--space-3) var(--space-6);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-submit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
 .content h1,
 .content h2,
 .content h3 {
@@ -275,80 +552,4 @@ body {
 .footer a {
   color: var(--text-accent);
   text-decoration: none;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .nav-container {
-    justify-content: space-between;
-  }
-
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: var(--space-6) 0;
-    flex-direction: column;
-    gap: var(--space-2);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-
-  [data-theme="dark"] .nav-links {
-    background: rgba(10, 10, 10, 0.95);
-  }
-
-  .nav-links.mobile-open {
-    display: flex;
-  }
-
-  .nav-link {
-    padding: var(--space-3) var(--space-6);
-    margin: 0 var(--space-6);
-    text-align: center;
-    border-radius: 0.5rem;
-  }
-
-  .mobile-menu-toggle {
-    display: block;
-  }
-
-  .nav-controls {
-    position: static;
-    gap: var(--space-2);
-  }
-
-  .nav-mobile-spacer {
-    display: block;
-    width: 60px;
-  }
-
-  .main {
-    padding: 0 var(--space-4);
-  }
-
-  .page-title {
-    font-size: 2rem;
-  }
-}
-
-/* Animations */
-.fade-in {
-  animation: fadeIn 0.6s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

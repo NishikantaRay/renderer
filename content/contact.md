@@ -15,12 +15,12 @@ For project inquiries, collaborations, or just to say hello.
 Connect with me professionally and see my career journey.
 
 ### 🐙 Code
-**[GitHub](https://github.com/yourusername)**
+**[GitHub](https://github.com/NishikantaRay)**
 
 Check out my latest projects and contributions.
 
 ### 🐦 Updates
-**[Twitter](https://twitter.com/yourusername)**
+**[Twitter](https://twitter.com/NishikantaRay)**
 
 Follow for tech insights and project updates.
 

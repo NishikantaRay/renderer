@@ -80,7 +80,7 @@ class SocialConfig {
                 {
                     id: 'github',
                     name: 'GitHub',
-                    url: 'https://github.com/yourusername',
+                    url: 'https://github.com/NishikantaRay',
                     icon: 'fab fa-github',
                     target: '_blank',
                     enabled: true
@@ -88,7 +88,7 @@ class SocialConfig {
                 {
                     id: 'linkedin',
                     name: 'LinkedIn',
-                    url: 'https://linkedin.com/in/yourusername',
+                    url: 'https://linkedin.com/in/nishikantaray',
                     icon: 'fab fa-linkedin',
                     target: '_blank',
                     enabled: true

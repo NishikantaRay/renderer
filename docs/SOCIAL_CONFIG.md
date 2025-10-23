@@ -27,7 +27,7 @@ Each social link is configured as an array entry:
 [[links]]
 id = "github"                                    # Unique identifier
 name = "GitHub"                                  # Display name (used in tooltips)
-url = "https://github.com/yourusername"          # Your social media URL
+url = "https://github.com/NishikantaRay"          # Your social media URL
 icon = "fab fa-github"                           # Font Awesome icon class
 target = "_blank"                                # Link target (_blank, _self)
 enabled = true                                   # Set to false to hide this link

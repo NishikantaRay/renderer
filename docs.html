@@ -1,0 +1,3369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Hub - Minimal Portfolio</title>
+    <meta name="description" content="Complete documentation and examples for customizing your minimal portfolio">
+    
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    
+    <!-- Styles -->
+    <style>
+        :root {
+            /* Colors - Matching Original Portfolio */
+            --primary-color: #0969da;
+            --primary-light: #58a6ff;
+            --primary-dark: #0550ae;
+            --secondary-color: #737373;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --bg-color: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-color: #171717;
+            --text-muted: #737373;
+            --border-color: #e5e5e5;
+            --sidebar-bg: #f8fafc;
+            --sidebar-width: 280px;
+            --content-bg: #ffffff;
+            --code-bg: #f8fafc;
+            --max-width: 1400px;
+            --border-radius: 8px;
+            --border-radius-sm: 4px;
+            --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+            --box-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+            --font-family: 'Inter var', 'Inter', system-ui, sans-serif;
+            --gradient-primary: linear-gradient(135deg, #0969da 0%, #0550ae 100%);
+            --gradient-secondary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            
+            /* Theme transition timing */
+            transition: background-color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                       color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                       border-color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0a0a0a;
+            --bg-secondary: #171717;
+            --text-color: #f5f5f5;
+            --text-muted: #737373;
+            --border-color: #262626;
+            --sidebar-bg: #171717;
+            --content-bg: #0a0a0a;
+            --code-bg: #0f0f0f;
+            --primary-color: #58a6ff;
+            --primary-light: #79c0ff;
+            --primary-dark: #1f6feb;
+            --gradient-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+            --gradient-secondary: linear-gradient(135deg, #171717 0%, #262626 100%);
+            --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --box-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                       color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        /* Add smooth transitions to key elements */
+        .sidebar,
+        .main-content,
+        .content-container,
+        .nav-item,
+        .search-input,
+        .btn,
+        .code-example,
+        .card {
+            transition: background-color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                       color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                       border-color 0.4s cubic-bezier(0.4, 0.0, 0.2, 1),
+                       box-shadow 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation - Fixed Layout with No Scrolling Header */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: 100vh;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+            background: var(--sidebar-bg);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0.5rem 0 0;
+            line-height: 1.4;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        .nav-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin: 0 1.5rem 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            position: relative;
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-secondary);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            border-left-color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+            opacity: 0.8;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+        }
+
+        .nav-item .nav-icon {
+            margin-right: 0.75rem;
+            font-size: 1rem;
+        }
+
+        /* Main content area - Enhanced Alignment */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            height: 100vh;
+            background: var(--content-bg);
+            transition: margin-left 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content.sidebar-collapsed {
+            margin-left: 0;
+        }
+
+        .main-content.sidebar-hidden {
+            margin-left: 0;
+        }
+
+        .content-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header - Perfect Alignment */
+        .header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 3rem 2rem 2.5rem;
+            margin: 0;
+            position: relative;
+            z-index: 100;
+            text-align: center;
+            overflow: hidden;
+            border-radius: 0;
+            box-shadow: 0 4px 20px rgba(9, 105, 218, 0.15);
+            flex-shrink: 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hamburger {
+            position: absolute;
+            left: 1rem;
+            top: 2.5rem;
+            transform: translateY(0);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            z-index: 1050;
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .hamburger span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s ease;
+            border-radius: 1px;
+        }
+
+        /* Theme Toggle - Top Right Position */
+        .theme-toggle-topleft {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(9, 105, 218, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            opacity: 0.9;
+        }
+
+        .theme-toggle-topleft:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(9, 105, 218, 0.3);
+            opacity: 1;
+        }
+
+        .theme-toggle-topleft:active {
+            transform: scale(0.98);
+        }
+
+        /* Enhanced theme button animation */
+        .theme-toggle-topleft.theme-switching {
+            animation: themeSwitch 0.6s ease-in-out;
+        }
+
+        @keyframes themeSwitch {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(0.8) rotate(180deg); opacity: 0.7; }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 0.75rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.015em;
+            line-height: 1.1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 1rem;
+            opacity: 0.95;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.005em;
+            line-height: 1.3;
+        }
+
+        .header .description {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* Content sections - Fixed Layout */
+        .content-section {
+            display: none;
+            padding: 2rem;
+            margin: 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 0 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .content-section > p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        .content-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 2rem 0 1rem;
+        }
+
+        .content-section h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* Clean list styles */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--success-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+        }
+
+        /* Clean buttons - matching original design */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius-sm);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-right: 0.75rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(9, 105, 218, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-secondary);
+            color: var(--primary-dark);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(9, 105, 218, 0.1);
+        }
+
+        /* Code Examples - Clean design matching original */
+        .code-example {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+        }
+
+        .code-example pre {
+            margin: 0;
+            padding: 1.25rem;
+            background: transparent;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .code-header {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-header::before {
+            content: "📄";
+            font-size: 0.9rem;
+        }
+
+        .with-header {
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+
+        .code-example.with-header {
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-top: 0;
+            border-top: none;
+        }
+
+        /* Configuration sections */
+        .config-section {
+            margin: 3rem 0;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .config-section:last-child {
+            border-bottom: none;
+        }
+
+        .config-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 0 1rem;
+        }
+
+        .config-description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Comment explanations */
+        .comment-explanation {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .comment-explanation h5 {
+            color: var(--primary-color);
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .comment-explanation p {
+            margin: 0;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        /* File tree structure */
+        .file-tree {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .file-tree .directory {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .file-tree .file {
+            color: var(--text-color);
+        }
+
+        .file-tree .comment {
+            color: var(--text-muted);
+        }
+
+        /* Quick Start Steps */
+        .steps {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            background: var(--card-bg);
+            border-left: 4px solid var(--primary-color);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            counter-increment: step-counter;
+            position: relative;
+            box-shadow: var(--box-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(4px);
+            box-shadow: var(--box-shadow-lg);
+        }
+
+        .step::before {
+            content: counter(step-counter);
+            background: var(--gradient-primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: -20px;
+            top: 2rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .step h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Examples Grid */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .example-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--box-shadow-lg);
+        }
+
+        .example-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .example-header h3 {
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .example-content {
+            padding: 2rem;
+        }
+
+        .example-tag {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        /* Search - Fixed Layout */
+        .search-container {
+            margin: 0;
+            padding: 2rem;
+            text-align: center;
+            background: var(--content-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            background: var(--content-bg);
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .keyboard-shortcuts {
+            margin-top: 1rem;
+        }
+
+        .keyboard-shortcuts small {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .keyboard-shortcuts kbd {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            padding: 0.2rem 0.4rem;
+            font-size: 0.75rem;
+            font-family: monospace;
+            margin: 0 0.1rem;
+        }
+
+        /* Responsive - Enhanced Mobile and Desktop Support */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .header {
+                padding: 3rem 1rem;
+                margin: 0;
+            }
+
+            .hamburger {
+                display: flex;
+                left: 0.75rem;
+                top: 2rem;
+            }
+
+            .theme-toggle-topleft {
+                top: 0.75rem;
+                right: 0.75rem;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                height: 100vh;
+            }
+
+            .main-content.sidebar-collapsed,
+            .main-content.sidebar-hidden {
+                margin-left: 0;
+            }
+
+            .content-container {
+                padding: 0;
+                min-height: calc(100vh - 4rem);
+            }
+
+            .search-container {
+                margin: 0;
+                padding: 1.5rem 1rem;
+            }
+
+            .search-container {
+                margin: 1.5rem 0 2rem;
+                padding: 0;
+            }
+
+            .search-input {
+                padding: 0.875rem 1rem;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .code-example {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-group-title {
+                margin: 0 1.5rem 1rem;
+            }
+
+            .nav-item {
+                padding: 1rem 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            .progress-bar {
+                left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .search-input {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+
+            .sidebar {
+                padding: 1rem;
+            }
+
+            .nav-item {
+                font-size: 0.9rem;
+                padding: 0.75rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: -400px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-lg);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            border-left: 4px solid var(--accent-color);
+            min-width: 300px;
+            max-width: 400px;
+        }
+
+        .notification.show {
+            right: 20px;
+        }
+
+        .notification.success {
+            border-left-color: #28a745;
+        }
+
+        .notification.error {
+            border-left-color: #dc3545;
+        }
+
+        .notification.warning {
+            border-left-color: #ffc107;
+        }
+
+        @media (max-width: 768px) {
+            .notification {
+                right: -300px;
+                min-width: 250px;
+                max-width: 300px;
+                margin: 0 10px;
+            }
+
+            .notification.show {
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notification {
+                min-width: 200px;
+                max-width: 250px;
+                font-size: 0.9rem;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Additional Section Styles */
+        .file-tree {
+            background: var(--code-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+
+        .file-tree .directory {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-tree .file {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .file-tree .comment {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .feature-card li:last-child {
+            border-bottom: none;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-category h4 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-category ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tech-category li {
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .tech-category strong {
+            color: var(--text-color);
+        }
+
+        /* Markdown Content Styles */
+        .markdown-content {
+            max-width: none;
+            line-height: 1.7;
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4,
+        .markdown-content h5,
+        .markdown-content h6 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .markdown-content h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .markdown-content h2 {
+            font-size: 2rem;
+            margin-top: 3rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .markdown-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .markdown-content p {
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .markdown-content ul,
+        .markdown-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .markdown-content blockquote {
+            margin: 2rem 0;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .markdown-content blockquote p {
+            margin: 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .markdown-content code {
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
+            font-size: 0.85em;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .markdown-content pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        .markdown-content pre code {
+            background: transparent;
+            padding: 0;
+            border: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .markdown-content th,
+        .markdown-content td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .markdown-content th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .markdown-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .markdown-content a:hover {
+            border-bottom-color: var(--primary-color);
+        }
+
+        .markdown-content hr {
+            border: none;
+            height: 1px;
+            background: var(--border-color);
+            margin: 3rem 0;
+        }
+
+        .error-message {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        [data-theme="dark"] .error-message {
+            background: #2d1b1b;
+            border-color: #742a2a;
+        }
+
+        .error-message h3 {
+            color: #e53e3e;
+            margin-bottom: 1rem;
+        }
+
+        .error-message ul {
+            text-align: left;
+            max-width: 500px;
+            margin: 1rem auto;
+        }
+
+        /* Modal Styles */
+        .example-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: var(--box-shadow-lg);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .modal-description {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .modal-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @media (prefers-contrast: high) {
+            :root {
+                --border-color: #000;
+                --text-muted: #000;
+            }
+
+            [data-theme="dark"] {
+                --border-color: #fff;
+                --text-muted: #fff;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .sidebar,
+            .header,
+            .progress-bar,
+            .btn,
+            .hamburger,
+            .theme-toggle {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+
+            .content-section {
+                page-break-inside: avoid;
+            }
+
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+        }
+
+        /* Steps and Layout Components */
+        .step {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .step::before {
+            width: 32px;
+            height: 32px;
+            left: -18px;
+            top: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .search-input {
+            padding: 1rem 1.25rem;
+        }
+
+        /* Floating back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.25rem;
+            box-shadow: var(--box-shadow-lg);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--gradient-primary);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card,
+        .step,
+        .example-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Keyboard shortcuts styling */
+        kbd {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.2rem 0.4rem;
+            font-size: 0.8rem;
+            font-family: monospace;
+            color: var(--text-color);
+        }
+
+        .keyboard-shortcuts {
+            margin-top: 1rem;
+        }
+
+        /* Enhanced loading animation */
+        .spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--box-shadow-lg);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(10px);
+        }
+
+        .notification.success {
+            background: var(--success-color);
+        }
+
+        .notification.error {
+            background: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Theme Toggle - Top Left -->
+    <button class="theme-toggle-topleft" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+        🌙
+    </button>
+
+    <!-- Layout Container -->
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">📚 Docs</h1>
+                <p class="sidebar-subtitle">Portfolio Guide</p>
+            </div>
+            
+            <div class="sidebar-nav">
+                <div class="nav-group">
+                    <div class="nav-group-title">Getting Started</div>
+                    <a href="#quick-start" class="nav-item active" data-section="quick-start">
+                        <span class="nav-icon">🚀</span>Quick Start
+                    </a>
+                    <a href="#overview" class="nav-item" data-section="overview">
+                        <span class="nav-icon">📋</span>Overview
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title">Configuration</div>
+                    <a href="#home-config" class="nav-item" data-section="home-config">
+                        <span class="nav-icon">🏠</span>Home Page
+                    </a>
+                    <a href="#projects-config" class="nav-item" data-section="projects-config">
+                        <span class="nav-icon">🚀</span>Projects
+                    </a>
+                    <a href="#blog-config" class="nav-item" data-section="blog-config">
+                        <span class="nav-icon">📝</span>Blog System
+                    </a>
+                    <a href="#resume-config" class="nav-item" data-section="resume-config">
+                        <span class="nav-icon">📄</span>Resume
+                    </a>
+                    <a href="#social-config" class="nav-item" data-section="social-config">
+                        <span class="nav-icon">🔗</span>Social Links
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title">Advanced</div>
+                    <a href="#customization" class="nav-item" data-section="customization">
+                        <span class="nav-icon">🎨</span>Customization
+                    </a>
+                    <a href="#development" class="nav-item" data-section="development">
+                        <span class="nav-icon">💻</span>Development
+                    </a>
+                    <a href="#deployment" class="nav-item" data-section="deployment">
+                        <span class="nav-icon">🌐</span>Deployment
+                    </a>
+                    <a href="#troubleshooting" class="nav-item" data-section="troubleshooting">
+                        <span class="nav-icon">🔧</span>Troubleshooting
+                    </a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-group-title">Resources</div>
+                    <a href="./docs/README.md" class="nav-item" target="_blank">
+                        <span class="nav-icon">📖</span>Markdown Docs
+                    </a>
+                    <a href="./docs/COMPLETE_FEATURES_GUIDE.md" class="nav-item" target="_blank">
+                        <span class="nav-icon">📚</span>Complete Guide
+                    </a>
+                    <a href="#examples" class="nav-item" data-section="examples">
+                        <span class="nav-icon">🎯</span>Examples
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <div class="content-container">
+                <!-- Header -->
+                <header class="header">
+                    <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <h1>📚 Documentation Hub</h1>
+                    <p class="subtitle">Complete Guide to Your Minimal Portfolio</p>
+                    <p class="description">Everything you need to configure, customize, and extend your portfolio website with detailed explanations and examples.</p>
+                </header>
+
+                <!-- Search -->
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search documentation... (Ctrl+K)" id="searchInput">
+                    <div class="keyboard-shortcuts">
+                        <small style="color: var(--text-muted); margin-top: 0.5rem; display: block;">
+                            💡 <strong>Shortcuts:</strong> 
+                            <kbd>Ctrl+K</kbd> Search • 
+                            <kbd>S</kbd> Toggle sidebar • 
+                            <kbd>T</kbd> Toggle theme • 
+                            <kbd>Esc</kbd> Clear
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Quick Start Section -->
+                <section id="quick-start" class="content-section active">
+                    <h2>🚀 Quick Start Guide</h2>
+                    <p>Get your minimal portfolio up and running in minutes with this step-by-step guide.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">1. Setup & Installation</h3>
+                        <p class="config-description">Clone the repository and set up your development environment.</p>
+                        
+                        <div class="code-header">Terminal Commands</div>
+                        <div class="code-example with-header">
+                            <pre><code># Clone the repository from GitHub
+git clone https://github.com/NishikantaRay/renderer.git
+
+# Navigate to the project directory
+cd renderer
+
+# Install development dependencies (optional)
+npm install
+
+# Start a local development server
+npm run dev
+# OR use Python's built-in server
+python -m http.server 8000
+# OR use any other local server</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>💡 Why these commands?</h5>
+                            <p><strong>git clone:</strong> Downloads the complete portfolio template to your local machine.<br>
+                            <strong>npm install:</strong> Installs development tools like live-server for auto-refresh during development.<br>
+                            <strong>Local server:</strong> Required because TOML files need to be served over HTTP, not opened directly in browser.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">2. Essential Configuration Files</h3>
+                        <p class="config-description">Update these key files with your personal information to get started quickly.</p>
+                        
+                        <h4>🏠 Home Page Configuration</h4>
+                        <p>Edit <code>config/home.toml</code> to customize your hero section and main content:</p>
+                        
+                        <div class="code-header">config/home.toml</div>
+                        <div class="code-example with-header">
+                            <pre><code># Hero section - the first thing visitors see
+[hero]
+name = "Your Full Name"                    # Your actual name
+title = "Your Professional Title"          # e.g., "Full-Stack Developer"
+intro = [
+    "Brief introduction about what you do.", # Keep it engaging and concise
+    "Mention your key skills and passions."  # 1-2 sentences max
+]
+
+# Call-to-action buttons in hero section
+[hero.actions]
+primary_text = "View My Work"              # Main button text
+primary_link = "projects.html"             # Where it links to
+secondary_text = "Get In Touch"            # Secondary button text  
+secondary_link = "contact.html"            # Contact page or email
+
+# Configure which sections to show on home page
+[sections]
+enabled_sections = ["freelance-clients", "latest-products", "dashboard"]</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🎯 Configuration Explained</h5>
+                            <p><strong>Hero section:</strong> The main banner area that immediately captures visitor attention.<br>
+                            <strong>intro array:</strong> Each string becomes a separate paragraph for better readability.<br>
+                            <strong>enabled_sections:</strong> Controls which content blocks appear on your home page - you can reorder or remove items.</p>
+                        </div>
+
+                        <h4>📄 Resume Configuration</h4>
+                        <p>Edit <code>config/resume.toml</code> to add your professional experience:</p>
+                        
+                        <div class="code-header">config/resume.toml - Personal Info</div>
+                        <div class="code-example with-header">
+                            <pre><code># Personal information section
+[personal]
+name = "Your Full Name"
+title = "Your Job Title"                   # Current or desired position
+email = "nishikanta@example.com"            # Professional email
+phone = "+1-555-123-4567"                  # Optional: include if you want calls
+website = "https://renderer.nishikanta.in"        # Your portfolio URL
+github = "https://github.com/NishikantaRay" # GitHub profile
+linkedin = "https://linkedin.com/in/you"   # LinkedIn profile
+location = "City, State/Country"           # Current location
+
+# Professional summary
+[summary]
+text = """
+Write a compelling 2-3 sentence summary of your experience.
+Focus on your key achievements and what value you bring.
+Make it specific to your target role or industry.
+"""</code></pre>
+                        </div>
+
+                        <h4>🔗 Social Links Setup</h4>
+                        <p>Edit <code>config/social.toml</code> to connect your social profiles:</p>
+                        
+                        <div class="code-header">config/social.toml</div>
+                        <div class="code-example with-header">
+                            <pre><code># Social media configuration
+[social]
+enabled = true                             # Show social links section
+title = "Connect With Me"                  # Section title
+subtitle = "Find me on these platforms"    # Optional description
+
+# Display settings
+[display] 
+show_icons = true                          # Show platform icons
+show_labels = true                         # Show platform names
+open_in_new_tab = true                     # Open links in new window
+
+# Individual social platform links
+[[links]]
+platform = "github"                       # Platform identifier
+url = "https://github.com/NishikantaRay"    # Your profile URL
+username = "NishikantaRay"                  # Display name
+show = true                                # Whether to show this link
+
+[[links]]
+platform = "linkedin"
+url = "https://linkedin.com/in/yourprofile"
+username = "Nishikanta Ray"
+show = true
+
+[[links]]
+platform = "twitter"
+url = "https://twitter.com/yourhandle"
+username = "@NishikantaRay"
+show = true</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🔗 Social Links Explained</h5>
+                            <p><strong>Double brackets [[links]]:</strong> Creates an array of social links - add as many as needed.<br>
+                            <strong>platform field:</strong> Used for styling and icon selection (github, linkedin, twitter, etc.).<br>
+                            <strong>show field:</strong> Easy way to temporarily hide links without deleting the configuration.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">3. Content Creation</h3>
+                        <p class="config-description">Add your actual content using Markdown files for easy editing.</p>
+                        
+                        <div class="file-tree">
+                            <div class="directory">content/</div>
+                            ├── <span class="file">about.md</span>         <span class="comment"># Your about page content</span>
+                            ├── <span class="file">projects.md</span>      <span class="comment"># Projects showcase</span>
+                            ├── <span class="file">contact.md</span>       <span class="comment"># Contact information</span>
+                            └── <span class="file">blog-posts/</span>      <span class="comment"># Individual blog articles</span>
+                        </div>
+
+                        <h4>📝 About Page Content</h4>
+                        <p>Edit <code>content/about.md</code> with your story:</p>
+                        
+                        <div class="code-header">content/about.md</div>
+                        <div class="code-example with-header">
+                            <pre><code># About Me
+
+## Who I Am
+
+Write a compelling introduction about yourself. This should be more detailed 
+than your hero section intro. Share your background, what drives you, and 
+what makes you unique in your field.
+
+## My Journey
+
+Describe your professional journey:
+- How you got started in your field
+- Key milestones and learning experiences  
+- What you're currently focused on
+- Where you're heading next
+
+## What I Do
+
+Explain your expertise and approach:
+- Your core skills and specialties
+- How you approach problems
+- What types of projects you work on
+- Your preferred tools and technologies
+
+## Beyond Work
+
+Share some personality:
+- Hobbies and interests
+- Values that guide you
+- Fun facts about yourself
+- What you do in your free time</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>📝 Markdown Tips</h5>
+                            <p><strong>Headers (#, ##, ###):</strong> Create different heading levels for structure.<br>
+                            <strong>Lists (-):</strong> Use for bullet points and easy scanning.<br>
+                            <strong>Emphasis (**bold**, *italic*):</strong> Highlight important information.<br>
+                            <strong>Links [text](url):</strong> Reference your work, articles, or other resources.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">4. Testing Your Setup</h3>
+                        <p class="config-description">Verify everything works correctly before going live.</p>
+                        
+                        <ul class="feature-list">
+                            <li>Open your local server URL (usually http://localhost:3000 or http://localhost:8000)</li>
+                            <li>Navigate through all pages to check for errors</li>
+                            <li>Test the theme toggle (dark/light mode)</li>
+                            <li>Verify all configuration changes appear correctly</li>
+                            <li>Test on mobile devices for responsiveness</li>
+                            <li>Check browser console for any JavaScript errors</li>
+                        </ul>
+
+                        <div class="comment-explanation">
+                            <h5>🔍 Debug Console Tips</h5>
+                            <p>Press <kbd>F12</kbd> to open browser developer tools. Check the Console tab for errors. Common issues include missing TOML files or syntax errors in configuration.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">5. Going Live</h3>
+                        <p class="config-description">Deploy your portfolio to make it accessible to the world.</p>
+                        
+                        <h4>🌐 GitHub Pages (Free)</h4>
+                        <div class="code-header">GitHub Pages Deployment</div>
+                        <div class="code-example with-header">
+                            <pre><code># Push your changes to GitHub
+git add .
+git commit -m "Initial portfolio setup"
+git push origin main
+
+# Enable GitHub Pages in repository settings
+# Go to Settings > Pages > Source: Deploy from branch
+# Select: main branch / root folder
+# Your site will be available at: https://NishikantaRay.github.io/renderer</code></pre>
+                        </div>
+
+                        <h4>⚡ Netlify (Free with extras)</h4>
+                        <div class="code-header">Netlify Deployment</div>
+                        <div class="code-example with-header">
+                            <pre><code># Option 1: Drag and drop your project folder to netlify.com/drop
+
+# Option 2: Connect your GitHub repository
+# 1. Sign up at netlify.com
+# 2. Click "New site from Git"
+# 3. Connect your GitHub repository
+# 4. Deploy settings: 
+#    - Build command: (leave empty)
+#    - Publish directory: (leave empty or ".")
+# 5. Click "Deploy site"</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🚀 Deployment Comparison</h5>
+                            <p><strong>GitHub Pages:</strong> Free, simple, perfect for static sites. URL: NishikantaRay.github.io<br>
+                            <strong>Netlify:</strong> Free tier includes forms, custom domains, faster global CDN. URL: random-name.netlify.app (customizable)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>� Portfolio Overview</h2>
+                    <p>Understanding the structure and capabilities of your minimal portfolio system.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">�️ Architecture & Design Philosophy</h3>
+                        <p class="config-description">This portfolio is built with simplicity, performance, and customization in mind.</p>
+                        
+                        <h4>Core Principles</h4>
+                        <ul class="feature-list">
+                            <li><strong>No Framework Dependencies:</strong> Pure HTML, CSS, and JavaScript for maximum performance</li>
+                            <li><strong>Configuration-Driven:</strong> TOML files control all content and features</li>
+                            <li><strong>Markdown Content:</strong> Write content in Markdown for easy editing</li>
+                            <li><strong>Responsive Design:</strong> Works seamlessly on desktop, tablet, and mobile</li>
+                            <li><strong>Dark/Light Themes:</strong> Automatic OS detection with manual toggle</li>
+                            <li><strong>SEO Optimized:</strong> Proper semantic HTML and meta tags</li>
+                        </ul>
+
+                        <h4>Project Structure</h4>
+                        <div class="file-tree">
+renderer/
+├── <span class="directory">📄 HTML Pages</span>
+│   ├── <span class="file">index.html</span>          <span class="comment"># Home page with hero section</span>
+│   ├── <span class="file">about.html</span>          <span class="comment"># About page</span>
+│   ├── <span class="file">projects.html</span>       <span class="comment"># Projects showcase</span>
+│   ├── <span class="file">blog.html</span>           <span class="comment"># Blog with dynamic content</span>
+│   ├── <span class="file">resume.html</span>         <span class="comment"># Interactive resume</span>
+│   └── <span class="file">contact.html</span>        <span class="comment"># Contact information</span>
+│
+├── <span class="directory">⚙️ Configuration (TOML)</span>
+│   ├── <span class="file">home.toml</span>           <span class="comment"># Hero, clients, products, dashboard</span>
+│   ├── <span class="file">projects.toml</span>       <span class="comment"># Projects features & analytics</span>
+│   ├── <span class="file">blog.toml</span>           <span class="comment"># Blog posts & settings</span>
+│   ├── <span class="file">resume.toml</span>         <span class="comment"># Experience, skills, education</span>
+│   └── <span class="file">social.toml</span>         <span class="comment"># Social links & display</span>
+│
+├── <span class="directory">📝 Content (Markdown)</span>
+│   ├── <span class="file">about.md</span>            <span class="comment"># About page content</span>
+│   ├── <span class="file">projects.md</span>         <span class="comment"># Projects descriptions</span>
+│   ├── <span class="file">contact.md</span>          <span class="comment"># Contact page content</span>
+│   └── <span class="file">[blog-posts].md</span>     <span class="comment"># Individual blog articles</span>
+│
+├── <span class="directory">🎨 Styling</span>
+│   ├── <span class="file">home.css</span>            <span class="comment"># Home page styles</span>
+│   ├── <span class="file">projects.css</span>        <span class="comment"># Projects page styles</span>
+│   ├── <span class="file">blog.css</span>            <span class="comment"># Blog system styles</span>
+│   └── <span class="file">resume.css</span>          <span class="comment"># Resume page styles</span>
+│
+└── <span class="directory">🔧 JavaScript</span>
+    ├── <span class="file">home.js</span>             <span class="comment"># Home page functionality</span>
+    ├── <span class="file">projects.js</span>         <span class="comment"># Projects page logic</span>
+    ├── <span class="file">blog-system.js</span>      <span class="comment"># Blog content loading</span>
+    └── <span class="file">[page]-config.js</span>    <span class="comment"># Configuration loaders</span>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>📁 Directory Explained</h5>
+                            <p><strong>HTML Pages:</strong> Each page is self-contained with its own CSS and JavaScript.<br>
+                            <strong>TOML Config:</strong> All customization happens here - no code editing required.<br>
+                            <strong>Markdown Content:</strong> Write content in familiar Markdown syntax.<br>
+                            <strong>Modular Assets:</strong> Each page has its own styles and scripts for optimal loading.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🔧 How Configuration Works</h3>
+                        <p class="config-description">Understanding the TOML configuration system that powers your portfolio.</p>
+                        
+                        <h4>TOML Configuration Flow</h4>
+                        <div class="code-header">Configuration Loading Process</div>
+                        <div class="code-example with-header">
+                            <pre><code>1. Page loads HTML structure
+2. JavaScript fetches corresponding TOML file (e.g., home.toml)
+3. TOML parser converts configuration to JavaScript object
+4. Configuration object populates page content dynamically
+5. Fallback content loads if TOML file is missing or invalid
+6. Theme system applies saved preferences
+7. Page renders with configured content and styling</code></pre>
+                        </div>
+
+                        <h4>Configuration Hierarchy</h4>
+                        <p>Each page follows this configuration priority:</p>
+                        <ol style="list-style: decimal; padding-left: 2rem;">
+                            <li><strong>TOML Configuration:</strong> Primary source of content and settings</li>
+                            <li><strong>JavaScript Fallback:</strong> Backup configuration in JavaScript files</li>
+                            <li><strong>HTML Defaults:</strong> Basic structure and minimal content</li>
+                            <li><strong>Markdown Content:</strong> Rich content loaded dynamically</li>
+                        </ol>
+
+                        <div class="comment-explanation">
+                            <h5>⚡ Performance Benefits</h5>
+                            <p><strong>Lazy Loading:</strong> Content loads only when needed.<br>
+                            <strong>Caching:</strong> Configuration files are cached by the browser.<br>
+                            <strong>Fallbacks:</strong> Site works even if some files fail to load.<br>
+                            <strong>No Build Step:</strong> Changes are immediately visible.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🎨 Theme System</h3>
+                        <p class="config-description">How the dark/light theme system works and how to customize it.</p>
+                        
+                        <h4>Theme Detection & Persistence</h4>
+                        <div class="code-header">Theme System Logic</div>
+                        <div class="code-example with-header">
+                            <pre><code>// Theme initialization process
+1. Check localStorage for saved theme preference
+2. If no saved preference, detect OS preference using:
+   window.matchMedia('(prefers-color-scheme: dark)')
+3. Apply theme by setting data-theme attribute on document
+4. Update CSS custom properties based on theme
+5. Save user's manual theme changes to localStorage
+6. Provide smooth transitions between theme switches</code></pre>
+                        </div>
+
+                        <h4>CSS Custom Properties</h4>
+                        <p>The theme system uses CSS custom properties for consistent styling:</p>
+                        <div class="code-header">CSS Theme Variables</div>
+                        <div class="code-example with-header">
+                            <pre><code>/* Light theme (default) */
+:root {
+  --bg-color: #ffffff;           /* Background color */
+  --text-color: #1e293b;         /* Primary text */
+  --text-muted: #64748b;         /* Secondary text */
+  --primary-color: #6366f1;      /* Brand/accent color */
+  --border-color: #e2e8f0;       /* Borders and dividers */
+  --code-bg: #f1f5f9;           /* Code block background */
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --bg-color: #0f172a;           /* Dark background */
+  --text-color: #f1f5f9;         /* Light text */
+  --text-muted: #94a3b8;         /* Muted light text */
+  --primary-color: #818cf8;      /* Adjusted brand color */
+  --border-color: #334155;       /* Dark borders */
+  --code-bg: #1e293b;           /* Dark code background */
+}</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🎨 Customizing Colors</h5>
+                            <p><strong>Modify CSS variables:</strong> Change colors by updating the custom properties.<br>
+                            <strong>Consistent theming:</strong> All components automatically use the theme colors.<br>
+                            <strong>Easy maintenance:</strong> One place to change colors across the entire site.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Overview Section -->
+                <section id="overview" class="content-section">
+                    <h2>📋 Portfolio Overview</h2>
+                    <p>Understanding the architecture and components of your minimal portfolio system.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">🏗️ System Architecture</h3>
+                        <p class="config-description">Your portfolio is built with a modern, modular architecture that separates content from presentation.</p>
+                        
+                        <div class="file-tree">
+                            <div class="directory">renderer/</div>
+                            ├── <span class="file">*.html</span>           <span class="comment"># Main pages (index, projects, blog, etc.)</span><br>
+                            ├── <span class="directory">config/</span>         <span class="comment"># TOML configuration files</span><br>
+                            │   ├── <span class="file">home.toml</span>     <span class="comment"># Homepage settings</span><br>
+                            │   ├── <span class="file">projects.toml</span> <span class="comment"># Projects configuration</span><br>
+                            │   ├── <span class="file">blog.toml</span>     <span class="comment"># Blog settings</span><br>
+                            │   ├── <span class="file">resume.toml</span>   <span class="comment"># Resume data</span><br>
+                            │   └── <span class="file">social.toml</span>   <span class="comment"># Social media links</span><br>
+                            ├── <span class="directory">content/</span>        <span class="comment"># Markdown content files</span><br>
+                            │   ├── <span class="file">about.md</span>      <span class="comment"># About page content</span><br>
+                            │   ├── <span class="file">projects.md</span>   <span class="comment"># Project descriptions</span><br>
+                            │   └── <span class="file">blog/</span>         <span class="comment"># Individual blog posts</span><br>
+                            ├── <span class="directory">css/</span>            <span class="comment"># Stylesheets for each page</span><br>
+                            ├── <span class="directory">js/</span>             <span class="comment"># JavaScript functionality</span><br>
+                            └── <span class="directory">assets/</span>         <span class="comment"># Images and media files</span>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🔄 How It Works</h5>
+                            <p><strong>Configuration-driven:</strong> Update TOML files to change content without touching code.<br>
+                            <strong>Markdown content:</strong> Write in simple Markdown format for easy editing.<br>
+                            <strong>Modular design:</strong> Each page has its own CSS and JS for fast loading.<br>
+                            <strong>No build process:</strong> Pure HTML/CSS/JS - works immediately without compilation.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🎯 Key Features</h3>
+                        <p class="config-description">What makes this portfolio system powerful and flexible.</p>
+                        
+                        <div class="content-grid">
+                            <div class="feature-card">
+                                <h4>⚡ Performance First</h4>
+                                <ul>
+                                    <li>Minimal JavaScript footprint</li>
+                                    <li>Optimized CSS with modern techniques</li>
+                                    <li>Lazy loading for images</li>
+                                    <li>Fast load times on all devices</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <h4>🎨 Design System</h4>
+                                <ul>
+                                    <li>Dark/light theme support</li>
+                                    <li>CSS custom properties for theming</li>
+                                    <li>Responsive design patterns</li>
+                                    <li>Clean, minimal aesthetic</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <h4>🔧 Easy Configuration</h4>
+                                <ul>
+                                    <li>TOML files for settings</li>
+                                    <li>Markdown for content</li>
+                                    <li>No code editing required</li>
+                                    <li>Version control friendly</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <h4>📱 Modern Web Standards</h4>
+                                <ul>
+                                    <li>Semantic HTML structure</li>
+                                    <li>Accessibility features built-in</li>
+                                    <li>SEO optimized</li>
+                                    <li>Progressive web app ready</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Home Configuration Section -->
+                <section id="home-config" class="content-section">
+                    <h2>🏠 Home Page Configuration</h2>
+                    <p>Complete guide to configuring your homepage with hero sections, featured projects, and dashboard widgets.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">👤 Hero Section Setup</h3>
+                        <p class="config-description">The hero section is the first thing visitors see - make it count!</p>
+                        
+                        <div class="code-header">config/home.toml - Hero Configuration</div>
+                        <div class="code-example with-header">
+                            <pre><code># Hero section - the main banner area
+[hero]
+name = "Your Full Name"                    # Your display name
+title = "Your Professional Title"          # Job title or tagline
+intro = [
+    "First paragraph introducing yourself.", # Keep it engaging
+    "Second paragraph about your expertise."  # Focus on value you provide
+]
+
+# Profile image settings
+[hero.image]
+enabled = true                             # Show profile picture
+src = "assets/images/profile.jpg"          # Image path
+alt = "Nishikanta Ray - Professional Photo"     # Alt text for accessibility
+width = 300                                # Image width in pixels
+height = 300                               # Image height in pixels
+
+# Call-to-action buttons
+[hero.actions]
+primary_text = "View My Work"              # Main button text
+primary_link = "projects.html"             # Where it links
+secondary_text = "Download Resume"         # Second button text  
+secondary_link = "assets/resume.pdf"       # Resume file path
+tertiary_text = "Get In Touch"             # Third button (optional)
+tertiary_link = "contact.html"             # Contact page</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>💡 Hero Section Best Practices</h5>
+                            <p><strong>Name & Title:</strong> Use your professional name and a clear, specific title.<br>
+                            <strong>Intro Array:</strong> Each string becomes a paragraph - keep them concise and impactful.<br>
+                            <strong>Action Buttons:</strong> Order by importance - primary for main goal, secondary for alternatives.<br>
+                            <strong>Profile Image:</strong> Use a professional photo at 300x300px minimum for crisp display.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">📊 Dashboard Configuration</h3>
+                        <p class="config-description">Display key metrics and achievements with an interactive dashboard.</p>
+                        
+                        <div class="code-header">config/home.toml - Dashboard Setup</div>
+                        <div class="code-example with-header">
+                            <pre><code># Dashboard widget - show your key stats
+[dashboard]
+enabled = true                             # Enable dashboard section
+title = "Professional Stats"               # Section title
+subtitle = "My journey in numbers"         # Optional description
+
+# Key statistics to display
+[dashboard.stats]
+total_projects = 25                        # Number of completed projects
+years_experience = 3                       # Years of professional experience
+github_repos = 40                          # Public repositories
+contributions = 1200                       # GitHub contributions this year
+clients_served = 15                        # Number of clients worked with
+lines_of_code = 50000                      # Total lines of code written
+
+# Dashboard styling options
+[dashboard.display]
+show_icons = true                          # Show icons next to stats
+animate_numbers = true                     # Animate number counting
+grid_columns = 3                           # Number of columns (1-4)
+background_gradient = true                 # Use gradient background</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Projects Configuration Section -->
+                <section id="projects-config" class="content-section">
+                    <h2>💼 Projects Configuration</h2>
+                    <p>Comprehensive guide to showcasing your portfolio projects with categories, filtering, and detailed displays.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">📂 Project Structure</h3>
+                        <p class="config-description">How to organize and configure your portfolio projects.</p>
+                        
+                        <div class="code-header">config/projects.toml - Basic Project Setup</div>
+                        <div class="code-example with-header">
+                            <pre><code># Projects page configuration
+[page]
+title = "My Projects"                      # Page title
+subtitle = "A showcase of my work"         # Page subtitle
+description = "Explore my portfolio of web development projects" # SEO description
+
+# Portfolio display settings
+[display]
+layout = "grid"                            # Layout: "grid", "list", "masonry"
+items_per_page = 12                        # Projects per page
+show_pagination = true                     # Enable pagination
+enable_search = true                       # Enable project search
+enable_filtering = true                    # Enable category filtering
+sort_by = "date"                          # Sort: "date", "title", "category"
+sort_order = "desc"                       # Order: "asc", "desc"
+
+# Individual project definitions
+[[projects]]
+id = "ecommerce-platform"                 # Unique identifier
+title = "E-commerce Platform"             # Project title
+description = "Full-stack e-commerce solution with payment integration" # Brief description
+long_description = """                    # Detailed description
+Built a complete e-commerce platform from scratch using modern web technologies.
+Features include user authentication, product catalog, shopping cart, payment
+processing, order management, and admin dashboard.
+"""
+category = ["web-development", "fullstack"] # Project categories
+status = "completed"                       # Status: "completed", "in-progress", "planned"
+featured = true                           # Show in featured projects
+priority = 1                             # Display priority (lower = higher priority)</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Blog Configuration Section -->
+                <section id="blog-config" class="content-section">
+                    <h2>📝 Blog Configuration</h2>
+                    <p>Set up a powerful blog system with posts, categories, and content management.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">📰 Blog Setup</h3>
+                        <p class="config-description">Configure your blog for optimal content presentation and discovery.</p>
+                        
+                        <div class="code-header">config/blog.toml - Blog Configuration</div>
+                        <div class="code-example with-header">
+                            <pre><code># Blog page settings
+[blog]
+title = "Tech Insights Blog"              # Blog title
+subtitle = "Thoughts on web development and design" # Blog tagline
+description = "Articles about modern web development, design patterns, and industry insights" # SEO description
+author = "Nishikanta Ray"                      # Default author
+email = "nishikanta@example.com"           # Author email
+posts_per_page = 5                        # Posts per page
+show_author = true                        # Show author info
+show_reading_time = true                  # Estimate reading time
+show_tags = true                          # Display post tags
+enable_comments = false                   # Enable comment system
+enable_search = true                      # Enable blog search
+enable_rss = true                         # Generate RSS feed
+
+# Individual blog post definitions
+[[posts]]
+id = "modern-web-development"             # Unique post identifier
+title = "Modern Web Development in 2024" # Post title
+slug = "modern-web-development-2024"     # URL-friendly slug
+excerpt = "Exploring the latest trends and technologies shaping web development" # Brief summary
+content_file = "content/modern-web-development.md" # Markdown content file
+author = "Nishikanta Ray"                     # Post author (overrides default)
+date = "2024-10-20"                      # Publication date (YYYY-MM-DD)
+status = "published"                     # Status: "published", "draft", "scheduled"
+featured = true                          # Mark as featured post
+reading_time = 8                         # Estimated reading time in minutes
+category = "web-development"             # Primary category
+tags = ["JavaScript", "React", "Performance", "Best Practices"]</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Resume Configuration Section -->
+                <section id="resume-config" class="content-section">
+                    <h2>📄 Resume Configuration</h2>
+                    <p>Create a comprehensive digital resume with work experience, education, skills, and achievements.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">👤 Personal Information</h3>
+                        <p class="config-description">Professional contact information and personal branding.</p>
+                        
+                        <div class="code-header">config/resume.toml - Personal Info</div>
+                        <div class="code-example with-header">
+                            <pre><code># Personal information section
+[personal]
+name = "Your Full Name"                   # Full professional name
+title = "Senior Software Engineer"        # Current or target position
+email = "nishikanta@example.com"           # Professional email address
+phone = "+1 (555) 123-4567"              # Phone number (optional)
+website = "https://yourportfolio.com"     # Portfolio website
+location = "San Francisco, CA"           # Current location
+linkedin = "https://linkedin.com/in/yourprofile" # LinkedIn profile
+github = "https://github.com/NishikantaRay" # GitHub profile
+
+# Professional summary
+[summary]
+text = """
+Experienced full-stack developer with 5+ years building scalable web applications.
+Passionate about clean code, user experience, and modern technologies.
+Proven track record of leading teams and delivering high-quality software solutions.
+"""
+
+# Work experience section
+[[experience]]
+company = "Tech Solutions Inc."           # Company name
+position = "Senior Software Engineer"     # Job title
+location = "San Francisco, CA"           # Work location
+start_date = "2022-01"                   # Start date (YYYY-MM)
+end_date = "present"                     # End date or "present"
+description = """
+Lead a team of 4 developers building scalable web applications.
+Architected microservices using Node.js and React, improving performance by 40%.
+Mentored junior developers and established coding standards and best practices.
+"""
+achievements = [
+    "Reduced application load time by 40% through performance optimization",
+    "Led migration from monolithic to microservices architecture",
+    "Mentored 3 junior developers, 2 received promotions"
+]
+technologies = ["JavaScript", "React", "Node.js", "MongoDB", "AWS"]</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Social Configuration Section -->
+                <section id="social-config" class="content-section">
+                    <h2>🔗 Social Media Configuration</h2>
+                    <p>Connect all your social profiles and online presence for maximum visibility.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">📱 Social Links Setup</h3>
+                        <p class="config-description">Configure your social media presence across all platforms.</p>
+                        
+                        <div class="code-header">config/social.toml - Social Configuration</div>
+                        <div class="code-example with-header">
+                            <pre><code># Social media configuration
+[social]
+enabled = true                            # Enable social links section
+title = "Connect With Me"                 # Section title
+subtitle = "Follow my journey across platforms" # Optional description
+show_in_footer = true                    # Show links in footer
+show_in_header = true                    # Show links in header
+
+# Professional platforms
+[[platforms]]
+name = "GitHub"                          # Platform name
+type = "professional"                    # Category: "professional", "social", "creative"
+url = "https://github.com/NishikantaRay"  # Your profile URL
+username = "NishikantaRay"                # Display username
+icon = "github"                          # Icon identifier
+show = true                             # Whether to display this link
+order = 1                               # Display order (lower = first)
+description = "Open source projects and code repositories" # Tooltip description
+
+[[platforms]]
+name = "LinkedIn"
+type = "professional"
+url = "https://linkedin.com/in/yourprofile"
+username = "Nishikanta Ray"
+icon = "linkedin"
+show = true
+order = 2
+description = "Professional network and career updates"
+
+[[platforms]]
+name = "Twitter"
+type = "social"
+url = "https://twitter.com/yourhandle"
+username = "@NishikantaRay"
+icon = "twitter"
+show = true
+order = 3
+description = "Tech thoughts and industry insights"</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Customization Section -->
+                <section id="customization" class="content-section">
+                    <h2>🎨 Customization Guide</h2>
+                    <p>Learn how to customize the design, themes, and appearance of your portfolio.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">🎭 Theme System Customization</h3>
+                        <p class="config-description">Modify colors, fonts, and visual elements to match your brand.</p>
+                        
+                        <div class="code-header">CSS Customization - Custom Properties</div>
+                        <div class="code-example with-header">
+                            <pre><code>/* Custom CSS Variables for Theming */
+:root {
+  /* Primary Brand Colors */
+  --primary-color: #6366f1;           /* Your brand color */
+  --primary-dark: #4f46e5;            /* Darker variant */
+  --primary-light: #a5b4fc;           /* Lighter variant */
+  
+  /* Background Colors */
+  --bg-primary: #ffffff;              /* Main background */
+  --bg-secondary: #f8fafc;            /* Card/section backgrounds */
+  --bg-tertiary: #e2e8f0;             /* Subtle accents */
+  
+  /* Text Colors */
+  --text-primary: #1e293b;            /* Main text */
+  --text-secondary: #475569;          /* Secondary text */
+  --text-muted: #64748b;              /* Muted text */
+  
+  /* Typography */
+  --font-family-primary: 'Inter', system-ui, sans-serif;
+  --font-family-mono: 'Fira Code', 'Monaco', monospace;
+  
+  /* Spacing Scale */
+  --space-xs: 0.25rem;  /* 4px */
+  --space-sm: 0.5rem;   /* 8px */
+  --space-md: 1rem;     /* 16px */
+  --space-lg: 1.5rem;   /* 24px */
+  --space-xl: 2rem;     /* 32px */
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Development Section -->
+                <section id="development" class="content-section">
+                    <h2>🛠️ Development Guide</h2>
+                    <p>Advanced customization, extending functionality, and contributing to the portfolio system.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">🚀 Development Setup</h3>
+                        <p class="config-description">Set up your development environment for advanced customization.</p>
+                        
+                        <div class="code-header">Development Environment Setup</div>
+                        <div class="code-example with-header">
+                            <pre><code># Clone and setup development environment
+git clone https://github.com/NishikantaRay/renderer.git
+cd renderer
+
+# Install Node.js dependencies (optional but recommended)
+npm install
+
+# Available npm scripts
+npm run dev          # Start development server with live reload
+npm run build        # Build for production (if using build tools)
+npm run lint         # Check code quality
+npm run format       # Format code with Prettier
+npm run validate     # Validate TOML configuration files
+
+# Development tools included:
+# - Live Server for auto-refresh
+# - Prettier for code formatting
+# - ESLint for JavaScript linting
+# - TOML validator for config files</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🔧 Development Tools Explained</h5>
+                            <p><strong>Live Server:</strong> Automatically refreshes browser when files change.<br>
+                            <strong>Code Quality:</strong> ESLint and Prettier maintain consistent code style.<br>
+                            <strong>TOML Validation:</strong> Catches configuration errors before deployment.<br>
+                            <strong>Optional Build:</strong> No build process required - works with pure HTML/CSS/JS.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Deployment Section -->
+                <section id="deployment" class="content-section">
+                    <h2>🚀 Deployment Guide</h2>
+                    <p>Deploy your portfolio to various hosting platforms with step-by-step instructions.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">🌐 GitHub Pages Deployment</h3>
+                        <p class="config-description">Free hosting with GitHub Pages - perfect for portfolios.</p>
+                        
+                        <div class="code-header">GitHub Pages Setup</div>
+                        <div class="code-example with-header">
+                            <pre><code># Step 1: Prepare your repository
+# Ensure your main page is named index.html
+# All assets should use relative paths
+
+# Step 2: Push to GitHub
+git add .
+git commit -m "Deploy portfolio to GitHub Pages"
+git push origin main
+
+# Step 3: Enable GitHub Pages
+# 1. Go to your repository on GitHub
+# 2. Click "Settings" tab
+# 3. Scroll to "Pages" section
+# 4. Select "Deploy from a branch"
+# 5. Choose "main" branch and "/ (root)" folder
+# 6. Click "Save"
+
+# Your site will be available at:
+# https://NishikantaRay.github.io/renderer
+
+# Step 4: Custom domain (optional)
+# 1. Add CNAME file to root directory:
+echo "yourdomain.com" > CNAME
+
+# 2. Configure DNS with your domain provider</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>📝 GitHub Pages Tips</h5>
+                            <p><strong>Free Hosting:</strong> Perfect for static portfolios with no server-side requirements.<br>
+                            <strong>Automatic Updates:</strong> Every push to main branch automatically updates your site.<br>
+                            <strong>Custom Domains:</strong> Use your own domain name for professional branding.<br>
+                            <strong>HTTPS Support:</strong> Automatic SSL certificates for secure connections.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">⚡ Netlify Deployment</h3>
+                        <p class="config-description">Modern hosting with advanced features and easy deployment.</p>
+                        
+                        <div class="code-header">Netlify Deployment Steps</div>
+                        <div class="code-example with-header">
+                            <pre><code># Method 1: Git-based deployment (Recommended)
+# 1. Push your code to GitHub/GitLab/Bitbucket
+# 2. Connect repository to Netlify:
+#    - Sign up at netlify.com
+#    - Click "New site from Git"
+#    - Connect your Git provider
+#    - Select your repository
+
+# Method 2: Netlify CLI
+npm install -g netlify-cli
+netlify login
+netlify init
+netlify deploy --prod
+
+# Features available on Netlify:
+# - Custom domains with SSL
+# - Form handling
+# - Serverless functions
+# - Branch previews
+# - Deploy previews for pull requests
+# - Analytics and performance monitoring</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+        <!-- Examples Section -->
+        <section id="examples" class="content-section">
+            <h2>🎯 Real-World Examples</h2>
+            
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>🎨 Designer Portfolio</h3>
+                    </div>
+                    <div class="example-content">
+                        <p>Perfect for UI/UX designers and visual artists</p>
+                        <div class="example-tag">Visual Focus</div>
+                        <div class="example-tag">Hover Effects</div>
+                        <div class="example-tag">Portfolio Showcase</div>
+                        <div class="code-example">
+                            <pre><code>[hero]
+name = "Alex Designer"
+title = "UI/UX Designer"
+
+[featured_projects]
+show_categories = true
+enable_hover_effects = true</code></pre>
+                        </div>
+                        <a href="#" class="btn" onclick="showExample('designer')">View Full Example</a>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>💻 Developer Portfolio</h3>
+                    </div>
+                    <div class="example-content">
+                        <p>Ideal for software developers and engineers</p>
+                        <div class="example-tag">GitHub Stats</div>
+                        <div class="example-tag">Tech Stack</div>
+                        <div class="example-tag">Open Source</div>
+                        <div class="code-example">
+                            <pre><code>[dashboard]
+enabled = true
+
+[opensource]
+show_github_stats = true
+github_username = "NishikantaRay"</code></pre>
+                        </div>
+                        <a href="#" class="btn" onclick="showExample('developer')">View Full Example</a>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>📝 Content Creator</h3>
+                    </div>
+                    <div class="example-content">
+                        <p>Great for bloggers and content creators</p>
+                        <div class="example-tag">Blog Focus</div>
+                        <div class="example-tag">Social Sharing</div>
+                        <div class="example-tag">SEO Optimized</div>
+                        <div class="code-example">
+                            <pre><code>[blog]
+title = "Tech Insights"
+
+[settings]
+enable_search = true
+enable_social_sharing = true</code></pre>
+                        </div>
+                        <a href="#" class="btn" onclick="showExample('creator')">View Full Example</a>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-header">
+                        <h3>🚀 Startup Founder</h3>
+                    </div>
+                    <div class="example-content">
+                        <p>Perfect for entrepreneurs and business leaders</p>
+                        <div class="example-tag">Product Focus</div>
+                        <div class="example-tag">Client Testimonials</div>
+                        <div class="example-tag">Business Metrics</div>
+                        <div class="code-example">
+                            <pre><code>[freelance_clients]
+enabled = true
+
+[latest_products]
+enabled = true
+title = "Products & Ventures"</code></pre>
+                        </div>
+                        <a href="#" class="btn" onclick="showExample('founder')">View Full Example</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configuration Section -->
+        <section id="configuration" class="content-section">
+            <h2>⚙️ Configuration Reference</h2>
+            
+            <div class="card">
+                <h3>📋 TOML Syntax Guide</h3>
+                <p>Understanding the configuration file format</p>
+                <div class="code-header">Basic TOML Syntax</div>
+                <div class="code-example with-header">
+                    <pre><code># Comments start with #
+title = "My Portfolio"              # Strings in quotes
+enabled = true                      # Boolean values
+posts_per_page = 6                  # Numbers without quotes
+tags = ["React", "TypeScript"]      # Arrays with square brackets
+
+# Objects use [brackets]
+[hero]
+name = "Nishikanta Ray"
+title = "Your Title"
+
+# Arrays of objects use [[double brackets]]
+[[experience]]
+position = "Developer"
+company = "Tech Corp"</code></pre>
+                </div>
+            </div>
+
+            <div class="section-grid">
+                <div class="card">
+                    <h3>🎛️ Common Patterns</h3>
+                    <div class="code-header">Enable/Disable Features</div>
+                    <div class="code-example with-header">
+                        <pre><code>[feature_name]
+enabled = true
+title = "Custom Title"
+
+[another_feature]
+enabled = false</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔗 Social Links</h3>
+                    <div class="code-header">Social Configuration</div>
+                    <div class="code-example with-header">
+                        <pre><code>[[links]]
+platform = "github"
+url = "https://github.com/username"
+username = "username"
+show = true</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📝 Content Posts</h3>
+                    <div class="code-header">Blog Posts</div>
+                    <div class="code-example with-header">
+                        <pre><code>[[posts]]
+id = "post-id"
+title = "Post Title"
+date = "2024-10-23"
+tags = ["tag1", "tag2"]
+content_file = "post.md"</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting Section -->
+        <section id="troubleshooting" class="content-section">
+            <h2>🔧 Troubleshooting</h2>
+            
+            <div class="section-grid">
+                <div class="card">
+                    <h3>❌ Configuration Not Loading</h3>
+                    <p>Debug TOML configuration issues</p>
+                    <div class="code-header">Debug Script</div>
+                    <div class="code-example with-header">
+                        <pre><code>// Check in browser console
+fetch('./config/home.toml')
+  .then(r => r.text())
+  .then(text => console.log('TOML:', text))
+  .catch(err => console.error('Failed:', err));</code></pre>
+                    </div>
+                    <a href="#" class="btn" onclick="runDebugScript()">Test Configuration</a>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 Content Not Showing</h3>
+                    <p>Debug content display issues</p>
+                    <div class="code-header">Debug DOM</div>
+                    <div class="code-example with-header">
+                        <pre><code>// Check configuration and DOM
+console.log('Config:', window.homeConfig?.config);
+console.log('Element found:', 
+  document.querySelector('[data-section="hero"]'));</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📱 Mobile Issues</h3>
+                    <p>Fix responsive design problems</p>
+                    <div class="code-header">CSS Debug</div>
+                    <div class="code-example with-header">
+                        <pre><code>/* Add temporary debug borders */
+* { border: 1px solid red !important; }
+
+/* Check viewport meta tag */
+&lt;meta name="viewport" 
+      content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ Performance Issues</h3>
+                    <p>Measure and optimize loading performance</p>
+                    <div class="code-header">Performance Check</div>
+                    <div class="code-example with-header">
+                        <pre><code>// Measure page load time
+window.addEventListener('load', () => {
+  const nav = performance.getEntriesByType('navigation')[0];
+  console.log('Load time:', nav.loadEventEnd, 'ms');
+});</code></pre>
+                    </div>
+                    <a href="#" class="btn" onclick="checkPerformance()">Check Performance</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // Enhanced theme management with smooth transitions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // Add transition class for smooth animation
+            document.documentElement.classList.add('theme-transitioning');
+            
+            // Update theme
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update all theme toggle buttons with enhanced icons
+            const buttons = document.querySelectorAll('.theme-toggle-topleft');
+            buttons.forEach(button => {
+                button.classList.add('theme-switching');
+                
+                setTimeout(() => {
+                    if (newTheme === 'dark') {
+                        button.innerHTML = '☀️';
+                        button.setAttribute('aria-label', 'Switch to light mode');
+                        button.setAttribute('title', 'Switch to light mode');
+                    } else {
+                        button.innerHTML = '🌙';
+                        button.setAttribute('aria-label', 'Switch to dark mode');
+                        button.setAttribute('title', 'Switch to dark mode');
+                    }
+                    button.classList.remove('theme-switching');
+                }, 300);
+            });
+            
+            // Remove transition class after animation
+            setTimeout(() => {
+                document.documentElement.classList.remove('theme-transitioning');
+            }, 400);
+            
+            // Show theme change notification
+            const themeMessage = newTheme === 'dark' ? 
+                '🌙 Dark mode activated' : 
+                '☀️ Light mode activated';
+            showNotification(themeMessage, 'success');
+        }
+
+        // Enhanced theme initialization
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Update all theme toggle buttons
+            const buttons = document.querySelectorAll('.theme-toggle-topleft');
+            buttons.forEach(button => {
+                if (savedTheme === 'dark') {
+                    button.innerHTML = '☀️';
+                    button.setAttribute('aria-label', 'Switch to light mode');
+                    button.setAttribute('title', 'Switch to light mode');
+                } else {
+                    button.innerHTML = '🌙';
+                    button.setAttribute('aria-label', 'Switch to dark mode');
+                    button.setAttribute('title', 'Switch to dark mode');
+                }
+            });
+            
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    const systemTheme = e.matches ? 'dark' : 'light';
+                    document.documentElement.setAttribute('data-theme', systemTheme);
+                    buttons.forEach(button => {
+                        button.innerHTML = systemTheme === 'dark' ? '☀️' : '🌙';
+                    });
+                }
+            });
+        }
+
+        // Markdown rendering functionality
+        async function loadMarkdownContent(filePath, containerId) {
+            try {
+                showNotification('Loading content...', 'info');
+                const response = await fetch(filePath);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load content: ${response.status}`);
+                }
+                
+                const markdownText = await response.text();
+                const htmlContent = marked.parse(markdownText);
+                
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = `
+                        <div class="markdown-content">
+                            ${htmlContent}
+                        </div>
+                    `;
+                }
+                
+                showNotification('✅ Content loaded successfully!', 'success');
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                showNotification('❌ Failed to load content', 'error');
+                
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = `
+                        <div class="error-message">
+                            <h3>⚠️ Content Loading Error</h3>
+                            <p>Could not load the complete guide. Please check:</p>
+                            <ul>
+                                <li>File exists at: <code>${filePath}</code></li>
+                                <li>Server is running (try: <code>python -m http.server 8000</code>)</li>
+                                <li>CORS permissions are correct</li>
+                            </ul>
+                            <a href="${filePath}" target="_blank" class="btn">View File Directly</a>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Enhanced navigation with markdown loading and sidebar state
+        function initSidebar() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.content-section');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+
+            // Restore sidebar state
+            const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
+            const isMobile = window.innerWidth <= 768;
+            
+            if (!isMobile && sidebarHidden) {
+                sidebar.classList.add('hidden');
+                mainContent.classList.add('sidebar-hidden');
+            }
+
+            navItems.forEach(item => {
+                item.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav items and sections
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked nav item
+                    item.classList.add('active');
+                    
+                    // Check if this is a markdown link
+                    const href = item.getAttribute('href');
+                    if (href && href.endsWith('.md')) {
+                        // Create or show markdown container
+                        let markdownSection = document.getElementById('markdown-content');
+                        if (!markdownSection) {
+                            markdownSection = document.createElement('section');
+                            markdownSection.id = 'markdown-content';
+                            markdownSection.className = 'content-section';
+                            document.querySelector('.content-container').appendChild(markdownSection);
+                        }
+                        
+                        // Hide all other sections
+                        sections.forEach(section => section.classList.remove('active'));
+                        markdownSection.classList.add('active');
+                        
+                        // Load markdown content
+                        await loadMarkdownContent(href, 'markdown-content');
+                    } else {
+                        // Show corresponding section
+                        const sectionId = item.getAttribute('data-section');
+                        const section = document.getElementById(sectionId);
+                        if (section) {
+                            section.classList.add('active');
+                        }
+                    }
+                    
+                    // Scroll to top of content area
+                    document.querySelector('.main-content').scrollTop = 0;
+
+                    // Close sidebar on mobile after selection
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
+        }
+
+        // Enhanced sidebar toggle for both mobile and desktop
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Check if we're on mobile
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Mobile behavior - slide in/out
+                sidebar.classList.toggle('open');
+                mainContent.classList.toggle('sidebar-collapsed');
+            } else {
+                // Desktop behavior - hide/show
+                sidebar.classList.toggle('hidden');
+                mainContent.classList.toggle('sidebar-hidden');
+            }
+            
+            // Save sidebar state
+            const isHidden = sidebar.classList.contains('hidden') || !sidebar.classList.contains('open');
+            localStorage.setItem('sidebarHidden', isHidden.toString());
+        }
+
+        // Search functionality
+        function initSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const sections = document.querySelectorAll('.content-section');
+
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                
+                if (query === '') {
+                    // Show all sections when search is empty
+                    sections.forEach(section => {
+                        section.style.display = 'block';
+                        const elements = section.querySelectorAll('h2, h3, h4, p, li');
+                        elements.forEach(el => el.style.display = '');
+                    });
+                    return;
+                }
+
+                sections.forEach(section => {
+                    const elements = section.querySelectorAll('h2, h3, h4, p, li, code');
+                    let hasMatch = false;
+                    
+                    elements.forEach(element => {
+                        const text = element.textContent.toLowerCase();
+                        if (text.includes(query)) {
+                            element.style.display = '';
+                            hasMatch = true;
+                        } else {
+                            element.style.display = 'none';
+                        }
+                    });
+                    
+                    section.style.display = hasMatch ? 'block' : 'none';
+                });
+            });
+        }
+
+        // Progress bar functionality
+        function initScrollProgress() {
+            const progressBar = document.querySelector('.progress-bar');
+            const mainContent = document.querySelector('.main-content');
+            
+            mainContent.addEventListener('scroll', () => {
+                const scrolled = (mainContent.scrollTop / (mainContent.scrollHeight - mainContent.clientHeight)) * 100;
+                progressBar.style.width = Math.min(scrolled, 100) + '%';
+            });
+        }
+
+        // Enhanced example modal
+        function showExample(type) {
+            const examples = {
+                designer: {
+                    title: "🎨 Designer Portfolio Configuration",
+                    description: "Perfect for UI/UX designers and visual artists who want to showcase their creative work with emphasis on visual design and user experience.",
+                    config: `# Designer Portfolio Configuration
+
+[hero]
+name = "Alex Designer"
+title = "UI/UX Designer & Visual Artist"
+intro = [
+    "I create beautiful, user-centered digital experiences.",
+    "Specializing in modern web design and brand identity."
+]
+
+[hero.actions]
+primary_text = "View Portfolio"
+primary_link = "projects.html"
+secondary_text = "Get In Touch"
+secondary_link = "contact.html"
+
+[featured_projects]
+enabled = true
+show_categories = true
+enable_hover_effects = true
+show_features_list = true
+show_tech_stack = false  # Focus on design, not tech
+
+[ui]
+animations = true
+smooth_scrolling = true
+back_to_top = true
+
+[settings]
+theme = "creative"  # Enhanced visual theme`
+                },
+
+                developer: {
+                    title: "💻 Developer Portfolio Configuration", 
+                    description: "Ideal for software developers and engineers who want to highlight their technical skills, open source contributions, and development statistics.",
+                    config: `# Developer Portfolio Configuration
+
+[hero]
+name = "Sarah Developer"
+title = "Full-Stack Software Engineer"
+intro = [
+    "I build scalable web applications and love open source.",
+    "Passionate about clean code and modern technologies."
+]
+
+[dashboard]
+enabled = true
+title = "Development Stats"
+
+[dashboard.stats]
+total_projects = 30
+github_repos = 25
+contributions = 1200
+years_experience = 5
+languages_mastered = 8
+
+[opensource]
+enabled = true
+show_github_stats = true
+github_username = "NishikantaRay"
+repositories_limit = 12
+
+[project_stats]
+enabled = true
+show_github_activity = true
+show_technology_breakdown = true
+show_project_timeline = true`
+                },
+
+                creator: {
+                    title: "📝 Content Creator Portfolio Configuration",
+                    description: "Great for bloggers, writers, and content creators who want to emphasize their writing skills and content creation abilities.",
+                    config: `# Content Creator Portfolio Configuration
+
+[hero]
+name = "Mike Creator"
+title = "Tech Writer & Content Strategist"
+intro = [
+    "I create engaging content that educates and inspires.",
+    "Specializing in technical writing and content strategy."
+]
+
+[blog]
+title = "Tech Insights Blog"
+description = "Sharing knowledge about web development and design"
+featured_posts_count = 3
+
+[settings]
+enable_search = true
+enable_categories = true
+enable_social_sharing = true
+enable_related_posts = true
+enable_newsletter = true`
+                }
+            };
+
+            const example = examples[type];
+            if (!example) return;
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'example-modal';
+            modal.innerHTML = `
+                <div class="modal-backdrop" onclick="closeModal()"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${example.title}</h2>
+                        <button class="modal-close" onclick="closeModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-description">${example.description}</p>
+                        <div class="code-header">Complete Configuration Example</div>
+                        <div class="code-example with-header">
+                            <pre><code>${example.config}</code></pre>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn" onclick="copyToClipboard(\`${example.config.replace(/`/g, '\\`')}\`)">📋 Copy Configuration</button>
+                            <button class="btn btn-outline" onclick="closeModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.example-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('📋 Configuration copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('❌ Failed to copy to clipboard', 'error');
+            });
+        }
+
+        // Enhanced keyboard shortcuts
+        function initKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                // Only trigger shortcuts when not typing in inputs
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    // Allow Escape to blur inputs
+                    if (e.key === 'Escape') {
+                        e.target.blur();
+                    }
+                    return;
+                }
+
+                switch(e.key.toLowerCase()) {
+                    case 'k':
+                        if (e.ctrlKey || e.metaKey) {
+                            e.preventDefault();
+                            document.getElementById('searchInput').focus();
+                        }
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        toggleSidebar();
+                        break;
+                    case 't':
+                        e.preventDefault();
+                        toggleTheme();
+                        break;
+                    case 'escape':
+                        const searchInput = document.getElementById('searchInput');
+                        if (searchInput.value) {
+                            searchInput.value = '';
+                            searchInput.dispatchEvent(new Event('input'));
+                        }
+                        break;
+                }
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Debug functions with notifications
+        function runDebugScript() {
+            showNotification('Testing configuration...', 'info');
+            
+            fetch('./config/home.toml')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    console.log('✅ Configuration loaded successfully');
+                    console.log('TOML Content:', text);
+                    showNotification('✅ Configuration loaded successfully!', 'success');
+                })
+                .catch(error => {
+                    console.error('❌ Configuration failed to load:', error);
+                    showNotification('❌ Configuration failed to load. Check console for details.', 'error');
+                });
+        }
+
+        function checkPerformance() {
+            showNotification('Analyzing performance...', 'info');
+            
+            setTimeout(() => {
+                if (performance.getEntriesByType) {
+                    const navigation = performance.getEntriesByType('navigation')[0];
+                    const loadTime = Math.round(navigation.loadEventEnd - navigation.fetchStart);
+                    
+                    console.log('Performance Metrics:', {
+                        loadTime,
+                        domReady: Math.round(navigation.domContentLoadedEventEnd - navigation.fetchStart),
+                        navigation
+                    });
+                    
+                    const status = loadTime < 2000 ? 'success' : 'warning';
+                    const message = loadTime < 2000 ? 
+                        `✅ Great performance! Load time: ${loadTime}ms` :
+                        `⚠️ Consider optimization. Load time: ${loadTime}ms`;
+                    
+                    showNotification(message, status);
+                } else {
+                    showNotification('❌ Performance API not supported', 'error');
+                }
+            }, 500);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initSidebar();
+            initSearch();
+            initScrollProgress();
+            initKeyboardShortcuts();
+            initSmoothScrolling();
+            
+            // Make functions globally accessible
+            window.toggleTheme = toggleTheme;
+            window.toggleSidebar = toggleSidebar;
+            
+            console.log('📚 Documentation Hub initialized successfully!');
+            showNotification('📚 Documentation loaded! Press S to toggle sidebar, T for theme.', 'success');
+        });
+    </script>
+</body>
+</html>

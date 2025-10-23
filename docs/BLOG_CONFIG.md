@@ -16,8 +16,8 @@ The blog system uses a TOML configuration file that defines blog settings, pagin
 [blog]
 title = "Personal Blog"                          # Blog page title
 description = "Your blog description"            # Blog page subtitle
-author = "Your Name"                            # Default author name
-author_profile = "https://github.com/yourusername"  # Author profile URL
+author = "Nishikanta Ray"                            # Default author name
+author_profile = "https://github.com/NishikantaRay"  # Author profile URL
 base_url = ""                                   # Base URL for blog (optional)
 ```
 

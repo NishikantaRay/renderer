@@ -269,7 +269,7 @@ class PortfolioPage {
           ],
           links: [
             { text: '🚀 Live Demo', url: 'https://example.com' },
-            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '💻 GitHub', url: 'https://github.com/NishikantaRay/project' },
             { text: '📖 Case Study', url: '#', onclick: "alert('Case study coming soon!')" }
           ],
           category: 'web-app',
@@ -290,7 +290,7 @@ class PortfolioPage {
           ],
           links: [
             { text: '🚀 Live Demo', url: 'https://example.com' },
-            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '💻 GitHub', url: 'https://github.com/NishikantaRay/project' },
             { text: '📚 Docs', url: '#', onclick: "alert('Documentation available on GitHub!')" }
           ],
           category: 'dashboard',
@@ -311,7 +311,7 @@ class PortfolioPage {
           ],
           links: [
             { text: '🎨 Storybook', url: 'https://example.com' },
-            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '💻 GitHub', url: 'https://github.com/NishikantaRay/project' },
             { text: '📦 NPM', url: '#', onclick: "alert('NPM package available!')" }
           ],
           category: 'design-system',
@@ -332,7 +332,7 @@ class PortfolioPage {
           ],
           links: [
             { text: '🚀 Live Demo', url: 'https://example.com' },
-            { text: '💻 GitHub', url: 'https://github.com/yourusername/project' },
+            { text: '💻 GitHub', url: 'https://github.com/NishikantaRay/project' },
             { text: '⚡ CLI Tool', url: '#', onclick: "alert('CLI tool available via NPM!')" }
           ],
           category: 'tool',

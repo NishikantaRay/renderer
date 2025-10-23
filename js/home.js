@@ -239,7 +239,7 @@ class MinimalPortfolio {
             version: "v2.1.0",
             users: "500+ users",
             live_url: "https://portfoliobuilder.example.com",
-            github_url: "https://github.com/yourusername/portfolio-builder"
+            github_url: "https://github.com/NishikantaRay/portfolio-builder"
           },
           {
             id: 2,
@@ -250,7 +250,7 @@ class MinimalPortfolio {
             version: "v1.5.2",
             users: "250+ users",
             live_url: "https://snippets.example.com",
-            github_url: "https://github.com/yourusername/snippet-manager"
+            github_url: "https://github.com/NishikantaRay/snippet-manager"
           }
         ]
       },
@@ -1046,7 +1046,7 @@ class MinimalPortfolio {
         version: "v2.1.0",
         users: "500+ users",
         live_url: "https://portfoliobuilder.example.com",
-        github_url: "https://github.com/yourusername/portfolio-builder"
+        github_url: "https://github.com/NishikantaRay/portfolio-builder"
       },
       {
         id: 2,
@@ -1057,7 +1057,7 @@ class MinimalPortfolio {
         version: "v1.5.2",
         users: "250+ users",
         live_url: "https://snippets.example.com",
-        github_url: "https://github.com/yourusername/snippet-manager"
+        github_url: "https://github.com/NishikantaRay/snippet-manager"
       }
     ];
   }

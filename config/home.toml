@@ -126,7 +126,7 @@ technologies = ["React", "Node.js", "MongoDB", "Tailwind"]
 version = "v2.1.0"
 users = "500+ users"
 live_url = "https://portfoliobuilder.example.com"
-github_url = "https://github.com/yourusername/portfolio-builder"
+github_url = "https://github.com/NishikantaRay/portfolio-builder"
 
 [[latest_products.products]]
 id = 2
@@ -137,7 +137,7 @@ technologies = ["Vue.js", "Firebase", "Prism.js", "PWA"]
 version = "v1.5.2"
 users = "250+ users"
 live_url = "https://snippets.example.com"
-github_url = "https://github.com/yourusername/snippet-manager"
+github_url = "https://github.com/NishikantaRay/snippet-manager"
 
 [[latest_products.products]]
 id = 3
@@ -148,7 +148,7 @@ technologies = ["Electron", "TypeScript", "Jest", "Axios"]
 version = "v0.8.0 beta"
 users = "Beta testing"
 live_url = ""
-github_url = "https://github.com/yourusername/api-tester"
+github_url = "https://github.com/NishikantaRay/api-tester"
 
 [dashboard]
 enabled = false  # Set to true to enable dashboard

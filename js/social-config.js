@@ -9,7 +9,7 @@ window.SOCIAL_CONFIG = {
         {
             id: 'github',
             name: 'GitHub',
-            url: 'https://github.com/yourusername',
+            url: 'https://github.com/NishikantaRay',
             icon: 'fab fa-github',
             target: '_blank',
             enabled: true
@@ -17,7 +17,7 @@ window.SOCIAL_CONFIG = {
         {
             id: 'linkedin',
             name: 'LinkedIn',
-            url: 'https://linkedin.com/in/yourusername',
+            url: 'https://linkedin.com/in/nishikantaray',
             icon: 'fab fa-linkedin',
             target: '_blank',
             enabled: true
@@ -25,7 +25,7 @@ window.SOCIAL_CONFIG = {
         {
             id: 'twitter',
             name: 'Twitter',
-            url: 'https://twitter.com/yourusername',
+            url: 'https://twitter.com/NishikantaRay',
             icon: 'fab fa-twitter',
             target: '_blank',
             enabled: true

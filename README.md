@@ -11,14 +11,18 @@
 
 ### 🌟 _"Render your story, configure your future"_ 🌟
 
-[![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/NishikantaRay)
+[![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/NishikantaRay/renderer)
 [![Vanilla JS](https://img.shields.io/badge/Vanilla-JS-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![TOML Config](https://img.shields.io/badge/Config-TOML-blue.svg)](https://toml.io/)
 [![Zero Build](https://img.shields.io/badge/Build-Zero-green.svg)](https://github.com/NishikantaRay/renderer)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen.svg)](https://renderer.nishikanta.in/)
+[![Documentation](https://img.shields.io/badge/Docs-Available-blue.svg)](https://renderer.nishikanta.in/docs)
 
 **✨ A powerful, configuration-driven portfolio system that transforms your story into a stunning web presence**
 
 *Built with vanilla HTML, CSS, and JavaScript • Powered by TOML configuration • Designed for developers, designers, and dreamers*
+
+**🌐 [Live Demo](https://renderer.nishikanta.in/) | 📚 [Documentation](https://renderer.nishikanta.in/docs) | 🔧 [GitHub Repository](https://github.com/NishikantaRay/renderer)**
 
 </div>
 
@@ -45,48 +49,43 @@
 
 ## 🚀 Quick Start
 
-### 1. **Clone the Repository**
 ```bash
-git clone <repository-url>
-cd minimal-portfolio
-```
+# Clone the repository
+git clone https://github.com/NishikantaRay/renderer.git
 
-### 2. **Customize Your Configuration**
-Edit the configuration files in the `config/` directory:
-```bash
-config/
-├── home.toml          # Home page settings
-├── projects.toml      # Projects page configuration
-├── blog.toml          # Blog settings
-├── resume.toml        # Resume configuration
-└── social.toml        # Social links
-```
+# Navigate to the project
+cd renderer
 
-### 3. **Add Your Content**
-Update markdown files in the `content/` directory:
-```bash
-content/
-├── about.md
-├── projects.md
-├── blog.md
-├── contact.md
-├── minimal-design.md
-├── open-source-journey.md
-├── typescript-modern-web.md
-└── web-performance-optimization.md
-```
-
-### 4. **Launch Your Site**
-```bash
-# For development
-python3 -m http.server 8000
-# or
+# Serve locally (Python 3)
+python -m http.server 8000
+# or with Node.js
 npx serve .
 
-# Then visit http://localhost:8000
+# Open your browser
+open http://localhost:8000
 ```
 
-## 📁 Project Structure
+**💡 Pro Tip:** Visit the live documentation at [renderer.nishikanta.in/docs](https://renderer.nishikanta.in/docs) for comprehensive setup guides and configuration examples!
+
+## � Documentation
+
+🌐 **[Complete Documentation](https://renderer.nishikanta.in/docs)** - Interactive documentation hub with:
+
+- **Configuration Guides** - Step-by-step TOML configuration examples
+- **Feature Tutorials** - How to implement each portfolio feature
+- **Code Examples** - Copy-paste ready code snippets
+- **Live Demos** - Interactive previews of all components
+- **Best Practices** - Tips for optimal portfolio performance
+- **Troubleshooting** - Common issues and solutions
+
+**Quick Documentation Links:**
+- 🏠 [Home Configuration](https://renderer.nishikanta.in/docs#home-config)
+- 🚀 [Projects Setup](https://renderer.nishikanta.in/docs#projects-config)
+- 📝 [Blog System](https://renderer.nishikanta.in/docs#blog-config)
+- 📄 [Resume Builder](https://renderer.nishikanta.in/docs#resume-config)
+- 🔗 [Social Links](https://renderer.nishikanta.in/docs#social-config)
+
+## �📁 Project Structure
 
 ```
 minimal-portfolio/
@@ -96,7 +95,8 @@ minimal-portfolio/
 │   ├── projects.html       # Projects showcase with analytics
 │   ├── blog.html          # Blog with dynamic content loading
 │   ├── resume.html        # Interactive resume
-│   └── contact.html       # Contact information
+│   ├── contact.html       # Contact information
+│   └── docs.html          # Interactive documentation hub
 │
 ├── ⚙️ Configuration (TOML)
 │   ├── home.toml          # Home page: hero, clients, products, dashboard
@@ -111,6 +111,15 @@ minimal-portfolio/
 │   ├── blog.md           # Blog posts and content
 │   ├── contact.md         # Contact page content
 │   └── [blog-posts].md   # Individual blog posts
+│
+├── 📚 Documentation
+│   ├── docs/
+│   │   ├── README.md      # Main documentation
+│   │   ├── HOME_CONFIG.md # Home configuration guide
+│   │   ├── PROJECTS_CONFIG.md # Projects setup
+│   │   ├── BLOG_CONFIG.md # Blog system guide
+│   │   ├── RESUME_CONFIG.md # Resume builder
+│   │   └── SOCIAL_CONFIG.md # Social links setup
 │
 ├── 🎨 Styling
 │   ├── css/
@@ -155,7 +164,7 @@ Control every aspect of your home page:
 ```toml
 # Hero section
 [hero]
-name = "Your Name"
+name = "Nishikanta Ray"
 title = "Full-Stack Developer & Designer"
 intro = [
     "Your introduction paragraph...",
@@ -277,7 +286,7 @@ Configure your blog system:
 [blog]
 title = "Personal Blog"
 description = "Thoughts on web development and technology"
-author = "Your Name"
+author = "Nishikanta Ray"
 
 # Pagination
 [pagination]
@@ -310,7 +319,7 @@ Create an interactive resume:
 ```toml
 # Personal information
 [personal]
-name = "Your Name"
+name = "Nishikanta Ray"
 title = "Full-Stack Developer"
 email = "your@email.com"
 phone = "+1234567890"
@@ -354,14 +363,14 @@ show_tooltips = true     # Hover tooltips
 [[links]]
 id = "github"
 name = "GitHub"
-url = "https://github.com/yourusername"
+url = "https://github.com/NishikantaRay"
 icon = "fab fa-github"
 enabled = true
 
 [[links]]
 id = "linkedin"
 name = "LinkedIn"
-url = "https://linkedin.com/in/yourusername"
+url = "https://linkedin.com/in/NishikantaRay"
 icon = "fab fa-linkedin"
 enabled = true
 ```
@@ -518,9 +527,22 @@ config/
 4. **Update** documentation
 5. **Submit** a pull request
 
+## 🌐 Links
+
+- **🔗 Live Demo:** [renderer.nishikanta.in](https://renderer.nishikanta.in/)
+- **📚 Documentation:** [renderer.nishikanta.in/docs](https://renderer.nishikanta.in/docs)
+- **💻 GitHub Repository:** [github.com/NishikantaRay/renderer](https://github.com/NishikantaRay/renderer)
+- **🚀 Clone Command:** `git clone https://github.com/NishikantaRay/renderer.git`
+
 ## 📄 License
 
 MIT License - Feel free to use and modify for your own portfolio!
+
+---
+
+**✨ Built with ❤️ by [Nishikanta Ray](https://github.com/NishikantaRay) • Made for developers who value simplicity and power**
+
+*Start building your story today at [renderer.nishikanta.in](https://renderer.nishikanta.in/)* 🌟
 
 ## 🎯 Why This Portfolio?
 

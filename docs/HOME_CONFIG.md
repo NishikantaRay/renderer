@@ -9,7 +9,7 @@ Configure the main hero section at the top of the page:
 
 ```toml
 [hero]
-name = "Your Name"                    # Main title displayed
+name = "Nishikanta Ray"                    # Main title displayed
 title = "Full-Stack Developer"       # Subtitle (optional)
 intro = [                            # Array of intro paragraphs
     "First paragraph of introduction...",

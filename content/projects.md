@@ -15,7 +15,7 @@ A full-stack web application built with modern technologies. Features include re
 - Mobile-first responsive design
 - Comprehensive test coverage
 
-[View Live](https://example.com) • [GitHub](https://github.com/yourusername/project)
+[View Live](https://example.com) • [GitHub](https://github.com/NishikantaRay/project)
 
 ---
 
@@ -30,7 +30,7 @@ A data visualization dashboard designed for mobile devices. Built with performan
 - Accessibility (WCAG 2.1 AA)
 - Performance optimized
 
-[View Live](https://example.com) • [GitHub](https://github.com/yourusername/project)
+[View Live](https://example.com) • [GitHub](https://github.com/NishikantaRay/project)
 
 ---
 
@@ -45,7 +45,7 @@ A comprehensive design system and component library used across multiple project
 - Theme support
 - TypeScript definitions
 
-[View Live](https://example.com) • [GitHub](https://github.com/yourusername/project)
+[View Live](https://example.com) • [GitHub](https://github.com/NishikantaRay/project)
 
 ---
 
@@ -60,7 +60,7 @@ A simple yet powerful static site generator for blogs and documentation sites.
 - SEO optimized
 - Fast build times
 
-[View Live](https://example.com) • [GitHub](https://github.com/yourusername/project)
+[View Live](https://example.com) • [GitHub](https://github.com/NishikantaRay/project)
 
 ## Open Source Contributions
 

@@ -173,7 +173,7 @@ Controls search engine optimization metadata.
 ```toml
 [seo]
 meta_description = "My projects - Developer, Designer, Creator"
-og_title = "Projects - Your Name"
+og_title = "Projects - Nishikanta Ray"
 og_description = "A showcase of my recent work in web development, design, and open source contributions."
 ```
 

@@ -56,7 +56,7 @@ A behind-the-scenes look at how I built this minimal portfolio using vanilla Jav
 
 ## Stay Updated
 
-Want to be notified about new posts? Follow me on [Twitter](https://twitter.com/yourusername) or [GitHub](https://github.com/yourusername) for updates.
+Want to be notified about new posts? Follow me on [Twitter](https://twitter.com/NishikantaRay) or [GitHub](https://github.com/NishikantaRay) for updates.
 
 ---
 

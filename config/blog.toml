@@ -6,7 +6,7 @@
 title = "Personal Blog"
 description = "Thoughts on web development, technology, design, and everything in between."
 author = "John Doe"
-author_profile = "https://github.com/yourusername"
+author_profile = "https://github.com/NishikantaRay"
 base_url = ""
 
 [pagination]
@@ -38,7 +38,7 @@ read_time = "8 min read"
 featured = true
 status = "published"
 image = "https://dummyimage.com/600x400/0066cc/ffffff&text=TypeScript+Web"
-repo_url = "https://github.com/yourusername/typescript-examples"
+repo_url = "https://github.com/NishikantaRay/typescript-examples"
 demo_url = "https://typescript-demo.yoursite.dev"
 license = "MIT"
 contributors = ["John Doe", "Community Contributors"]
@@ -63,7 +63,7 @@ read_time = "6 min read"
 featured = false
 status = "published"
 image = "https://dummyimage.com/600x400/222/fff&text=Minimal+Design"
-repo_url = "https://github.com/yourusername/minimal-design-examples"
+repo_url = "https://github.com/NishikantaRay/minimal-design-examples"
 demo_url = "https://minimal-design.yoursite.dev"
 license = "MIT"
 contributors = ["John Doe"]
@@ -88,7 +88,7 @@ read_time = "10 min read"
 featured = true
 status = "published"
 image = "https://dummyimage.com/600x400/333/fff&text=Open+Source+Journey"
-repo_url = "https://github.com/yourusername/open-source-contributions"
+repo_url = "https://github.com/NishikantaRay/open-source-contributions"
 demo_url = "https://opensource-journey.yoursite.dev"
 license = "MIT"
 contributors = ["John Doe", "Open Source Community"]
@@ -113,7 +113,7 @@ read_time = "12 min read"
 featured = false
 status = "published"
 image = "https://dummyimage.com/600x400/ff6b35/ffffff&text=Web+Performance"
-repo_url = "https://github.com/yourusername/web-performance-demos"
+repo_url = "https://github.com/NishikantaRay/web-performance-demos"
 demo_url = "https://performance-demo.yoursite.dev"
 license = "MIT"
 contributors = ["John Doe"]

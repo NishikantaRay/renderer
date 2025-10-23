@@ -97,9 +97,9 @@ class ResumeConfig {
                 title: "Your Title",
                 email: "your.email@example.com",
                 phone: "+1 (555) 123-4567",
-                website: "https://yourwebsite.com",
-                github: "https://github.com/yourusername",
-                linkedin: "https://linkedin.com/in/yourusername",
+                website: "https://renderer.nishikanta.in",
+                github: "https://github.com/NishikantaRay",
+                linkedin: "https://linkedin.com/in/nishikantaray",
                 location: "Your City, State"
             },
             summary: {

@@ -16,9 +16,9 @@ name = "Your Full Name"
 title = "Your Professional Title"
 phone = "+1 (555) 123-4567"
 email = "your.email@example.com"
-website = "https://yourwebsite.com"
-github = "https://github.com/yourusername"
-linkedin = "https://linkedin.com/in/yourusername"
+website = "https://renderer.nishikanta.in"
+github = "https://github.com/NishikantaRay"
+linkedin = "https://linkedin.com/in/NishikantaRay"
 location = "City, State"
 ```
 
@@ -78,7 +78,7 @@ description = "Full-stack e-commerce solution with real-time inventory"
 technologies = ["React", "Node.js", "MongoDB", "Stripe API"]
 start_date = "Mar 2023"
 end_date = "Aug 2023"
-url = "https://github.com/yourusername/project"
+url = "https://github.com/NishikantaRay/project"
 highlights = [
     "Built scalable microservices architecture",
     "Implemented real-time inventory tracking",

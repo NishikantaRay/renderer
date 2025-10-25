@@ -228,7 +228,7 @@ description = "Volunteer coding mentor for underrepresented groups in tech"
 [settings]
 show_gpa = true
 show_location = true
-show_phone = true
+show_phone = false
 date_format = "MMM YYYY"  # Options: "MMM YYYY", "MM/YYYY", "YYYY"
 max_achievements_per_section = 6
 enable_share_button = true

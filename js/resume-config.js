@@ -240,7 +240,7 @@ window.RESUME_CONFIG_JS = {
     settings: {
         show_gpa: true,
         show_location: true,
-        show_phone: true,
+        show_phone: false,
         date_format: "MMM YYYY",
         max_achievements_per_section: 6,
         enable_share_button: true

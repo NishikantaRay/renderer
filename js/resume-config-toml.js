@@ -9,33 +9,24 @@ class ResumeConfig {
         this.tomlParser = null;
     }
 
-    // Initialize and load the TOML configuration
+        // Initialize resume configuration
     async init() {
         try {
             console.log('Initializing resume configuration...');
-            
-            // Load TOML parser from CDN
-            console.log('Loading TOML parser...');
             await this.loadTomlParser();
-            console.log('TOML parser loaded successfully');
-            
-            // Load the configuration file
-            console.log('Loading configuration file...');
             await this.loadConfig();
-            console.log('Configuration loaded successfully');
-            
-            return true;
+            console.log('Resume configuration loaded successfully');
+            console.log('Final config settings:', this.config.settings);
         } catch (error) {
             console.error('Failed to initialize resume configuration:', error);
-            console.error('Using fallback configuration');
-            // Fallback to default configuration
+            console.log('Using fallback configuration');
             this.setDefaultConfig();
-            return false;
+            console.log('Fallback config settings:', this.config.settings);
         }
     }
 
-    // Load TOML parser dynamically
-    async loadTomlParser() {
+    // Load TOML parser from CDN
+    loadTomlParser() {
         return new Promise((resolve, reject) => {
             // Check if TOML parser is already loaded
             if (window.TOML) {
@@ -44,13 +35,32 @@ class ResumeConfig {
                 return;
             }
 
+            // Try js-toml first (more reliable)
             const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/@iarna/toml@2.2.5/lib/toml-browser.js';
+            script.src = 'https://cdn.jsdelivr.net/npm/js-toml@0.5.0/lib/toml.min.js';
             script.onload = () => {
-                this.tomlParser = window.TOML;
+                this.tomlParser = window.toml;
+                console.log('TOML parser loaded successfully');
                 resolve();
             };
-            script.onerror = () => reject(new Error('Failed to load TOML parser'));
+            script.onerror = () => {
+                console.warn('Primary TOML CDN failed, trying backup...');
+                // Try backup CDN
+                const backupScript = document.createElement('script');
+                backupScript.src = 'https://unpkg.com/js-toml@0.5.0/lib/toml.min.js';
+                backupScript.onload = () => {
+                    this.tomlParser = window.toml;
+                    console.log('TOML parser loaded from backup CDN');
+                    resolve();
+                };
+                backupScript.onerror = () => {
+                    console.error('All TOML CDNs failed, will use manual parsing');
+                    // Don't reject, just set parser to null so manual parsing can be used
+                    this.tomlParser = null;
+                    resolve();
+                };
+                document.head.appendChild(backupScript);
+            };
             document.head.appendChild(script);
         });
     }
@@ -70,14 +80,112 @@ class ResumeConfig {
             console.log('TOML content length:', tomlContent.length);
             console.log('First 100 chars:', tomlContent.substring(0, 100));
             
-            this.config = this.tomlParser.parse(tomlContent);
-            console.log('Resume configuration loaded successfully from TOML');
+            // Try using the TOML parser first
+            if (this.tomlParser && this.tomlParser.parse) {
+                this.config = this.tomlParser.parse(tomlContent);
+                console.log('Resume configuration loaded successfully from TOML parser');
+            } else {
+                // Fallback to manual parsing for critical settings
+                console.log('TOML parser not available, using manual parsing fallback');
+                this.config = this.parseTomlManually(tomlContent);
+                console.log('Manual parsing completed, final config:', this.config);
+            }
+            
             console.log('Parsed config:', this.config);
         } catch (error) {
             console.error('Failed to load resume.toml:', error);
             console.error('Full error details:', error.message, error.stack);
             throw error;
         }
+    }
+
+    // Simple manual TOML parser for settings
+    parseTomlManually(tomlContent) {
+        console.log('Using manual TOML parser...');
+        
+        // Start with JavaScript fallback as base
+        const config = window.RESUME_CONFIG_JS ? JSON.parse(JSON.stringify(window.RESUME_CONFIG_JS)) : this.getMinimalConfig();
+        
+        // Parse personal section
+        const personalMatch = tomlContent.match(/\[personal\]([\s\S]*?)(?=\n\[|\n#|$)/);
+        if (personalMatch) {
+            const personalSection = personalMatch[1];
+            console.log('Parsing personal section...');
+            
+            const nameMatch = personalSection.match(/name\s*=\s*"([^"]*)"/);
+            if (nameMatch) config.personal.name = nameMatch[1];
+            
+            const titleMatch = personalSection.match(/title\s*=\s*"([^"]*)"/);
+            if (titleMatch) config.personal.title = titleMatch[1];
+            
+            const phoneMatch = personalSection.match(/phone\s*=\s*"([^"]*)"/);
+            if (phoneMatch) config.personal.phone = phoneMatch[1];
+            
+            const emailMatch = personalSection.match(/email\s*=\s*"([^"]*)"/);
+            if (emailMatch) config.personal.email = emailMatch[1];
+        }
+        
+        // Parse settings section manually
+        const settingsMatch = tomlContent.match(/\[settings\]([\s\S]*?)(?=\n\[|\n#|$)/);
+        if (settingsMatch) {
+            const settingsSection = settingsMatch[1];
+            console.log('Found settings section:', settingsSection);
+            
+            // Parse individual settings
+            const showPhoneMatch = settingsSection.match(/show_phone\s*=\s*(true|false)/);
+            if (showPhoneMatch) {
+                config.settings.show_phone = showPhoneMatch[1] === 'true';
+                console.log('Parsed show_phone:', config.settings.show_phone);
+            }
+            
+            const showLocationMatch = settingsSection.match(/show_location\s*=\s*(true|false)/);
+            if (showLocationMatch) {
+                config.settings.show_location = showLocationMatch[1] === 'true';
+                console.log('Parsed show_location:', config.settings.show_location);
+            }
+            
+            const showGpaMatch = settingsSection.match(/show_gpa\s*=\s*(true|false)/);
+            if (showGpaMatch) {
+                config.settings.show_gpa = showGpaMatch[1] === 'true';
+                console.log('Parsed show_gpa:', config.settings.show_gpa);
+            }
+            
+            const dateFormatMatch = settingsSection.match(/date_format\s*=\s*"([^"]*)"/);
+            if (dateFormatMatch) {
+                config.settings.date_format = dateFormatMatch[1];
+            }
+        }
+        
+        console.log('Manual parsing complete. Final settings:', config.settings);
+        return config;
+    }
+
+    getMinimalConfig() {
+        return {
+            personal: {
+                name: "Nishikanta Ray",
+                title: "Software Engineer",
+                phone: "+91-6372833923",
+                email: "nishikantaray1@gmail.com",
+                website: "https://nishikanta.in",
+                github: "https://github.com/NishikantaRay",
+                linkedin: "https://linkedin.com/in/nishikanta-ray-7786a0196",
+                location: "Bhubaneswar, Odisha"
+            },
+            summary: { text: "Software Engineer" },
+            experience: [],
+            education: [],
+            projects: [],
+            skills: {},
+            achievements: [],
+            settings: {
+                show_gpa: true,
+                show_location: true,
+                show_phone: false,
+                date_format: "MMM YYYY",
+                enable_share_button: true
+            }
+        };
     }
 
     // Set default configuration as fallback
@@ -113,7 +221,7 @@ class ResumeConfig {
             settings: {
                 show_gpa: true,
                 show_location: true,
-                show_phone: true,
+                show_phone: false,
                 date_format: "MMM YYYY",
                 enable_share_button: true
             }

@@ -6,9 +6,7 @@ class MinimalPortfolio {
         ? "dark"
         : "light");
     this.contentCache = new Map();
-    this.homeConfig = null;
-
-    this.init().catch(error => console.error('Failed to initialize portfolio:', error));
+    this.homeConfig = null;    this.init().catch(error => console.error('Failed to initialize portfolio:', error));
   }
 
   async init() {
@@ -151,7 +149,6 @@ class MinimalPortfolio {
   async loadHomeConfig() {
     try {
       console.log('Loading home configuration...');
-      console.log('TOML library available:', typeof window.toml);
       
       // Try to load TOML configuration
       const response = await fetch('./config/home.toml');
@@ -162,13 +159,13 @@ class MinimalPortfolio {
         console.log('TOML text loaded, length:', tomlText.length);
         console.log('First 200 chars:', tomlText.substring(0, 200));
         
-        // Use the global TOML parser if available
-        if (window.toml && window.toml.parse) {
-          this.homeConfig = window.toml.parse(tomlText);
+        // Use the shared TOML loader
+        try {
+          this.homeConfig = await window.tomlLoader.parse(tomlText);
           console.log('Home config loaded from TOML:', this.homeConfig);
-        } else {
-          console.error('TOML parser not available - using fallback');
-          throw new Error('TOML parser not available');
+        } catch (parseError) {
+          console.warn('TOML parsing failed, using fallback config:', parseError.message);
+          this.homeConfig = this.getHomeConfigFallback();
         }
       } else {
         throw new Error('Failed to fetch home.toml');
@@ -183,11 +180,11 @@ class MinimalPortfolio {
   getHomeConfigFallback() {
     return {
       hero: {
-        name: "Your Name",
+        name: "Nishikanta Ray",
         title: "Full-Stack Developer & Designer",
         intro: [
-          "I work on web development, user experience design, and modern frontend technologies among other digital things.",
-          "This website is an archive of my work and thoughts. Currently, I'm into React, TypeScript, and building modern web applications."
+          "I'm a passionate Software Engineer with expertise in full-stack development and a keen interest in creating innovative solutions. Currently working at <a href='https://letsflo.co' target='_blank' rel='noopener noreferrer'>@letsflo</a> and actively contributing to the open-source community.",
+        
         ],
         actions: {
           primary_text: "Hire Me",
@@ -199,8 +196,8 @@ class MinimalPortfolio {
       freelance_clients: {
         enabled: true,
         title: "Trusted by Clients",
-        subtitle: "Companies I've worked with",
-        contact_email: "nishikantaray@example.com",
+        subtitle: "Companies and projects I've worked with",
+        contact_email: "nishikantaray1@gmail.com",
         contact_text: "Contact Me",
         clients: [
           {
@@ -214,43 +211,90 @@ class MinimalPortfolio {
           },
           {
             id: 2,
-            name: "DataCorp",
+            name: "DataCorp Analytics",
             logo: "📊",
             logo_type: "emoji",
             status: "completed",
             period: "Sep-Nov 2024",
             project: "Analytics Dashboard"
+          },
+          {
+            id: 3,
+            name: "StudyTub Platform",
+            logo: "📚",
+            logo_type: "emoji",
+            status: "active",
+            period: "2024 - Present",
+            project: "Educational Platform"
+          },
+          {
+            id: 4,
+            name: "Open Source Community",
+            logo: "🌟",
+            logo_type: "emoji",
+            status: "ongoing",
+            period: "2021 - Present",
+            project: "FlexiFrame CSS Library"
+          },
+          {
+            id: 5,
+            name: "VS Code Community",
+            logo: "🔧",
+            logo_type: "emoji",
+            status: "active",
+            period: "2023 - Present",
+            project: "Bootstrap 5 Extension"
+          },
+          {
+            id: 6,
+            name: "GitHub Community",
+            logo: "⭐",
+            logo_type: "emoji",
+            status: "active",
+            period: "2021 - Present",
+            project: "Open Source Contributions"
           }
         ]
       },
       latest_products: {
         enabled: true,
         title: "Latest Products",
-        subtitle: "Tools and apps I've built",
+        subtitle: "Tools, apps, and libraries I've built",
         view_all_text: "View All Products",
         view_all_link: "projects.html#products",
         products: [
           {
             id: 1,
-            title: "Portfolio Builder",
-            description: "A drag-and-drop portfolio builder for developers and designers.",
+            title: "FlexiFrame CSS Library",
+            description: "A comprehensive CSS library with 25+ components and advanced layouts using Sass, designed for scalability and maintainability.",
             status: "launched",
-            technologies: ["React", "Node.js", "MongoDB", "Tailwind"],
-            version: "v2.1.0",
-            users: "500+ users",
-            live_url: "https://portfoliobuilder.example.com",
-            github_url: "https://github.com/NishikantaRay/portfolio-builder"
+            technologies: ["Sass", "CSS", "BEM", "Components"],
+            version: "v1.0.0",
+            users: "Community driven",
+            live_url: "https://github.com/NishikantaRay/FlexiFrame",
+            github_url: "https://github.com/NishikantaRay/FlexiFrame"
           },
           {
             id: 2,
-            title: "Code Snippet Manager",
-            description: "Organize, search, and share your code snippets with syntax highlighting.",
+            title: "Bootstrap 5 Extension",
+            description: "VS Code extension for Bootstrap 5 with 19k+ installs, providing code snippets and IntelliSense support.",
             status: "launched",
-            technologies: ["Vue.js", "Firebase", "Prism.js", "PWA"],
-            version: "v1.5.2",
-            users: "250+ users",
-            live_url: "https://snippets.example.com",
-            github_url: "https://github.com/NishikantaRay/snippet-manager"
+            technologies: ["TypeScript", "VS Code API", "Bootstrap 5"],
+            version: "v2.1.0",
+            users: "19k+ installs",
+            live_url: "https://marketplace.visualstudio.com/items?itemName=NishikantaRay.bootstrap5-snippets",
+            github_url: "https://github.com/NishikantaRay/bootstrap5-snippets"
+          },
+          {
+            id: 3,
+            title: "Portfolio Template",
+            description: "A modern, responsive portfolio template with TOML configuration and multiple themes.",
+            status: "launched",
+            technologies: ["HTML", "CSS", "JavaScript", "TOML"],
+            version: "v1.5.0",
+            users: "100+ users",
+            live_url: "https://nishikanta.in",
+            github_url: "https://github.com/NishikantaRay/portfolio"
           }
         ]
       },
@@ -289,7 +333,17 @@ class MinimalPortfolio {
     // Update hero intro
     const introElement = document.querySelector('.hero-intro');
     if (introElement && hero.intro) {
-      introElement.innerHTML = hero.intro.map(paragraph => `<p>${paragraph}</p>`).join('');
+      // Handle both string and array formats
+      let introContent;
+      if (Array.isArray(hero.intro)) {
+        introContent = hero.intro.map(paragraph => `<p>${paragraph}</p>`).join('');
+      } else if (typeof hero.intro === 'string') {
+        introContent = `<p>${hero.intro}</p>`;
+      } else {
+        console.warn('Hero intro is not a string or array:', typeof hero.intro, hero.intro);
+        introContent = '<p>Welcome to my portfolio</p>';
+      }
+      introElement.innerHTML = introContent;
     }
 
     // Update action buttons
@@ -911,7 +965,26 @@ class MinimalPortfolio {
     } catch (error) {
       console.error('Failed to setup social links:', error);
       // Fallback to default
-      socialContainer.innerHTML = '<p>Social links not available</p>';
+      socialContainer.innerHTML = `
+        <a href="https://github.com/NishikantaRay" target="_blank" class="social-link" title="GitHub">
+          <span class="social-icon"><i class="fab fa-github"></i></span>
+        </a>
+        <a href="https://linkedin.com/in/nishikanta-ray-7786a0196" target="_blank" class="social-link" title="LinkedIn">
+          <span class="social-icon"><i class="fab fa-linkedin"></i></span>
+        </a>
+        <a href="https://twitter.com/NishikantaRay5" target="_blank" class="social-link" title="Twitter">
+          <span class="social-icon"><i class="fab fa-twitter"></i></span>
+        </a>
+        <a href="mailto:nishikantaray1@gmail.com" class="social-link" title="Email">
+          <span class="social-icon"><i class="fas fa-envelope"></i></span>
+        </a>
+        <a href="https://youtube.com/@nishikantaray5637" target="_blank" class="social-link" title="YouTube">
+          <span class="social-icon"><i class="fab fa-youtube"></i></span>
+        </a>
+        <a href="https://instagram.com/nishikanta.ray" target="_blank" class="social-link" title="Instagram">
+          <span class="social-icon"><i class="fab fa-instagram"></i></span>
+        </a>
+      `;
     }
   }
 

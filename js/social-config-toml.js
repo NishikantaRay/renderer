@@ -6,15 +6,11 @@
 class SocialConfig {
     constructor() {
         this.config = null;
-        this.tomlParser = null;
     }
 
     // Initialize and load the TOML configuration
     async init() {
         try {
-            // Load TOML parser from CDN
-            await this.loadTomlParser();
-            
             // Load the configuration file
             await this.loadConfig();
             
@@ -27,27 +23,6 @@ class SocialConfig {
         }
     }
 
-    // Load TOML parser dynamically
-    async loadTomlParser() {
-        return new Promise((resolve, reject) => {
-            // Check if TOML parser is already loaded
-            if (window.TOML) {
-                this.tomlParser = window.TOML;
-                resolve();
-                return;
-            }
-
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/@iarna/toml@2.2.5/lib/toml-browser.js';
-            script.onload = () => {
-                this.tomlParser = window.TOML;
-                resolve();
-            };
-            script.onerror = () => reject(new Error('Failed to load TOML parser'));
-            document.head.appendChild(script);
-        });
-    }
-
     // Load configuration from TOML file
     async loadConfig() {
         try {
@@ -57,9 +32,15 @@ class SocialConfig {
             }
             
             const tomlContent = await response.text();
-            this.config = this.tomlParser.parse(tomlContent);
             
-            console.log('Social configuration loaded successfully from TOML');
+            // Use the shared TOML loader
+            try {
+                this.config = await window.tomlLoader.parse(tomlContent);
+                console.log('Social configuration loaded successfully from TOML');
+            } catch (parseError) {
+                console.warn('TOML parsing failed, using default config:', parseError.message);
+                this.setDefaultConfig();
+            }
         } catch (error) {
             console.error('Failed to load social.toml:', error);
             throw error;
@@ -88,18 +69,74 @@ class SocialConfig {
                 {
                     id: 'linkedin',
                     name: 'LinkedIn',
-                    url: 'https://linkedin.com/in/nishikantaray',
+                    url: 'https://linkedin.com/in/nishikanta-ray-7786a0196',
                     icon: 'fab fa-linkedin',
+                    target: '_blank',
+                    enabled: true
+                },
+                {
+                    id: 'twitter',
+                    name: 'Twitter',
+                    url: 'https://twitter.com/NishikantaRay5',
+                    icon: 'fab fa-twitter',
                     target: '_blank',
                     enabled: true
                 },
                 {
                     id: 'email',
                     name: 'Email',
-                    url: 'mailto:your.email@example.com',
+                    url: 'mailto:nishikantaray1@gmail.com',
                     icon: 'fas fa-envelope',
                     target: '_self',
                     enabled: true
+                },
+                {
+                    id: 'youtube',
+                    name: 'YouTube',
+                    url: 'https://youtube.com/@nishikantaray5637',
+                    icon: 'fab fa-youtube',
+                    target: '_blank',
+                    enabled: true
+                },
+                {
+                    id: 'instagram',
+                    name: 'Instagram',
+                    url: 'https://instagram.com/nishikanta.ray',
+                    icon: 'fab fa-instagram',
+                    target: '_blank',
+                    enabled: true
+                },
+                {
+                    id: 'stackoverflow',
+                    name: 'Stack Overflow',
+                    url: 'https://stackoverflow.com/users/12345/nishikanta',
+                    icon: 'fab fa-stack-overflow',
+                    target: '_blank',
+                    enabled: false
+                },
+                {
+                    id: 'codepen',
+                    name: 'CodePen',
+                    url: 'https://codepen.io/nishikantaray',
+                    icon: 'fab fa-codepen',
+                    target: '_blank',
+                    enabled: false
+                },
+                {
+                    id: 'dribbble',
+                    name: 'Dribbble',
+                    url: 'https://dribbble.com/nishikantaray',
+                    icon: 'fab fa-dribbble',
+                    target: '_blank',
+                    enabled: false
+                },
+                {
+                    id: 'behance',
+                    name: 'Behance',
+                    url: 'https://behance.net/nishikantaray',
+                    icon: 'fab fa-behance',
+                    target: '_blank',
+                    enabled: false
                 }
             ]
         };
@@ -107,11 +144,25 @@ class SocialConfig {
 
     // Get enabled social links
     getEnabledLinks() {
-        if (!this.config) return [];
+        console.log('getEnabledLinks called');
+        console.log('this.config:', this.config);
         
-        return this.config.links
-            .filter(link => link.enabled)
-            .slice(0, this.config.settings.max_visible);
+        if (!this.config || !this.config.links || !Array.isArray(this.config.links)) {
+            console.warn('Social config links not available or not an array, using defaults');
+            console.log('this.config?.links:', this.config?.links);
+            console.log('Array.isArray(this.config?.links):', Array.isArray(this.config?.links));
+            return [];
+        }
+        
+        console.log('Available links:', this.config.links.length);
+        const enabledLinks = this.config.links.filter(link => link.enabled);
+        console.log('Enabled links:', enabledLinks.length);
+        
+        const maxVisible = this.config.settings?.max_visible || 6;
+        const result = enabledLinks.slice(0, maxVisible);
+        console.log('Final links to show:', result.length, result);
+        
+        return result;
     }
 
     // Get settings
@@ -124,9 +175,30 @@ class SocialConfig {
         const enabledLinks = this.getEnabledLinks();
         const settings = this.getSettings();
         
-        if (enabledLinks.length === 0) return '';
+        console.log('generateSocialLinksHTML called');
+        console.log('enabledLinks:', enabledLinks);
+        console.log('settings:', settings);
         
-        return enabledLinks.map(link => {
+        if (enabledLinks.length === 0) {
+            console.warn('No enabled links found, using fallback');
+            // Force fallback HTML with default icons
+            return `
+                <a href="https://github.com/NishikantaRay" target="_blank" class="social-link" title="GitHub">
+                    <span class="social-icon"><i class="fab fa-github"></i></span>
+                </a>
+                <a href="https://linkedin.com/in/nishikanta-ray-7786a0196" target="_blank" class="social-link" title="LinkedIn">
+                    <span class="social-icon"><i class="fab fa-linkedin"></i></span>
+                </a>
+                <a href="https://twitter.com/NishikantaRay5" target="_blank" class="social-link" title="Twitter">
+                    <span class="social-icon"><i class="fab fa-twitter"></i></span>
+                </a>
+                <a href="mailto:nishikantaray1@gmail.com" class="social-link" title="Email">
+                    <span class="social-icon"><i class="fas fa-envelope"></i></span>
+                </a>
+            `;
+        }
+        
+        const html = enabledLinks.map(link => {
             const target = link.target ? `target="${link.target}"` : '';
             const tooltip = settings.show_tooltips ? `title="${link.name}"` : '';
             const text = settings.show_text ? `<span class="social-text">${link.name}</span>` : '';
@@ -138,6 +210,9 @@ class SocialConfig {
                 </a>
             `;
         }).join('');
+        
+        console.log('Generated HTML result:', html);
+        return html;
     }
 
     // Generate CSS custom properties for styling
@@ -154,7 +229,9 @@ class SocialConfig {
 
     // Update social links in the DOM
     async updateSocialLinks(selector = '.social-links') {
+        console.log('updateSocialLinks called with selector:', selector);
         const containers = document.querySelectorAll(selector);
+        console.log('Found containers:', containers.length);
         
         if (containers.length === 0) {
             console.warn(`No elements found with selector: ${selector}`);
@@ -163,11 +240,15 @@ class SocialConfig {
 
         // Ensure configuration is loaded
         if (!this.config) {
+            console.log('Config not loaded, initializing...');
             await this.init();
         }
 
         const html = this.generateSocialLinksHTML();
         const css = this.generateSocialCSS();
+
+        console.log('Generated HTML length:', html.length);
+        console.log('Generated HTML:', html);
 
         // Update CSS
         let styleElement = document.getElementById('social-config-styles');
@@ -179,9 +260,12 @@ class SocialConfig {
         styleElement.textContent = css;
 
         // Update HTML
-        containers.forEach(container => {
+        containers.forEach((container, index) => {
+            console.log(`Updating container ${index}:`, container);
             container.innerHTML = html;
         });
+        
+        console.log('Social links update completed');
     }
 
     // Reload configuration

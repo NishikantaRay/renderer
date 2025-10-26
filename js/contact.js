@@ -157,13 +157,15 @@ class PortfolioPage {
          class="social-link"
          title="${link.name}">
         <i class="${link.icon}"></i>
-        ${config.settings.show_text ? `<span>${link.name}</span>` : ''}
       </a>
     `).join('');
 
     return `
-      <div class="social-links">
-        ${linksHtml}
+      <div class="contact-social-section">
+        <h2>Connect With Me</h2>
+        <div class="social-links">
+          ${linksHtml}
+        </div>
       </div>
     `;
   }
@@ -184,8 +186,6 @@ class PortfolioPage {
             <p><a href="mailto:nishikantaray@example.com">nishikantaray@example.com</a></p>
           </div>
 
-          ${socialLinksHtml}
-
           <div class="status-section">
             <h2>Current Status</h2>
             <div class="status-indicator">
@@ -200,6 +200,8 @@ class PortfolioPage {
             <h2>What I Do</h2>
             <p>Frontend development • Full-stack applications • UI/UX design • Performance optimization</p>
           </div>
+
+          ${socialLinksHtml}
         </div>
       `;
       container.classList.add("fade-in");

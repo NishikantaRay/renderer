@@ -218,6 +218,28 @@ body {
     text-align: center;
 }
 
+.hero-profile-image {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-6);
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.profile-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-color: var(--text-accent);
+}
+
 .hero-title {
     font-size: 2.5rem;
     font-weight: 700;
@@ -230,6 +252,12 @@ body {
     color: var(--text-muted);
     margin-bottom: var(--space-8);
     line-height: 1.7;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hero-intro.content-loaded {
+    opacity: 1;
 }
 
 .hero-intro a {
@@ -285,6 +313,12 @@ body {
     justify-content: center;
     margin-top: var(--space-8);
     flex-wrap: wrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hero-actions.content-loaded {
+    opacity: 1;
 }
 
 .btn {
@@ -550,9 +584,17 @@ body {
 
 /* Freelance Projects Section */
 .freelance-projects,
-.latest-products {
+.latest-products,
+#dashboard {
     padding: var(--space-12) 0;
     border-top: 1px solid var(--border);
+    display: none; /* Hidden by default, shown by JS if enabled */
+}
+
+.freelance-projects.section-visible,
+.latest-products.section-visible,
+#dashboard.section-visible {
+    display: block;
 }
 
 .section-header {

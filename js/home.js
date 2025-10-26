@@ -182,6 +182,7 @@ class MinimalPortfolio {
       hero: {
         name: "Nishikanta Ray",
         title: "Full-Stack Developer & Designer",
+        profile_image: "https://ui-avatars.com/api/?name=Your+Name&size=240&background=0D8ABC&color=fff",
         intro: [
           "I'm a passionate Software Engineer with expertise in full-stack development and a keen interest in creating innovative solutions. Currently working at <a href='https://letsflo.co' target='_blank' rel='noopener noreferrer'>@letsflo</a> and actively contributing to the open-source community.",
         
@@ -324,6 +325,13 @@ class MinimalPortfolio {
 
     const hero = this.homeConfig.hero;
     
+    // Update profile image
+    const profileImg = document.querySelector('.profile-img');
+    if (profileImg && hero.profile_image) {
+      profileImg.src = hero.profile_image;
+      profileImg.alt = hero.name || 'Profile';
+    }
+    
     // Update hero title
     const titleElement = document.querySelector('.hero-title');
     if (titleElement && hero.name) {
@@ -344,23 +352,31 @@ class MinimalPortfolio {
         introContent = '<p>Welcome to my portfolio</p>';
       }
       introElement.innerHTML = introContent;
+      // Show the intro content with smooth fade-in
+      introElement.classList.add('content-loaded');
     }
 
     // Update action buttons
+    const actionsElement = document.querySelector('.hero-actions');
     if (hero.actions) {
       const primaryBtn = document.querySelector('.btn-primary');
       if (primaryBtn) {
         primaryBtn.href = hero.actions.primary_link;
         const btnText = primaryBtn.querySelector('svg').nextSibling;
-        if (btnText) btnText.textContent = hero.actions.primary_text;
+        if (btnText) btnText.textContent = ' ' + hero.actions.primary_text;
       }
 
       const secondaryBtn = document.querySelector('.btn-secondary');
       if (secondaryBtn) {
         secondaryBtn.href = hero.actions.secondary_link;
         const btnText = secondaryBtn.querySelector('svg').nextSibling;
-        if (btnText) btnText.textContent = hero.actions.secondary_text;
+        if (btnText) btnText.textContent = ' ' + hero.actions.secondary_text;
       }
+    }
+    
+    // Show the actions with smooth fade-in
+    if (actionsElement) {
+      actionsElement.classList.add('content-loaded');
     }
   }
 
@@ -496,6 +512,7 @@ class MinimalPortfolio {
 
     // Show/hide main dashboard section
     if (this.isDashboardEnabled()) {
+      dashboardSection.classList.add('section-visible');
       dashboardSection.style.display = 'block';
       
       // Update dashboard title and subtitle
@@ -507,6 +524,7 @@ class MinimalPortfolio {
       // Control individual sections
       this.controlDashboardSubSections();
     } else {
+      dashboardSection.classList.remove('section-visible');
       dashboardSection.style.display = 'none';
     }
   }
@@ -989,6 +1007,23 @@ class MinimalPortfolio {
   }
 
   async loadFreelanceProjects() {
+    const section = document.getElementById('freelance-projects');
+    
+    // Check if freelance section is enabled
+    if (this.homeConfig?.freelance_clients?.enabled === false) {
+      if (section) {
+        section.style.display = 'none';
+        section.classList.remove('section-visible');
+      }
+      console.log('Freelance projects section disabled');
+      return;
+    }
+
+    // Show the section if enabled
+    if (section) {
+      section.classList.add('section-visible');
+    }
+
     const container = document.getElementById('freelanceProjectsContainer');
     if (!container) {
       console.error('Freelance projects container not found');
@@ -1077,6 +1112,23 @@ class MinimalPortfolio {
   }
 
   async loadLatestProducts() {
+    const section = document.getElementById('latest-products');
+    
+    // Check if latest products section is enabled
+    if (this.homeConfig?.latest_products?.enabled === false) {
+      if (section) {
+        section.style.display = 'none';
+        section.classList.remove('section-visible');
+      }
+      console.log('Latest products section disabled');
+      return;
+    }
+
+    // Show the section if enabled
+    if (section) {
+      section.classList.add('section-visible');
+    }
+
     const container = document.getElementById('productsContainer');
     if (!container) {
       console.error('Products container not found');

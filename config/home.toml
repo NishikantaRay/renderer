@@ -1,9 +1,13 @@
 # Home Page Configuration
 # Configure all content and settings for the home page
 
+# Home Page Configuration
+# Configure all content and settings for the home page
+
 [hero]
-name = "Your Name"
-title = "Full-Stack Developer & Designer"
+name = "Nishikanta Ray"
+title = "Software Engineer & Full Stack Developer"
+profile_image = "https://ui-avatars.com/api/?name=Your+Name&size=240&background=0D8ABC&color=fff"  # Profile image URL
 intro = [
     "I work on web development, user experience design, and modern frontend technologies among other digital things.",
     "This website is an archive of my work and thoughts. Currently, I'm into React, TypeScript, and building modern web applications. If you fancy a longer introduction, try the about page, or check out my blog for recent thoughts and insights."

@@ -48,46 +48,25 @@ class TomlLoader {
             return window.TOML;
         }
 
-        // Try to load parser from CDNs
-        const cdnSources = [
-            {
-                url: 'https://cdn.jsdelivr.net/npm/js-toml@0.5.0/lib/toml.min.js',
-                globalName: 'toml',
-                description: 'js-toml from jsDelivr'
-            },
-            {
-                url: 'https://unpkg.com/js-toml@0.5.0/lib/toml.min.js',
-                globalName: 'toml',
-                description: 'js-toml from unpkg'
-            },
-            {
-                url: 'https://cdn.jsdelivr.net/npm/@iarna/toml@2.2.5/lib/toml-browser.js',
-                globalName: 'TOML',
-                description: '@iarna/toml from jsDelivr'
-            },
-            {
-                url: 'https://unpkg.com/@iarna/toml@2.2.5/lib/toml-browser.js',
-                globalName: 'TOML',
-                description: '@iarna/toml from unpkg'
-            }
-        ];
+        // Wait a bit for scripts to load if they're still loading
+        console.log('No TOML parser found immediately, waiting for scripts to load...');
+        await new Promise(resolve => setTimeout(resolve, 500));
 
-        for (const source of cdnSources) {
-            try {
-                console.log(`Attempting to load ${source.description}...`);
-                const parser = await this.loadParserFromCDN(source.url, source.globalName);
-                if (parser && parser.parse) {
-                    console.log(`Successfully loaded ${source.description}`);
-                    return parser;
-                }
-            } catch (error) {
-                console.warn(`Failed to load ${source.description}:`, error.message);
-            }
+        // Check again after waiting
+        if (window.toml && window.toml.parse) {
+            console.log('Using window.toml parser after wait');
+            return window.toml;
         }
 
-        // If all CDNs fail, return null (caller should handle fallback)
-        console.warn('Unable to load any TOML parser from CDNs');
-        console.log('Creating simple TOML parser fallback...');
+        if (window.TOML && window.TOML.parse) {
+            console.log('Using window.TOML parser after wait');
+            return window.TOML;
+        }
+
+        console.log('No existing TOML parser found, trying simple fallback parser instead of CDNs...');
+
+        // Instead of trying CDNs (which are failing), go directly to simple parser
+        console.log('Creating simple inline TOML parser fallback');
         return this.createSimpleTomlParser();
     }
 
@@ -98,7 +77,13 @@ class TomlLoader {
             script.src = url;
             script.async = true;
             
+            const timeout = setTimeout(() => {
+                script.remove();
+                reject(new Error(`Timeout loading script from ${url}`));
+            }, 5000); // Reduced timeout to 5 seconds
+            
             script.onload = () => {
+                clearTimeout(timeout);
                 // Wait a bit for the script to initialize
                 setTimeout(() => {
                     const parser = window[globalName];
@@ -111,24 +96,9 @@ class TomlLoader {
             };
             
             script.onerror = () => {
+                clearTimeout(timeout);
                 reject(new Error(`Failed to load script from ${url}`));
             };
-
-            // Set a timeout to avoid hanging
-            const timeout = setTimeout(() => {
-                script.remove();
-                reject(new Error(`Timeout loading script from ${url}`));
-            }, 10000);
-
-            script.onload = script.onload || (() => {
-                clearTimeout(timeout);
-                script.onload();
-            });
-
-            script.onerror = script.onerror || (() => {
-                clearTimeout(timeout);
-                script.onerror();
-            });
 
             document.head.appendChild(script);
         });

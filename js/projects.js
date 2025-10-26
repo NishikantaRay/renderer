@@ -66,7 +66,7 @@ class PortfolioPage {
     }
     
     // Update document title
-    document.title = `${meta.title} - Your Name`;
+    document.title = `${meta.title} - Nishikanta Ray`;
     
     // Update meta description
     const metaDesc = document.querySelector('meta[name="description"]');

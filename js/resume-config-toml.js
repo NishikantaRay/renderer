@@ -418,7 +418,7 @@ class ResumeConfig {
         // Otherwise use minimal default config
         this.config = {
             personal: {
-                name: "Your Name",
+                name: "Nishikanta Ray",
                 title: "Your Title",
                 email: "your.email@example.com",
                 phone: "+1 (555) 123-4567",

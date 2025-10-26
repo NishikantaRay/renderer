@@ -83,4 +83,4 @@ Experimental projects exploring new technologies and concepts.
 
 ---
 
-*Want to collaborate on something? [Get in touch](#contact)!*
+*Want to collaborate on something? [Get in touch](https://us10.list-manage.com/contact-form?u=6de222a2f25969efb260c03d4&form_id=f68d4e9f93e132f6e275d7e4ee0bd76a)!*

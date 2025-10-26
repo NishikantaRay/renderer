@@ -369,6 +369,11 @@ class MinimalPortfolio {
       const secondaryBtn = document.querySelector('.btn-secondary');
       if (secondaryBtn) {
         secondaryBtn.href = hero.actions.secondary_link;
+        // Add target="_blank" if the link is external
+        if (hero.actions.secondary_link && (hero.actions.secondary_link.startsWith('http://') || hero.actions.secondary_link.startsWith('https://'))) {
+          secondaryBtn.target = '_blank';
+          secondaryBtn.rel = 'noopener noreferrer';
+        }
         const btnText = secondaryBtn.querySelector('svg').nextSibling;
         if (btnText) btnText.textContent = ' ' + hero.actions.secondary_text;
       }
@@ -381,13 +386,12 @@ class MinimalPortfolio {
   }
 
   updateFooter() {
-    if (!this.homeConfig?.footer) return;
-
-    const footer = this.homeConfig.footer;
     const footerElement = document.querySelector('.footer p');
+    const currentYear = new Date().getFullYear();
+    const name = this.homeConfig?.hero?.name || 'Your Name';
     
     if (footerElement) {
-      footerElement.innerHTML = `&copy; ${footer.year} ${this.homeConfig.hero?.name || 'Your Name'}. ${footer.text ? `Built with <a href="${footer.link}" target="_blank">${footer.text}</a>.` : ''}`;
+      footerElement.innerHTML = `&copy; ${currentYear} ${name}. Built with <a href="https://renderer.nishikanta.in/" target="_blank" rel="noopener noreferrer">Renderer</a> ❤️`;
     }
   }
 

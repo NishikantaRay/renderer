@@ -90,7 +90,7 @@
                     </svg>
                     Hire Me
                 </a>
-                <a href="#contact" class="btn btn-secondary">
+                <a href="https://us10.list-manage.com/contact-form?u=6de222a2f25969efb260c03d4&form_id=f68d4e9f93e132f6e275d7e4ee0bd76a" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
@@ -228,8 +228,12 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 Nishikanta Ray. Built with <a href="https://github.com/markedjs/marked" target="_blank">Marked.js</a>.</p>
+        <p>&copy; <span id="footer-year"></span> Your Name. Built with <a href="https://renderer.nishikanta.in/" target="_blank" rel="noopener noreferrer">Renderer</a> ❤️</p>
     </footer>
+    
+    <script>
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+    </script>
     
     <!-- Load TOML parser utility first -->
     <script src="./js/toml-loader.js"></script>

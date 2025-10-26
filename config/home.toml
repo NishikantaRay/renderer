@@ -17,7 +17,7 @@ intro = [
 primary_text = "Hire Me"
 primary_link = "resume.html"
 secondary_text = "Let's Talk"
-secondary_link = "#contact"
+secondary_link = "https://us10.list-manage.com/contact-form?u=6de222a2f25969efb260c03d4&form_id=f68d4e9f93e132f6e275d7e4ee0bd76a"
 
 [sections]
 # Configure which sections to show and their order

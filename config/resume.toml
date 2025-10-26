@@ -105,6 +105,8 @@ description = "Built a full-featured e-commerce platform with advanced inventory
 technologies = ["React", "Node.js", "MongoDB", "Stripe", "AWS"]
 start_date = "2024"
 end_date = "2024"
+live_url = "https://ecommerce-demo.alexjohnson.dev"
+github_url = "https://github.com/alexjohnson/ecommerce-platform"
 highlights = [
     "Handles 50K+ products with real-time inventory tracking",
     "Integrated multiple payment gateways and shipping providers",
@@ -118,6 +120,8 @@ description = "Developed a collaborative task management application for remote 
 technologies = ["Vue.js", "Express", "PostgreSQL", "Socket.io", "Docker"]
 start_date = "2023"
 end_date = "2023"
+live_url = "https://taskflow.alexjohnson.dev"
+github_url = "https://github.com/alexjohnson/task-management-saas"
 highlights = [
     "Real-time collaboration features with WebSocket implementation",
     "Multi-tenant architecture supporting 100+ organizations",
@@ -131,6 +135,8 @@ description = "Created and maintain a lightweight, utility-first CSS framework"
 technologies = ["Sass", "PostCSS", "JavaScript", "Webpack"]
 start_date = "2022"
 end_date = "2024"
+live_url = "https://flexicss.dev"
+github_url = "https://github.com/alexjohnson/flexicss"
 highlights = [
     "1000+ GitHub stars and 50+ contributors",
     "Used by 200+ projects in production",
@@ -144,6 +150,8 @@ description = "Built machine learning powered business intelligence dashboard"
 technologies = ["Python", "TensorFlow", "React", "D3.js", "PostgreSQL"]
 start_date = "2021"
 end_date = "2021"
+live_url = "https://analytics-ai.alexjohnson.dev"
+github_url = "https://github.com/alexjohnson/ai-analytics-dashboard"
 highlights = [
     "Implemented predictive analytics using machine learning models",
     "Interactive data visualizations with custom D3.js components",

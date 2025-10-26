@@ -285,6 +285,12 @@ class ResumeConfig {
                 const endDateMatch = projMatch.match(/end_date\s*=\s*"([^"]*)"/);
                 if (endDateMatch) proj.end_date = endDateMatch[1];
                 
+                const liveUrlMatch = projMatch.match(/live_url\s*=\s*"([^"]*)"/);
+                if (liveUrlMatch) proj.live_url = liveUrlMatch[1];
+                
+                const githubUrlMatch = projMatch.match(/github_url\s*=\s*"([^"]*)"/);
+                if (githubUrlMatch) proj.github_url = githubUrlMatch[1];
+                
                 // Parse technologies array
                 const technologiesMatch = projMatch.match(/technologies\s*=\s*\[([\s\S]*?)\]/);
                 if (technologiesMatch) {

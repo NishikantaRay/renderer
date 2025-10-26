@@ -6,18 +6,18 @@
 
 window.RESUME_CONFIG_JS = {
     personal: {
-        name: "Nishikanta Ray",
-        title: "Full Stack Developer & Software Engineer",
+        name: "John Doe",
+        title: "Senior Full Stack Developer",
         phone: "+1 (555) 123-4567",
-        email: "nishikantaray@email.com",
-        website: "https://nishikantaray.dev",
-        github: "https://github.com/NishikantaRay",
-        linkedin: "https://linkedin.com/in/nishikantaray",
+        email: "john.doe@email.com",
+        website: "https://johndoe.dev",
+        github: "https://github.com/johndoe",
+        linkedin: "https://linkedin.com/in/johndoe",
         location: "San Francisco, CA"
     },
 
     summary: {
-        text: "Experienced Full Stack Developer with 5+ years of expertise in modern web technologies. Passionate about creating scalable applications and leading development teams. Proven track record of delivering high-quality software solutions that drive business growth and enhance user experiences."
+        text: "Experienced Full Stack Developer with 5+ years of expertise in modern web technologies. Passionate about creating scalable applications and leading development teams. Currently working at @techcorp and actively contributing to the open-source community."
     },
 
     experience: [
@@ -75,7 +75,7 @@ window.RESUME_CONFIG_JS = {
             institution_url: "https://www.berkeley.edu",
             location: "Berkeley, CA",
             graduation_year: "2019",
-            gpa: "3.8",
+            gpa: "3.8/4.0",
             relevant_coursework: [
                 "Data Structures and Algorithms",
                 "Software Engineering",
@@ -91,7 +91,7 @@ window.RESUME_CONFIG_JS = {
             institution_url: "https://www.ccsf.edu",
             location: "San Francisco, CA",
             graduation_year: "2017",
-            gpa: "3.9",
+            gpa: "3.9/4.0",
             relevant_coursework: [
                 "Web Programming",
                 "Database Design",
@@ -109,8 +109,8 @@ window.RESUME_CONFIG_JS = {
             technologies: ["React", "Node.js", "MongoDB", "Stripe API", "Redis"],
             start_date: "Mar 2023",
             end_date: "Aug 2023",
-            github_url: "https://github.com/NishikantaRay/ecommerce-platform",
-            live_url: "https://ecommerce-demo.nishikantaray.dev",
+            github_url: "https://github.com/johndoe/ecommerce-platform",
+            live_url: "https://ecommerce-demo.johndoe.dev",
             highlights: [
                 "Built scalable microservices architecture handling 10k+ concurrent users",
                 "Implemented real-time inventory tracking with WebSocket connections",
@@ -124,7 +124,7 @@ window.RESUME_CONFIG_JS = {
             technologies: ["Vue.js", "Express.js", "PostgreSQL", "Socket.io", "Docker"],
             start_date: "Jan 2023",
             end_date: "Jun 2023",
-            github_url: "https://github.com/NishikantaRay/task-management",
+            github_url: "https://github.com/johndoe/task-management",
             live_url: "https://taskmanager-demo.com",
             highlights: [
                 "Developed real-time collaboration features using WebSockets",
@@ -139,13 +139,27 @@ window.RESUME_CONFIG_JS = {
             technologies: ["React Native", "Firebase", "Chart.js", "Plaid API"],
             start_date: "Sep 2022",
             end_date: "Dec 2022",
-            github_url: "https://github.com/NishikantaRay/finance-tracker",
-            live_url: "https://finance-tracker.nishikantaray.dev",
+            github_url: "https://github.com/johndoe/finance-tracker",
+            live_url: "https://finance-tracker-demo.vercel.app",
             highlights: [
                 "Built cross-platform mobile app with React Native",
                 "Integrated bank account connections using Plaid API",
                 "Created interactive data visualizations for spending analysis",
                 "Implemented secure authentication with Firebase Auth"
+            ]
+        },
+        {
+            name: "AI Content Generator",
+            description: "Machine learning powered content creation tool",
+            technologies: ["Python", "TensorFlow", "Flask", "React", "AWS Lambda"],
+            start_date: "Apr 2022",
+            end_date: "Aug 2022",
+            github_url: "https://github.com/johndoe/ai-content-generator",
+            highlights: [
+                "Trained custom NLP models for content generation",
+                "Built serverless architecture using AWS Lambda",
+                "Implemented user authentication and subscription management",
+                "Achieved 95% accuracy in content relevance scoring"
             ]
         }
     ],
@@ -240,7 +254,7 @@ window.RESUME_CONFIG_JS = {
     settings: {
         show_gpa: true,
         show_location: true,
-        show_phone: false,
+        show_phone: true,
         date_format: "MMM YYYY",
         max_achievements_per_section: 6,
         enable_share_button: true

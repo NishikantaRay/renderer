@@ -99,12 +99,29 @@ class ResumeConfig {
         }
     }
 
-    // Simple manual TOML parser for settings
+        // Simple manual TOML parser - TOML-first approach
     parseTomlManually(tomlContent) {
-        console.log('Using manual TOML parser...');
+        console.log('Using manual TOML parser - TOML-first approach...');
         
-        // Start with JavaScript fallback as base
-        const config = window.RESUME_CONFIG_JS ? JSON.parse(JSON.stringify(window.RESUME_CONFIG_JS)) : this.getMinimalConfig();
+        // Start with empty config structure - NO JavaScript fallback
+        const config = {
+            personal: {},
+            summary: { text: "" },
+            companies: {},
+            experience: [],
+            education: [],
+            projects: [],
+            skills: {},
+            achievements: [],
+            settings: {
+                show_gpa: true,
+                show_location: true,
+                show_phone: false,
+                date_format: "MMM YYYY",
+                max_achievements_per_section: 10,
+                enable_share_button: true
+            }
+        };
         
         // Parse personal section
         const personalMatch = tomlContent.match(/\[personal\]([\s\S]*?)(?=\n\[|\n#|$)/);
@@ -123,56 +140,284 @@ class ResumeConfig {
             
             const emailMatch = personalSection.match(/email\s*=\s*"([^"]*)"/);
             if (emailMatch) config.personal.email = emailMatch[1];
+            
+            const websiteMatch = personalSection.match(/website\s*=\s*"([^"]*)"/);
+            if (websiteMatch) config.personal.website = websiteMatch[1];
+            
+            const githubMatch = personalSection.match(/github\s*=\s*"([^"]*)"/);
+            if (githubMatch) config.personal.github = githubMatch[1];
+            
+            const linkedinMatch = personalSection.match(/linkedin\s*=\s*"([^"]*)"/);
+            if (linkedinMatch) config.personal.linkedin = linkedinMatch[1];
+            
+            const locationMatch = personalSection.match(/location\s*=\s*"([^"]*)"/);
+            if (locationMatch) config.personal.location = locationMatch[1];
         }
         
-        // Parse settings section manually
+        // Parse summary section
+        const summaryMatch = tomlContent.match(/\[summary\]([\s\S]*?)(?=\n\[|\n#|$)/);
+        if (summaryMatch) {
+            const summarySection = summaryMatch[1];
+            console.log('Parsing summary section...');
+            
+            const textMatch = summarySection.match(/text\s*=\s*"((?:[^"\\]|\\.)*)"/s);
+            if (textMatch) {
+                const unescapedText = textMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+                config.summary = { text: unescapedText };
+                console.log('Parsed summary text:', config.summary.text);
+            }
+        }
+        
+        // Parse companies section for @mention mappings
+        const companiesMatches = tomlContent.match(/\[companies\.(\w+)\]([\s\S]*?)(?=\n\[|\n#|$)/g);
+        if (companiesMatches) {
+            console.log('Parsing companies sections...');
+            companiesMatches.forEach(companyMatch => {
+                const companyKeyMatch = companyMatch.match(/\[companies\.(\w+)\]/);
+                if (companyKeyMatch) {
+                    const companyKey = companyKeyMatch[1];
+                    const company = {};
+                    
+                    const mentionMatch = companyMatch.match(/mention\s*=\s*"([^"]*)"/);
+                    if (mentionMatch) company.mention = mentionMatch[1];
+                    
+                    const nameMatch = companyMatch.match(/name\s*=\s*"([^"]*)"/);
+                    if (nameMatch) company.name = nameMatch[1];
+                    
+                    const urlMatch = companyMatch.match(/url\s*=\s*"([^"]*)"/);
+                    if (urlMatch) company.url = urlMatch[1];
+                    
+                    config.companies[companyKey] = company;
+                }
+            });
+        }
+        
+        // Parse experience sections
+        const experienceMatches = tomlContent.match(/\[\[experience\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
+        if (experienceMatches) {
+            console.log('Parsing experience sections...');
+            config.experience = experienceMatches.map(expMatch => {
+                const exp = {};
+                
+                const positionMatch = expMatch.match(/position\s*=\s*"([^"]*)"/);
+                if (positionMatch) exp.position = positionMatch[1];
+                
+                const companyMatch = expMatch.match(/company\s*=\s*"([^"]*)"/);
+                if (companyMatch) exp.company = companyMatch[1];
+                
+                const companyUrlMatch = expMatch.match(/company_url\s*=\s*"([^"]*)"/);
+                if (companyUrlMatch) exp.company_url = companyUrlMatch[1];
+                
+                const locationMatch = expMatch.match(/location\s*=\s*"([^"]*)"/);
+                if (locationMatch) exp.location = locationMatch[1];
+                
+                const startDateMatch = expMatch.match(/start_date\s*=\s*"([^"]*)"/);
+                if (startDateMatch) exp.start_date = startDateMatch[1];
+                
+                const endDateMatch = expMatch.match(/end_date\s*=\s*"([^"]*)"/);
+                if (endDateMatch) exp.end_date = endDateMatch[1];
+                
+                const isCurrentMatch = expMatch.match(/is_current\s*=\s*(true|false)/);
+                if (isCurrentMatch) exp.is_current = isCurrentMatch[1] === 'true';
+                
+                // Parse achievements array
+                const achievementsMatch = expMatch.match(/achievements\s*=\s*\[([\s\S]*?)\]/);
+                if (achievementsMatch) {
+                    const achievementsStr = achievementsMatch[1];
+                    const achievements = achievementsStr.match(/"([^"\\]*(\\.[^"\\]*)*)"/g);
+                    if (achievements) {
+                        exp.achievements = achievements.map(a => a.slice(1, -1).replace(/\\"/g, '"'));
+                    }
+                }
+                
+                return exp;
+            });
+        }
+        
+        // Parse education sections
+        const educationMatches = tomlContent.match(/\[\[education\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
+        if (educationMatches) {
+            console.log('Parsing education sections...');
+            config.education = educationMatches.map(eduMatch => {
+                const edu = {};
+                
+                const degreeMatch = eduMatch.match(/degree\s*=\s*"([^"]*)"/);
+                if (degreeMatch) edu.degree = degreeMatch[1];
+                
+                const institutionMatch = eduMatch.match(/institution\s*=\s*"([^"]*)"/);
+                if (institutionMatch) edu.institution = institutionMatch[1];
+                
+                const institutionUrlMatch = eduMatch.match(/institution_url\s*=\s*"([^"]*)"/);
+                if (institutionUrlMatch) edu.institution_url = institutionUrlMatch[1];
+                
+                const locationMatch = eduMatch.match(/location\s*=\s*"([^"]*)"/);
+                if (locationMatch) edu.location = locationMatch[1];
+                
+                const graduationYearMatch = eduMatch.match(/graduation_year\s*=\s*"([^"]*)"/);
+                if (graduationYearMatch) edu.graduation_year = graduationYearMatch[1];
+                
+                const gpaMatch = eduMatch.match(/gpa\s*=\s*"([^"]*)"/);
+                if (gpaMatch) edu.gpa = gpaMatch[1];
+                
+                const notesMatch = eduMatch.match(/notes\s*=\s*"([^"]*)"/);
+                if (notesMatch) edu.notes = notesMatch[1];
+                
+                return edu;
+            });
+        }
+        
+        // Parse projects sections
+        const projectMatches = tomlContent.match(/\[\[projects\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
+        if (projectMatches) {
+            console.log('Parsing projects sections...');
+            config.projects = projectMatches.map(projMatch => {
+                const proj = {};
+                
+                const nameMatch = projMatch.match(/name\s*=\s*"([^"]*)"/);
+                if (nameMatch) proj.name = nameMatch[1];
+                
+                const descriptionMatch = projMatch.match(/description\s*=\s*"([^"]*)"/);
+                if (descriptionMatch) proj.description = descriptionMatch[1];
+                
+                const startDateMatch = projMatch.match(/start_date\s*=\s*"([^"]*)"/);
+                if (startDateMatch) proj.start_date = startDateMatch[1];
+                
+                const endDateMatch = projMatch.match(/end_date\s*=\s*"([^"]*)"/);
+                if (endDateMatch) proj.end_date = endDateMatch[1];
+                
+                // Parse technologies array
+                const technologiesMatch = projMatch.match(/technologies\s*=\s*\[([\s\S]*?)\]/);
+                if (technologiesMatch) {
+                    const techStr = technologiesMatch[1];
+                    const technologies = techStr.match(/"([^"]*)"/g);
+                    if (technologies) {
+                        proj.technologies = technologies.map(t => t.slice(1, -1));
+                    }
+                }
+                
+                // Parse highlights array
+                const highlightsMatch = projMatch.match(/highlights\s*=\s*\[([\s\S]*?)\]/);
+                if (highlightsMatch) {
+                    const highlightsStr = highlightsMatch[1];
+                    const highlights = highlightsStr.match(/"([^"\\]*(\\.[^"\\]*)*)"/g);
+                    if (highlights) {
+                        proj.highlights = highlights.map(h => h.slice(1, -1).replace(/\\"/g, '"'));
+                    }
+                }
+                
+                return proj;
+            });
+        }
+        
+        // Parse skills sections
+        const skillsMatches = tomlContent.match(/\[skills\.(\w+)\]([\s\S]*?)(?=\n\[|\n#|$)/g);
+        if (skillsMatches) {
+            console.log('Parsing skills sections...');
+            skillsMatches.forEach(skillMatch => {
+                const skillKeyMatch = skillMatch.match(/\[skills\.(\w+)\]/);
+                if (skillKeyMatch) {
+                    const skillKey = skillKeyMatch[1];
+                    const skill = {};
+                    
+                    const categoryMatch = skillMatch.match(/category\s*=\s*"([^"]*)"/);
+                    if (categoryMatch) skill.category = categoryMatch[1];
+                    
+                    const technologiesMatch = skillMatch.match(/technologies\s*=\s*\[([\s\S]*?)\]/);
+                    if (technologiesMatch) {
+                        const techStr = technologiesMatch[1];
+                        const technologies = techStr.match(/"([^"]*)"/g);
+                        if (technologies) {
+                            skill.technologies = technologies.map(t => t.slice(1, -1));
+                        }
+                    }
+                    
+                    config.skills[skillKey] = skill;
+                }
+            });
+        }
+        
+        // Parse achievements sections
+        const achievementMatches = tomlContent.match(/\[\[achievements\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
+        if (achievementMatches) {
+            console.log('Parsing achievements sections...');
+            config.achievements = achievementMatches.map(achMatch => {
+                const ach = {};
+                
+                const titleMatch = achMatch.match(/title\s*=\s*"([^"]*)"/);
+                if (titleMatch) ach.title = titleMatch[1];
+                
+                const issuerMatch = achMatch.match(/issuer\s*=\s*"([^"]*)"/);
+                if (issuerMatch) ach.issuer = issuerMatch[1];
+                
+                const dateMatch = achMatch.match(/date\s*=\s*"([^"]*)"/);
+                if (dateMatch) ach.date = dateMatch[1];
+                
+                const typeMatch = achMatch.match(/type\s*=\s*"([^"]*)"/);
+                if (typeMatch) ach.type = typeMatch[1];
+                
+                const descriptionMatch = achMatch.match(/description\s*=\s*"([^"]*)"/);
+                if (descriptionMatch) ach.description = descriptionMatch[1];
+                
+                return ach;
+            });
+        }
+        
+        // Parse settings section
         const settingsMatch = tomlContent.match(/\[settings\]([\s\S]*?)(?=\n\[|\n#|$)/);
         if (settingsMatch) {
             const settingsSection = settingsMatch[1];
             console.log('Found settings section:', settingsSection);
             
-            // Parse individual settings
             const showPhoneMatch = settingsSection.match(/show_phone\s*=\s*(true|false)/);
             if (showPhoneMatch) {
                 config.settings.show_phone = showPhoneMatch[1] === 'true';
-                console.log('Parsed show_phone:', config.settings.show_phone);
             }
             
             const showLocationMatch = settingsSection.match(/show_location\s*=\s*(true|false)/);
             if (showLocationMatch) {
                 config.settings.show_location = showLocationMatch[1] === 'true';
-                console.log('Parsed show_location:', config.settings.show_location);
             }
             
             const showGpaMatch = settingsSection.match(/show_gpa\s*=\s*(true|false)/);
             if (showGpaMatch) {
                 config.settings.show_gpa = showGpaMatch[1] === 'true';
-                console.log('Parsed show_gpa:', config.settings.show_gpa);
             }
             
             const dateFormatMatch = settingsSection.match(/date_format\s*=\s*"([^"]*)"/);
             if (dateFormatMatch) {
                 config.settings.date_format = dateFormatMatch[1];
             }
+            
+            const maxAchievementsMatch = settingsSection.match(/max_achievements_per_section\s*=\s*(\d+)/);
+            if (maxAchievementsMatch) {
+                config.settings.max_achievements_per_section = parseInt(maxAchievementsMatch[1]);
+            }
+            
+            const enableShareMatch = settingsSection.match(/enable_share_button\s*=\s*(true|false)/);
+            if (enableShareMatch) {
+                config.settings.enable_share_button = enableShareMatch[1] === 'true';
+            }
         }
         
-        console.log('Manual parsing complete. Final settings:', config.settings);
+        console.log('Manual parsing complete. Final config:', config);
         return config;
     }
 
     getMinimalConfig() {
         return {
             personal: {
-                name: "Nishikanta Ray",
-                title: "Software Engineer",
-                phone: "+91-6372833923",
-                email: "nishikantaray1@gmail.com",
-                website: "https://nishikanta.in",
-                github: "https://github.com/NishikantaRay",
-                linkedin: "https://linkedin.com/in/nishikanta-ray-7786a0196",
-                location: "Bhubaneswar, Odisha"
+                name: "John Doe",
+                title: "Senior Full Stack Developer",
+                phone: "+1 (555) 123-4567",
+                email: "john.doe@email.com",
+                website: "https://johndoe.dev",
+                github: "https://github.com/johndoe",
+                linkedin: "https://linkedin.com/in/johndoe",
+                location: "San Francisco, CA"
             },
-            summary: { text: "Software Engineer" },
+            summary: { 
+                text: "Experienced Full Stack Developer with 5+ years of expertise in modern web technologies. Passionate about creating scalable applications and leading development teams. Currently working at @techcorp and actively contributing to the open-source community." 
+            },
             experience: [],
             education: [],
             projects: [],
@@ -181,7 +426,7 @@ class ResumeConfig {
             settings: {
                 show_gpa: true,
                 show_location: true,
-                show_phone: false,
+                show_phone: true,
                 date_format: "MMM YYYY",
                 enable_share_button: true
             }
@@ -249,13 +494,51 @@ class ResumeConfig {
         `;
     }
 
+    // Process text to convert @mentions to links
+    processTextWithMentions(text) {
+        if (!text) return '';
+        
+        // Use company mappings from TOML configuration instead of hardcoded values
+        const companyMappings = {};
+        
+        // Build mappings from TOML companies section
+        if (this.config.companies) {
+            Object.values(this.config.companies).forEach(company => {
+                if (company.mention && company.name && company.url) {
+                    companyMappings[company.mention] = {
+                        name: company.name,
+                        url: company.url
+                    };
+                }
+            });
+        }
+        
+        // Fallback to default mappings if no TOML companies found
+        if (Object.keys(companyMappings).length === 0) {
+            console.warn('No companies found in TOML, using fallback mappings');
+            companyMappings['@letsflo'] = { name: 'Lets Flo', url: 'https://letsflo.in' };
+            companyMappings['@teceads'] = { name: 'Teceads Solutions', url: 'https://teceads.com' };
+        }
+        
+        // Replace @mentions with clickable links
+        let processedText = text;
+        for (const [mention, company] of Object.entries(companyMappings)) {
+            const linkHtml = `<a href="${company.url}" target="_blank" rel="noopener noreferrer" class="company-mention">${company.name}</a>`;
+            processedText = processedText.replace(new RegExp(mention, 'gi'), linkHtml);
+        }
+        
+        return processedText;
+    }
+
     // Generate summary section HTML
     generateSummary() {
         if (!this.config.summary || !this.config.summary.text) return '';
         
+        const processedText = this.processTextWithMentions(this.config.summary.text);
+        
         return `
             <div class="summary">
-                <p>${this.config.summary.text}</p>
+                <p>${processedText}</p>
             </div>
         `;
     }
@@ -283,7 +566,7 @@ class ResumeConfig {
                 ${exp.achievements && exp.achievements.length > 0 ? `
                     <div class="item-description">
                         <ul>
-                            ${exp.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                            ${exp.achievements.map(achievement => `<li>${this.processTextWithMentions(achievement)}</li>`).join('')}
                         </ul>
                     </div>
                 ` : ''}

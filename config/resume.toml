@@ -1,18 +1,41 @@
-# Resume Configuration
+# Resume Configuration - RENDERER WITH DUMMY DATA
 # Configure your resume content from this single file
 
 [personal]
-name = "John Doe"
-title = "Full Stack Developer & Software Engineer"
-phone = "+1 (555) 123-4567"
-email = "john@email.com"
-website = "https://john.dev"
-github = "https://github.com/john"
-linkedin = "https://linkedin.com/in/john"
+name = "Alex Johnson"
+title = "Senior Full Stack Developer"
+phone = "+1-555-123-4567"
+email = "alex.johnson@example.com"
+website = "https://alexjohnson.dev"
+github = "https://github.com/alexjohnson"
+linkedin = "https://linkedin.com/in/alexjohnson"
 location = "San Francisco, CA"
 
 [summary]
-text = "Experienced Full Stack Developer with 5+ years of expertise in modern web technologies. Passionate about creating scalable applications and leading development teams. Proven track record of delivering high-quality software solutions that drive business growth and enhance user experiences."
+text = "Innovative Full Stack Developer with 5+ years of experience building scalable web applications and leading development teams. Currently working at @techcorp and previously contributed to open-source projects at @startupxyz. Passionate about emerging technologies and mentoring junior developers."
+
+# Company Mappings for @mentions
+[companies]
+
+[companies.techcorp]
+mention = "@techcorp"
+name = "TechCorp Solutions"
+url = "https://techcorp.com"
+
+[companies.startupxyz]
+mention = "@startupxyz"
+name = "StartupXYZ"
+url = "https://startupxyz.io"
+
+[companies.digitalagency]
+mention = "@digitalagency"
+name = "Digital Agency Pro"
+url = "https://digitalagencypro.com"
+
+[companies.innovatetech]
+mention = "@innovatetech"
+name = "InnovateTech Labs"
+url = "https://innovatetech.labs"
 
 # Work Experience Section
 [[experience]]
@@ -20,215 +43,217 @@ position = "Senior Full Stack Developer"
 company = "TechCorp Solutions"
 company_url = "https://techcorp.com"
 location = "San Francisco, CA"
-start_date = "Jan 2022"
-end_date = "Present"
+start_date = "Mar 2022"
+end_date = "present"
 is_current = true
 achievements = [
-    "Led development of a microservices architecture serving 100k+ daily active users, improving system performance by 60%",
-    "Architected and implemented real-time analytics dashboard using React, Node.js, and Redis, reducing data processing time by 40%",
-    "Mentored 5 junior developers and established coding standards that reduced bug reports by 35%",
-    "Collaborated with product managers to define technical requirements for new features, resulting in 25% faster delivery times"
+    "Led a team of 6 developers in building a microservices architecture that improved system scalability by 300%",
+    "Implemented CI/CD pipelines using Docker and Kubernetes, reducing deployment time from 2 hours to 15 minutes",
+    "Architected and developed a real-time analytics dashboard serving 10M+ daily active users",
+    "Mentored 4 junior developers and conducted technical interviews for 20+ candidates"
 ]
 
 [[experience]]
 position = "Full Stack Developer"
 company = "StartupXYZ"
 company_url = "https://startupxyz.io"
-location = "San Francisco, CA"
-start_date = "Jun 2020"
-end_date = "Dec 2021"
+location = "Austin, TX"
+start_date = "Jun 2021"
+end_date = "Feb 2022"
 is_current = false
 achievements = [
-    "Built responsive web applications using React, TypeScript, and Node.js for 50+ enterprise clients",
-    "Implemented automated testing strategies that improved code coverage from 45% to 85%",
-    "Optimized database queries and API endpoints, reducing average response time by 50%",
-    "Participated in agile development processes and code reviews to maintain high-quality standards"
+    "Built the complete MVP from scratch using React, Node.js, and PostgreSQL",
+    "Integrated payment processing with Stripe, handling $500K+ in transactions",
+    "Developed responsive web application with 99.9% uptime and sub-2s load times",
+    "Collaborated with design team to implement pixel-perfect UI/UX designs"
+]
+
+[[experience]]
+position = "Frontend Developer"
+company = "Digital Agency Pro"
+company_url = "https://digitalagencypro.com"
+location = "Remote"
+start_date = "Jan 2020"
+end_date = "May 2021"
+is_current = false
+achievements = [
+    "Delivered 15+ client projects including e-commerce platforms and corporate websites",
+    "Optimized web performance achieving 95+ Google Lighthouse scores across all projects",
+    "Implemented automated testing suite reducing bug reports by 60%",
+    "Led frontend architecture decisions for a team of 3 developers"
 ]
 
 [[experience]]
 position = "Junior Web Developer"
-company = "Digital Agency Pro"
-company_url = "https://digitalagencypro.com"
-location = "San Jose, CA"
+company = "InnovateTech Labs"
+company_url = "https://innovatetech.labs"
+location = "New York, NY"
 start_date = "Sep 2019"
-end_date = "May 2020"
+end_date = "Dec 2019"
 is_current = false
 achievements = [
-    "Developed and maintained WordPress websites for small to medium-sized businesses",
-    "Created custom PHP plugins and themes, improving site performance by 30%",
-    "Collaborated with designers to implement pixel-perfect, responsive designs",
-    "Provided technical support and training to clients on content management systems"
+    "Developed interactive web components using modern JavaScript frameworks",
+    "Collaborated on mobile-first responsive design implementations",
+    "Participated in code reviews and improved code quality standards",
+    "Contributed to documentation and developer onboarding processes"
+]
+
+# Projects Section
+[[projects]]
+name = "E-Commerce Platform (2024)"
+description = "Built a full-featured e-commerce platform with advanced inventory management and analytics"
+technologies = ["React", "Node.js", "MongoDB", "Stripe", "AWS"]
+start_date = "2024"
+end_date = "2024"
+highlights = [
+    "Handles 50K+ products with real-time inventory tracking",
+    "Integrated multiple payment gateways and shipping providers",
+    "Implemented advanced search and filtering with Elasticsearch",
+    "Built admin dashboard with comprehensive analytics and reporting"
+]
+
+[[projects]]
+name = "Task Management SaaS (2023)"
+description = "Developed a collaborative task management application for remote teams"
+technologies = ["Vue.js", "Express", "PostgreSQL", "Socket.io", "Docker"]
+start_date = "2023"
+end_date = "2023"
+highlights = [
+    "Real-time collaboration features with WebSocket implementation",
+    "Multi-tenant architecture supporting 100+ organizations",
+    "Advanced project analytics and time tracking capabilities",
+    "Mobile-responsive design with offline functionality"
+]
+
+[[projects]]
+name = "Open Source CSS Framework (2022)"
+description = "Created and maintain a lightweight, utility-first CSS framework"
+technologies = ["Sass", "PostCSS", "JavaScript", "Webpack"]
+start_date = "2022"
+end_date = "2024"
+highlights = [
+    "1000+ GitHub stars and 50+ contributors",
+    "Used by 200+ projects in production",
+    "Comprehensive documentation with interactive examples",
+    "Automated build system with semantic versioning"
+]
+
+[[projects]]
+name = "AI-Powered Analytics Dashboard (2021)"
+description = "Built machine learning powered business intelligence dashboard"
+technologies = ["Python", "TensorFlow", "React", "D3.js", "PostgreSQL"]
+start_date = "2021"
+end_date = "2021"
+highlights = [
+    "Implemented predictive analytics using machine learning models",
+    "Interactive data visualizations with custom D3.js components",
+    "Real-time data processing pipeline handling 1M+ events daily",
+    "Advanced user permission system with role-based access control"
 ]
 
 # Education Section
 [[education]]
-degree = "Bachelor of Science in Computer Science"
-institution = "University of California, Berkeley"
-institution_url = "https://www.berkeley.edu"
-location = "Berkeley, CA"
+degree = "M.S. in Computer Science"
+institution = "Stanford University"
+institution_url = "https://stanford.edu"
+location = "Stanford, CA"
 graduation_year = "2019"
-gpa = "3.8"
-relevant_coursework = [
-    "Data Structures and Algorithms",
-    "Software Engineering",
-    "Database Systems",
-    "Computer Networks",
-    "Machine Learning"
-]
-honors = ["Cum Laude", "Dean's List (6 semesters)"]
+gpa = "3.8/4.0"
+notes = "Specialization in Machine Learning and Web Technologies"
 
 [[education]]
-degree = "Associate of Science in Web Development"
-institution = "City College of San Francisco"
-institution_url = "https://www.ccsf.edu"
-location = "San Francisco, CA"
+degree = "B.S. in Software Engineering"
+institution = "University of California, Berkeley"
+institution_url = "https://berkeley.edu"
+location = "Berkeley, CA"
 graduation_year = "2017"
-gpa = "3.9"
-relevant_coursework = [
-    "Web Programming",
-    "Database Design",
-    "User Interface Design",
-    "Mobile App Development"
-]
-honors = ["High Honors", "President's List"]
+gpa = "3.7/4.0"
+notes = "Magna , Dean's List for 6 semesters"
 
-# Projects Section
-[[projects]]
-name = "E-Commerce Platform"
-description = "Full-stack e-commerce solution with real-time inventory management"
-technologies = ["React", "Node.js", "MongoDB", "Stripe API", "Redis"]
-start_date = "Mar 2023"
-end_date = "Aug 2023"
-github_url = "https://github.com/NishikantaRay/ecommerce-platform"
-live_url = "https://ecommerce-demo.nishikantaray.dev"
-highlights = [
-    "Built scalable microservices architecture handling 10k+ concurrent users",
-    "Implemented real-time inventory tracking with WebSocket connections",
-    "Integrated secure payment processing with Stripe and PayPal",
-    "Achieved 99.9% uptime with automated deployment and monitoring"
-]
-
-[[projects]]
-name = "Task Management SaaS"
-description = "Collaborative project management tool with real-time updates"
-technologies = ["Vue.js", "Express.js", "PostgreSQL", "Socket.io", "Docker"]
-start_date = "Jan 2023"
-end_date = "Jun 2023"
-github_url = "https://github.com/NishikantaRay/task-management"
-live_url = "https://taskmanager-demo.com"
-url = "https://taskmanager-demo.com"
-highlights = [
-    "Developed real-time collaboration features using WebSockets",
-    "Implemented role-based access control and team management",
-    "Built RESTful APIs with comprehensive testing coverage",
-    "Deployed using Docker containers on AWS ECS"
-]
-
-[[projects]]
-name = "Personal Finance Tracker"
-description = "Mobile-first web app for expense tracking and budget management"
-technologies = ["React Native", "Firebase", "Chart.js", "Plaid API"]
-start_date = "Sep 2022"
-end_date = "Dec 2022"
-github_url = "https://github.com/NishikantaRay/finance-tracker"
-live_url = "https://finance-tracker-demo.vercel.app"
-highlights = [
-    "Built cross-platform mobile app with React Native",
-    "Integrated bank account connections using Plaid API",
-    "Created interactive data visualizations for spending analysis",
-    "Implemented secure authentication with Firebase Auth"
-]
+[[education]]
+degree = "Associate Degree in Computer Programming"
+institution = "Community College of San Francisco"
+institution_url = "https://ccsf.edu"
+location = "San Francisco, CA"
+graduation_year = "2015"
+gpa = "3.9/4.0"
+notes = "Valedictorian, Programming Excellence Award"
 
 # Skills Section
 [skills]
 
 [skills.frontend]
 category = "Frontend Development"
-technologies = [
-    "React", "Vue.js", "Angular", "TypeScript", "JavaScript (ES6+)", 
-    "HTML5", "CSS3", "Sass", "Tailwind CSS", "Bootstrap"
-]
+technologies = ["React", "Vue.js", "Angular", "TypeScript", "HTML5", "CSS3", "Sass", "Tailwind CSS"]
 
 [skills.backend]
 category = "Backend Development"
-technologies = [
-    "Node.js", "Express.js", "Python", "Django", "Flask", 
-    "PHP", "Laravel", "RESTful APIs", "GraphQL"
-]
+technologies = ["Node.js", "Python", "Django", "Express", "FastAPI", "GraphQL", "REST APIs"]
 
 [skills.databases]
 category = "Databases"
-technologies = [
-    "MongoDB", "PostgreSQL", "MySQL", "Redis", "Firebase", "DynamoDB"
-]
+technologies = ["PostgreSQL", "MongoDB", "Redis", "MySQL", "Elasticsearch", "DynamoDB"]
 
 [skills.cloud]
 category = "Cloud & DevOps"
-technologies = [
-    "AWS (EC2, S3, Lambda)", "Docker", "Kubernetes", "GitHub Actions", 
-    "CI/CD", "Nginx"
-]
+technologies = ["AWS", "Docker", "Kubernetes", "GitHub Actions", "Jenkins", "Terraform", "Nginx"]
 
 [skills.tools]
-category = "Tools & Technologies"
-technologies = [
-    "Git", "VS Code", "Postman", "Figma", "Jira", "Slack", 
-    "Linux", "Webpack", "Vite"
-]
+category = "Development Tools"
+technologies = ["Git", "VS Code", "Postman", "Figma", "Jira", "Slack", "Linear", "Notion"]
 
-[skills.other]
-category = "Other Skills"
-technologies = [
-    "Agile/Scrum", "Test-Driven Development", "Code Review", 
-    "Team Leadership", "Technical Writing"
-]
+[skills.languages]
+category = "Programming Languages"
+technologies = ["JavaScript", "TypeScript", "Python", "Java", "Go", "Rust", "SQL"]
 
 # Certifications & Achievements
 [[achievements]]
 title = "AWS Certified Solutions Architect"
 issuer = "Amazon Web Services"
-date = "2023"
+date = "2024"
 type = "certification"
+description = "Professional level certification for cloud architecture"
 
 [[achievements]]
-title = "Google Cloud Professional Developer"
-issuer = "Google Cloud Platform"
-date = "2022"
-type = "certification"
-
-[[achievements]]
-title = "Winner, Tech Innovation Hackathon"
-issuer = "Local Tech Community"
+title = "Winner - TechCrunch Disrupt Hackathon"
+issuer = "TechCrunch"
 date = "2023"
 type = "award"
-description = "Built AI-powered productivity app"
+description = "First place for innovative AI-powered developer tools"
 
 [[achievements]]
-title = "Open Source Contributor"
-issuer = "GitHub Community"
-date = "2021-Present"
-type = "contribution"
-description = "500+ contributions to popular React libraries"
+title = "Google Developer Expert (Web Technologies)"
+issuer = "Google"
+date = "2023"
+type = "recognition"
+description = "Community leader and expert in modern web development"
 
 [[achievements]]
-title = "Tech Meetup Speaker"
-issuer = "JavaScript & React Meetups"
-date = "2022-Present"
+title = "Open Source Contributor of the Year"
+issuer = "GitHub"
+date = "2022"
+type = "award"
+description = "Recognition for outstanding contributions to open source projects"
+
+[[achievements]]
+title = "Certified Kubernetes Administrator (CKA)"
+issuer = "Cloud Native Computing Foundation"
+date = "2022"
+type = "certification"
+description = "Expert-level Kubernetes administration certification"
+
+[[achievements]]
+title = "React Conference Speaker"
+issuer = "React Conf 2021"
+date = "2021"
 type = "speaking"
-description = "Regular speaker at local JavaScript and React meetups"
-
-[[achievements]]
-title = "Coding Mentor"
-issuer = "Volunteer Organization"
-date = "2021-Present"
-type = "volunteer"
-description = "Volunteer coding mentor for underrepresented groups in tech"
+description = "Presented on 'Advanced React Patterns for Scalable Applications'"
 
 # Settings
 [settings]
 show_gpa = true
 show_location = true
 show_phone = false
-date_format = "MMM YYYY"  # Options: "MMM YYYY", "MM/YYYY", "YYYY"
-max_achievements_per_section = 6
+date_format = "MMM YYYY"
+max_achievements_per_section = 10
 enable_share_button = true

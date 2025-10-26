@@ -21,7 +21,7 @@ npm run dev
 ### 2. **Essential Configuration**
 Update these files with your information:
 - `config/home.toml` - Your name, title, and hero section
-- `config/resume.toml` - Your professional information
+- `config/resume.toml` - Your professional information with @mention support
 - `config/social.toml` - Your social media links
 
 ### 3. **Content Creation**
@@ -29,6 +29,36 @@ Add your content to:
 - `content/about.md` - About page content
 - `content/projects.md` - Projects showcase
 - `content/blog.md` - Blog posts and articles
+
+## ✨ Latest Features (v2.0)
+
+### 🎯 **TOML-First Architecture**
+- **Complete Configuration Control**: Everything is now configurable through TOML files
+- **No JavaScript Hardcoding**: All content, links, and settings come from configuration
+- **Enhanced Manual TOML Parser**: Robust parsing for all resume sections
+
+### 🔗 **@Mention System**
+- **Dynamic Company Links**: Use @letsflo in your summary to create clickable "Lets Flo" links
+- **Company URL Mapping**: Configure company URLs in `[companies]` section
+- **Smart Text Processing**: Automatic mention detection and link generation
+
+### 🌐 **Enhanced URL Support**
+- **Project URLs**: Support for both `live_url` and `github_url` in projects
+- **Institution Links**: Educational institutions now linkable with URLs
+- **Company Links**: Work experience companies with clickable links
+- **Professional Presentation**: All links styled with proper hover effects
+
+### 📊 **Education System Improvements**
+- **Marks Display**: Shows XII and X marks properly through `notes` field
+- **Date Range Support**: Flexible date formats for all education entries
+- **Institution URLs**: Clickable links to educational institutions
+- **Enhanced Validation**: Better handling of graduation years and GPA display
+
+### 🚀 **Production Ready**
+- **Clean Console Output**: All debugging logs removed for production
+- **Error Handling**: Comprehensive fallback systems
+- **Performance Optimized**: Efficient TOML parsing and rendering
+- **Professional Styling**: Dark theme support for all new link types
 
 ---
 

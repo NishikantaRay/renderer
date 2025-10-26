@@ -1,6 +1,29 @@
 # Resume Configuration Guide
 
-This guide explains how to configure your resume content using the TOML configuration file.
+This guide explains how to configure your resume content using the TOML configuration file with the latest v2.0 features.
+
+## 🆕 Latest Features (v2.0)
+
+### ✨ **TOML-First Architecture**
+- Complete configuration control through TOML files
+- No JavaScript hardcoding - everything configurable
+- Enhanced manual TOML parser for all sections
+
+### 🔗 **@Mention System**
+- Use `@letsflo` in your summary to create clickable "Lets Flo" links
+- Configure company URLs in `[companies]` section
+- Automatic mention detection and professional link generation
+
+### 🌐 **Enhanced URL Support**
+- Project URLs with `live_url` and `github_url` support
+- Institution URLs for educational backgrounds
+- Company URLs for work experience
+- Professional styling with hover effects
+
+### 📊 **Education Improvements**
+- Marks display through `notes` field for XII/X education
+- Flexible date ranges and graduation year support
+- Institution URL linking capabilities
 
 ## Configuration File Location
 
@@ -22,21 +45,36 @@ linkedin = "https://linkedin.com/in/NishikantaRay"
 location = "City, State"
 ```
 
-### 2. Professional Summary
+### 2. Company URL Mapping (NEW in v2.0)
+
+```toml
+[companies]
+letsflo = "https://letsflo.com"
+teceads = "https://teceads.com"
+techcorp = "https://techcorp.com"
+# Add any company you mention in your resume
+```
+
+### 3. Professional Summary with @Mention Support
 
 ```toml
 [summary]
-text = "Your professional summary describing your experience, skills, and career objectives."
+text = "Experienced Full Stack Developer with 5+ years at @letsflo and other tech companies. Passionate about creating scalable applications and leading development teams."
 ```
 
-### 3. Work Experience
+**How @Mentions Work:**
+- Write `@letsflo` in your summary text
+- The system automatically converts it to a clickable "Lets Flo" link
+- The URL comes from the `[companies]` section
+- Works with any company defined in the companies section
 
-Add multiple work experiences using `[[experience]]` arrays:
+### 4. Work Experience with Company URLs
 
 ```toml
 [[experience]]
 position = "Senior Software Engineer"
-company = "Tech Company Inc."
+company = "Lets Flo"
+company_url = "https://letsflo.com"
 location = "San Francisco, CA"
 start_date = "Jan 2022"
 end_date = "Present"
@@ -48,14 +86,34 @@ achievements = [
 ]
 ```
 
-### 4. Education
+**Company URL Features:**
+- `company_url` field creates clickable company names
+- Professional styling with hover effects
+- Opens in new tab for better user experience
 
-Add multiple educational backgrounds:
+### 5. Education with Institution URLs and Marks
 
 ```toml
 [[education]]
+degree = "XII (Science)"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"
+location = "Bhubaneswar, Odisha"
+graduation_year = "2019"
+notes = "79.67%"  # This displays marks for XII/X education
+
+[[education]]
+degree = "X"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"
+location = "Bhubaneswar, Odisha"
+graduation_year = "2017"
+notes = "77.5%"   # Marks display for class X
+
+[[education]]
 degree = "Bachelor of Science in Computer Science"
 institution = "University of California, Berkeley"
+institution_url = "https://berkeley.edu"
 location = "Berkeley, CA"
 graduation_year = "2019"
 gpa = "3.8"
@@ -67,28 +125,53 @@ relevant_coursework = [
 honors = ["Cum Laude", "Dean's List"]
 ```
 
-### 5. Projects
+**Education Features:**
+- `institution_url` creates clickable institution names
+- `notes` field displays marks for XII/X education
+- `gpa` field for university-level education
+- Flexible date and graduation year support
 
-Showcase your key projects:
+### 6. Projects with Enhanced URL Support
 
 ```toml
 [[projects]]
-name = "E-Commerce Platform"
-description = "Full-stack e-commerce solution with real-time inventory"
-technologies = ["React", "Node.js", "MongoDB", "Stripe API"]
-start_date = "Mar 2023"
-end_date = "Aug 2023"
-url = "https://github.com/NishikantaRay/project"
+name = "Live Server Lite"
+description = "A lightweight live server extension with hot reload for VS Code development"
+technologies = ["JavaScript", "Node.js", "VS Code API"]
+start_date = "2023"
+end_date = "2024"
+live_url = "https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-server-lite"
+github_url = "https://github.com/NishikantaRay/live-server-lite"
 highlights = [
-    "Built scalable microservices architecture",
-    "Implemented real-time inventory tracking",
-    "Achieved 99.9% uptime"
+    "2000+ installations on VS Code Marketplace",
+    "Hot reload functionality for rapid development",
+    "Lightweight alternative to traditional live servers",
+    "Cross-platform compatibility and easy setup"
+]
+
+[[projects]]
+name = "Bootstrap 5 Extension Pack"
+description = "Comprehensive VS Code extension pack for Bootstrap 5 development with snippets and utilities"
+technologies = ["Bootstrap 5", "CSS", "HTML", "VS Code Extensions"]
+start_date = "2023"
+end_date = "2024"
+live_url = "https://marketplace.visualstudio.com/items?itemName=NishikantaRay.bootstrap5-snippets"
+github_url = "https://github.com/NishikantaRay/bootstrap5-extension-pack"
+highlights = [
+    "Complete Bootstrap 5 snippet collection",
+    "IntelliSense support for faster development",
+    "Comprehensive component library integration",
+    "Enhanced developer productivity tools"
 ]
 ```
 
-### 6. Technical Skills
+**Project URL Features:**
+- `live_url` for deployed/published projects
+- `github_url` for source code repositories
+- Both URLs display as styled buttons
+- Professional presentation with proper spacing
 
-Organize skills by categories:
+### 7. Technical Skills
 
 ```toml
 [skills.frontend]
@@ -104,9 +187,7 @@ technologies = [
 ]
 ```
 
-### 7. Certifications & Achievements
-
-Add certifications, awards, and other achievements:
+### 8. Certifications & Achievements
 
 ```toml
 [[achievements]]
@@ -123,9 +204,7 @@ type = "award"
 description = "Built AI-powered productivity app"
 ```
 
-### 8. Settings
-
-Customize display options:
+### 9. Settings
 
 ```toml
 [settings]
@@ -136,6 +215,122 @@ date_format = "MMM YYYY"                 # Date format: "MMM YYYY", "MM/YYYY", "
 max_achievements_per_section = 6         # Limit number of achievements shown
 enable_download_button = true            # Show download/print button
 enable_print_button = true               # Enable print functionality
+```
+
+## New Configuration Examples
+
+### Adding @Mentions in Summary
+
+```toml
+[companies]
+letsflo = "https://letsflo.com"
+microsoft = "https://microsoft.com"
+google = "https://google.com"
+
+[summary]
+text = "Senior developer with experience at @letsflo and @microsoft. Previously worked on projects with @google technologies."
+```
+
+**Result:** Creates clickable links for "Lets Flo", "Microsoft", and "Google"
+
+### Adding Institution URLs
+
+```toml
+[[education]]
+degree = "Master of Computer Applications"
+institution = "Indian Institute of Technology"
+institution_url = "https://iit.ac.in"
+location = "Delhi, India"
+graduation_year = "2021"
+gpa = "3.9"
+```
+
+### Adding Project URLs
+
+```toml
+[[projects]]
+name = "E-Commerce Platform"
+description = "Full-stack e-commerce solution with real-time inventory"
+technologies = ["React", "Node.js", "MongoDB", "Stripe API"]
+start_date = "Mar 2023"
+end_date = "Aug 2023"
+live_url = "https://demo-ecommerce.com"
+github_url = "https://github.com/NishikantaRay/ecommerce-platform"
+highlights = [
+    "Built scalable microservices architecture",
+    "Implemented real-time inventory tracking",
+    "Achieved 99.9% uptime",
+    "Processed $1M+ in transactions"
+]
+```
+
+## Advanced Features
+
+### TOML-First Parser Features
+
+The enhanced TOML parser now supports:
+- **Manual Parsing**: No external dependencies
+- **Array Handling**: Proper `[[section]]` and `[section]` distinction
+- **String Processing**: Multi-line strings and special characters
+- **Error Handling**: Graceful fallbacks for invalid syntax
+- **Performance**: Optimized for large configuration files
+
+### @Mention Processing
+
+```javascript
+// Automatic processing of mentions
+processTextWithMentions(text, companies) {
+  return text.replace(/@(\w+)/g, (match, company) => {
+    const url = companies[company.toLowerCase()];
+    return url ? `<a href="${url}" class="company-mention" target="_blank">${formatCompanyName(company)}</a>` : match;
+  });
+}
+```
+
+### URL Link Generation
+
+All URLs are automatically processed with:
+- Professional button styling
+- External link indicators
+- New tab opening
+- Hover effects
+- Responsive design
+
+## CSS Classes for Styling
+
+The system adds these CSS classes automatically:
+
+```css
+.company-mention {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px dotted var(--accent-color);
+  transition: all 0.3s ease;
+}
+
+.institution-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.project-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--accent-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .company-mention,
+[data-theme="dark"] .institution-link {
+  color: var(--accent-color-dark);
+}
 ```
 
 ## Customization Examples

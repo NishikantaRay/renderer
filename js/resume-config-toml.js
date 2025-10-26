@@ -12,16 +12,10 @@ class ResumeConfig {
         // Initialize resume configuration
     async init() {
         try {
-            console.log('Initializing resume configuration...');
             await this.loadTomlParser();
             await this.loadConfig();
-            console.log('Resume configuration loaded successfully');
-            console.log('Final config settings:', this.config.settings);
         } catch (error) {
-            console.error('Failed to initialize resume configuration:', error);
-            console.log('Using fallback configuration');
             this.setDefaultConfig();
-            console.log('Fallback config settings:', this.config.settings);
         }
     }
 
@@ -40,21 +34,17 @@ class ResumeConfig {
             script.src = 'https://cdn.jsdelivr.net/npm/js-toml@0.5.0/lib/toml.min.js';
             script.onload = () => {
                 this.tomlParser = window.toml;
-                console.log('TOML parser loaded successfully');
                 resolve();
             };
             script.onerror = () => {
-                console.warn('Primary TOML CDN failed, trying backup...');
                 // Try backup CDN
                 const backupScript = document.createElement('script');
                 backupScript.src = 'https://unpkg.com/js-toml@0.5.0/lib/toml.min.js';
                 backupScript.onload = () => {
                     this.tomlParser = window.toml;
-                    console.log('TOML parser loaded from backup CDN');
                     resolve();
                 };
                 backupScript.onerror = () => {
-                    console.error('All TOML CDNs failed, will use manual parsing');
                     // Don't reject, just set parser to null so manual parsing can be used
                     this.tomlParser = null;
                     resolve();
@@ -68,40 +58,29 @@ class ResumeConfig {
     // Load configuration from TOML file
     async loadConfig() {
         try {
-            console.log('Attempting to load resume.toml...');
             const response = await fetch('./config/resume.toml');
-            console.log('Fetch response:', response.status, response.statusText);
             
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
             const tomlContent = await response.text();
-            console.log('TOML content length:', tomlContent.length);
-            console.log('First 100 chars:', tomlContent.substring(0, 100));
             
             // Try using the TOML parser first
             if (this.tomlParser && this.tomlParser.parse) {
                 this.config = this.tomlParser.parse(tomlContent);
-                console.log('Resume configuration loaded successfully from TOML parser');
             } else {
                 // Fallback to manual parsing for critical settings
-                console.log('TOML parser not available, using manual parsing fallback');
                 this.config = this.parseTomlManually(tomlContent);
-                console.log('Manual parsing completed, final config:', this.config);
             }
             
-            console.log('Parsed config:', this.config);
         } catch (error) {
-            console.error('Failed to load resume.toml:', error);
-            console.error('Full error details:', error.message, error.stack);
             throw error;
         }
     }
 
         // Simple manual TOML parser - TOML-first approach
     parseTomlManually(tomlContent) {
-        console.log('Using manual TOML parser - TOML-first approach...');
         
         // Start with empty config structure - NO JavaScript fallback
         const config = {
@@ -127,7 +106,6 @@ class ResumeConfig {
         const personalMatch = tomlContent.match(/\[personal\]([\s\S]*?)(?=\n\[|\n#|$)/);
         if (personalMatch) {
             const personalSection = personalMatch[1];
-            console.log('Parsing personal section...');
             
             const nameMatch = personalSection.match(/name\s*=\s*"([^"]*)"/);
             if (nameMatch) config.personal.name = nameMatch[1];
@@ -158,20 +136,17 @@ class ResumeConfig {
         const summaryMatch = tomlContent.match(/\[summary\]([\s\S]*?)(?=\n\[|\n#|$)/);
         if (summaryMatch) {
             const summarySection = summaryMatch[1];
-            console.log('Parsing summary section...');
             
             const textMatch = summarySection.match(/text\s*=\s*"((?:[^"\\]|\\.)*)"/s);
             if (textMatch) {
                 const unescapedText = textMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
                 config.summary = { text: unescapedText };
-                console.log('Parsed summary text:', config.summary.text);
             }
         }
         
         // Parse companies section for @mention mappings
         const companiesMatches = tomlContent.match(/\[companies\.(\w+)\]([\s\S]*?)(?=\n\[|\n#|$)/g);
         if (companiesMatches) {
-            console.log('Parsing companies sections...');
             companiesMatches.forEach(companyMatch => {
                 const companyKeyMatch = companyMatch.match(/\[companies\.(\w+)\]/);
                 if (companyKeyMatch) {
@@ -195,7 +170,6 @@ class ResumeConfig {
         // Parse experience sections
         const experienceMatches = tomlContent.match(/\[\[experience\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
         if (experienceMatches) {
-            console.log('Parsing experience sections...');
             config.experience = experienceMatches.map(expMatch => {
                 const exp = {};
                 
@@ -237,7 +211,6 @@ class ResumeConfig {
         // Parse education sections
         const educationMatches = tomlContent.match(/\[\[education\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
         if (educationMatches) {
-            console.log('Parsing education sections...');
             config.education = educationMatches.map(eduMatch => {
                 const edu = {};
                 
@@ -269,7 +242,6 @@ class ResumeConfig {
         // Parse projects sections
         const projectMatches = tomlContent.match(/\[\[projects\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
         if (projectMatches) {
-            console.log('Parsing projects sections...');
             config.projects = projectMatches.map(projMatch => {
                 const proj = {};
                 
@@ -318,7 +290,6 @@ class ResumeConfig {
         // Parse skills sections
         const skillsMatches = tomlContent.match(/\[skills\.(\w+)\]([\s\S]*?)(?=\n\[|\n#|$)/g);
         if (skillsMatches) {
-            console.log('Parsing skills sections...');
             skillsMatches.forEach(skillMatch => {
                 const skillKeyMatch = skillMatch.match(/\[skills\.(\w+)\]/);
                 if (skillKeyMatch) {
@@ -345,7 +316,6 @@ class ResumeConfig {
         // Parse achievements sections
         const achievementMatches = tomlContent.match(/\[\[achievements\]\]([\s\S]*?)(?=\n\[\[|\n\[(?!.*\])|$)/g);
         if (achievementMatches) {
-            console.log('Parsing achievements sections...');
             config.achievements = achievementMatches.map(achMatch => {
                 const ach = {};
                 
@@ -372,7 +342,6 @@ class ResumeConfig {
         const settingsMatch = tomlContent.match(/\[settings\]([\s\S]*?)(?=\n\[|\n#|$)/);
         if (settingsMatch) {
             const settingsSection = settingsMatch[1];
-            console.log('Found settings section:', settingsSection);
             
             const showPhoneMatch = settingsSection.match(/show_phone\s*=\s*(true|false)/);
             if (showPhoneMatch) {
@@ -405,7 +374,6 @@ class ResumeConfig {
             }
         }
         
-        console.log('Manual parsing complete. Final config:', config);
         return config;
     }
 
@@ -443,13 +411,11 @@ class ResumeConfig {
     setDefaultConfig() {
         // Try to use JavaScript config if available
         if (window.RESUME_CONFIG_JS) {
-            console.log('Using JavaScript configuration as fallback');
             this.config = window.RESUME_CONFIG_JS;
             return;
         }
         
         // Otherwise use minimal default config
-        console.log('Using minimal default configuration');
         this.config = {
             personal: {
                 name: "Your Name",
@@ -521,7 +487,6 @@ class ResumeConfig {
         
         // Fallback to default mappings if no TOML companies found
         if (Object.keys(companyMappings).length === 0) {
-            console.warn('No companies found in TOML, using fallback mappings');
             companyMappings['@letsflo'] = { name: 'Lets Flo', url: 'https://letsflo.in' };
             companyMappings['@teceads'] = { name: 'Teceads Solutions', url: 'https://teceads.com' };
         }
@@ -765,16 +730,13 @@ class ResumeConfig {
         try {
             if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                 await navigator.share(shareData);
-                console.log('Resume shared successfully');
             } else {
                 // Fallback to copying link
                 await this.copyResumeLink();
             }
         } catch (error) {
             if (error.name === 'AbortError') {
-                console.log('User cancelled sharing');
             } else {
-                console.error('Error sharing:', error);
                 // Fallback to copying link
                 await this.copyResumeLink();
             }
@@ -789,7 +751,6 @@ class ResumeConfig {
             await navigator.clipboard.writeText(resumeUrl);
             this.showNotification('Resume link copied to clipboard! 📋', 'success');
         } catch (error) {
-            console.error('Failed to copy link:', error);
             // Fallback for older browsers
             this.fallbackCopyLink(resumeUrl);
         }
@@ -810,7 +771,6 @@ class ResumeConfig {
             document.execCommand('copy');
             this.showNotification('Resume link copied to clipboard! 📋', 'success');
         } catch (error) {
-            console.error('Failed to copy link:', error);
             this.showNotification('Failed to copy link. Please copy manually: ' + text, 'error');
         }
         
@@ -911,7 +871,6 @@ class ResumeConfig {
         const container = document.querySelector(containerSelector);
         
         if (!container) {
-            console.warn(`No container found with selector: ${containerSelector}`);
             return;
         }
 
@@ -920,10 +879,6 @@ class ResumeConfig {
             await this.init();
         }
 
-        console.log('Updating resume with config:', this.config);
-        console.log('Experience items:', this.config.experience?.length || 0);
-        console.log('Projects items:', this.config.projects?.length || 0);
-        console.log('Education items:', this.config.education?.length || 0);
 
         // Generate and insert resume HTML
         const resumeHTML = this.generateResumeHTML();

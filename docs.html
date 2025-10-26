@@ -1726,6 +1726,9 @@
                     <a href="#overview" class="nav-item" data-section="overview">
                         <span class="nav-icon">📋</span>Overview
                     </a>
+                    <a href="#v2-features" class="nav-item" data-section="v2-features">
+                        <span class="nav-icon">✨</span>v2.0 Features
+                    </a>
                 </div>
 
                 <div class="nav-group">
@@ -1784,8 +1787,8 @@
                 <!-- Header -->
                 <header class="header">
                     <h1>📚 Documentation Hub</h1>
-                    <p class="subtitle">Complete Guide to Your Minimal Portfolio</p>
-                    <p class="description">Everything you need to configure, customize, and extend your portfolio website with detailed explanations and examples.</p>
+                    <p class="subtitle">Complete Guide to Your Minimal Portfolio v2.0</p>
+                    <p class="description">Everything you need to configure, customize, and extend your portfolio website with the latest TOML-first architecture, @mention system, and enhanced URL support.</p>
                 </header>
 
                 <!-- Search -->
@@ -2059,6 +2062,329 @@ git push origin main
                             <h5>🚀 Deployment Comparison</h5>
                             <p><strong>GitHub Pages:</strong> Free, simple, perfect for static sites. URL: NishikantaRay.github.io<br>
                             <strong>Netlify:</strong> Free tier includes forms, custom domains, faster global CDN. URL: random-name.netlify.app (customizable)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- v2.0 Features Section -->
+                <section id="v2-features" class="content-section">
+                    <h2>✨ Version 2.0 Features</h2>
+                    <p>Major enhancements and new capabilities in your portfolio system v2.0.</p>
+                    
+                    <div class="config-section">
+                        <h3 class="config-title">🎯 TOML-First Architecture</h3>
+                        <p class="config-description">Complete configuration control through TOML files with no JavaScript hardcoding.</p>
+                        
+                        <h4>Enhanced Manual TOML Parser</h4>
+                        <ul class="feature-list">
+                            <li><strong>No External Dependencies:</strong> Built-in TOML parser with full specification support</li>
+                            <li><strong>Error Handling:</strong> Graceful fallbacks when configuration fails</li>
+                            <li><strong>Performance Optimized:</strong> Single-pass parsing algorithm</li>
+                            <li><strong>Complete Control:</strong> Every aspect of your portfolio configurable via TOML</li>
+                        </ul>
+
+                        <div class="code-header">Enhanced TOML Parser Features</div>
+                        <div class="code-example with-header">
+                            <pre><code># Advanced TOML parsing now supports:
+
+# Nested sections
+[skills.frontend]
+technologies = ["React", "TypeScript"]
+
+# Array tables for multiple entries
+[[experience]]
+company = "Tech Corp"
+position = "Developer"
+
+[[projects]]
+name = "My Project"
+live_url = "https://project.com"
+github_url = "https://github.com/user/project"
+
+# Company URL mappings for @mentions
+[companies]
+letsflo = "https://letsflo.com"
+teceads = "https://teceads.com"
+
+# Multi-line strings and complex data structures
+[summary]
+text = """
+Professional summary with @letsflo experience.
+Automatically converts to clickable company links.
+"""</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🔧 Parser Improvements</h5>
+                            <p><strong>Manual Implementation:</strong> No external dependencies for better performance and control.<br>
+                            <strong>Error Recovery:</strong> Continues parsing even when encountering minor syntax issues.<br>
+                            <strong>Type Safety:</strong> Proper handling of strings, numbers, booleans, and arrays.<br>
+                            <strong>Nested Support:</strong> Full support for complex nested configurations.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🔗 @Mention Company System</h3>
+                        <p class="config-description">Smart text processing that converts company mentions to clickable links.</p>
+                        
+                        <h4>How @Mentions Work</h4>
+                        <div class="code-header">Company Mention Configuration</div>
+                        <div class="code-example with-header">
+                            <pre><code># config/resume.toml - Company URL Mapping
+[companies]
+letsflo = "https://letsflo.com"
+teceads = "https://teceads.com"
+microsoft = "https://microsoft.com"
+google = "https://google.com"
+
+# Professional summary with @mentions
+[summary]
+text = """
+Experienced Full Stack Developer with 5+ years at @letsflo and @teceads.
+Previously collaborated with @microsoft teams on enterprise solutions.
+Passionate about @google's developer ecosystem and modern web technologies.
+"""
+
+# The system automatically converts:
+# @letsflo → clickable "Lets Flo" link
+# @teceads → clickable "Teceads" link
+# @microsoft → clickable "Microsoft" link
+# @google → clickable "Google" link</code></pre>
+                        </div>
+
+                        <h4>Smart Name Formatting</h4>
+                        <ul class="feature-list">
+                            <li><strong>Automatic Formatting:</strong> @letsflo becomes "Lets Flo" with proper spacing</li>
+                            <li><strong>Fallback Support:</strong> Unknown @mentions remain as plain text</li>
+                            <li><strong>Professional Styling:</strong> Consistent link appearance with hover effects</li>
+                            <li><strong>External Links:</strong> All company links open in new tabs</li>
+                        </ul>
+
+                        <div class="comment-explanation">
+                            <h5>💼 Business Benefits</h5>
+                            <p><strong>Professional Presentation:</strong> Easy way to reference companies with proper branding.<br>
+                            <strong>SEO Friendly:</strong> Creates proper links to company websites.<br>
+                            <strong>Maintainable:</strong> Update company URLs in one place, affects all mentions.<br>
+                            <strong>Scalable:</strong> Add new companies anytime without code changes.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🌐 Enhanced URL Support System</h3>
+                        <p class="config-description">Comprehensive URL linking across all portfolio sections.</p>
+                        
+                        <h4>Project URL System</h4>
+                        <div class="code-header">Dual Project URLs</div>
+                        <div class="code-example with-header">
+                            <pre><code># config/resume.toml - Projects with URLs
+[[projects]]
+name = "Live Server Lite"
+description = "VS Code extension with 2000+ installations"
+technologies = ["JavaScript", "Node.js", "VS Code API"]
+start_date = "2023"
+end_date = "2024"
+
+# Dual URL support
+live_url = "https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-server-lite"
+github_url = "https://github.com/NishikantaRay/live-server-lite"
+
+highlights = [
+    "2000+ installations on VS Code Marketplace",
+    "Hot reload functionality for rapid development",
+    "Cross-platform compatibility and easy setup"
+]
+
+# Both URLs render as styled buttons:
+# [🌐 Live Demo] [📱 GitHub]</code></pre>
+                        </div>
+
+                        <h4>Work Experience URLs</h4>
+                        <div class="code-header">Company Links in Experience</div>
+                        <div class="code-example with-header">
+                            <pre><code># Work experience with clickable company names
+[[experience]]
+position = "Senior Full Stack Developer"
+company = "Lets Flo"
+company_url = "https://letsflo.com"  # Makes company name clickable
+location = "Bengaluru, KA"
+start_date = "2022-01"
+end_date = "Present"
+achievements = [
+    "Led development of scalable web applications",
+    "Increased application performance by 40%",
+    "Mentored team of 5 developers"
+]</code></pre>
+                        </div>
+
+                        <h4>Education Institution URLs</h4>
+                        <div class="code-header">Educational Institution Links</div>
+                        <div class="code-example with-header">
+                            <pre><code># Education with institution URLs and marks display
+[[education]]
+degree = "XII (Science)"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"  # Clickable institution
+location = "Bhubaneswar, Odisha"
+graduation_year = "2019"
+notes = "79.67%"  # Displays marks for XII/X education
+
+[[education]]
+degree = "Bachelor of Technology in Computer Science"
+institution = "Indian Institute of Technology"
+institution_url = "https://iit.ac.in"
+location = "Delhi, India"
+graduation_year = "2021"
+gpa = "8.5"       # Shows CGPA for university</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🎨 Professional Styling</h5>
+                            <p><strong>Consistent Design:</strong> All URLs use consistent styling across the portfolio.<br>
+                            <strong>Dark Theme Support:</strong> Proper color schemes for both light and dark modes.<br>
+                            <strong>Hover Effects:</strong> Interactive feedback with smooth transitions.<br>
+                            <strong>External Indicators:</strong> Clear visual cues for external links.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">📊 Education System Improvements</h3>
+                        <p class="config-description">Enhanced education display with flexible date handling and marks display.</p>
+                        
+                        <h4>Smart Marks Display</h4>
+                        <div class="code-header">XII/X Marks vs University GPA</div>
+                        <div class="code-example with-header">
+                            <pre><code># School education with percentage marks
+[[education]]
+degree = "XII (Science)"
+institution = "D.A.V. Public School"
+graduation_year = "2019"
+notes = "79.67%"      # Shows as: "Marks: 79.67%"
+
+[[education]]
+degree = "X"
+institution = "D.A.V. Public School"
+graduation_year = "2017"
+notes = "77.5%"       # Shows as: "Marks: 77.5%"
+
+# University education with CGPA
+[[education]]
+degree = "Bachelor of Technology"
+institution = "Indian Institute of Technology"
+graduation_year = "2021"
+gpa = "8.5"           # Shows as: "CGPA: 8.5"
+notes = "Dean's List"  # Additional notes</code></pre>
+                        </div>
+
+                        <h4>Flexible Date Ranges</h4>
+                        <ul class="feature-list">
+                            <li><strong>Various Formats:</strong> Support for year-only, month-year, or full dates</li>
+                            <li><strong>Date Ranges:</strong> Proper handling of start and end dates</li>
+                            <li><strong>Current Status:</strong> Special handling for ongoing education</li>
+                            <li><strong>Graduation Years:</strong> Consistent display across all education levels</li>
+                        </ul>
+
+                        <div class="comment-explanation">
+                            <h5>📚 Display Logic</h5>
+                            <p><strong>Smart Detection:</strong> Automatically determines whether to show marks or GPA.<br>
+                            <strong>Contextual Display:</strong> Different formatting for school vs university education.<br>
+                            <strong>Flexible Notes:</strong> Support for additional information like honors or achievements.<br>
+                            <strong>Consistent Formatting:</strong> Uniform appearance across all education entries.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🚀 Production Ready Features</h3>
+                        <p class="config-description">Clean, optimized code ready for professional deployment.</p>
+                        
+                        <h4>Console Cleanup System</h4>
+                        <div class="code-header">Production Code Quality</div>
+                        <div class="code-example with-header">
+                            <pre><code># Automated console cleanup for production
+# All debugging statements removed:
+
+# ❌ Removed from production:
+# console.log('Debug info')
+# console.warn('Warning message')  
+# console.error('Error details')
+
+# ✅ Kept for production:
+# Critical error handling
+# User-facing notifications
+# Performance monitoring
+
+# Result: Clean console output suitable for professional use</code></pre>
+                        </div>
+
+                        <h4>Error Handling System</h4>
+                        <ul class="feature-list">
+                            <li><strong>Graceful Fallbacks:</strong> Site works even when configuration fails</li>
+                            <li><strong>Network Resilience:</strong> Handles TOML loading failures gracefully</li>
+                            <li><strong>User Notifications:</strong> Friendly error messages for debugging</li>
+                            <li><strong>Validation:</strong> Input validation for all configuration fields</li>
+                        </ul>
+
+                        <div class="comment-explanation">
+                            <h5>⚡ Performance Benefits</h5>
+                            <p><strong>Reduced Overhead:</strong> No console logging in production improves performance.<br>
+                            <strong>Memory Optimization:</strong> Efficient parsing and rendering algorithms.<br>
+                            <strong>Fast Loading:</strong> Optimized code structure for quick initialization.<br>
+                            <strong>Browser Compatibility:</strong> Works across all modern browsers.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🎨 CSS Architecture</h3>
+                        <p class="config-description">Professional styling system for all new features.</p>
+                        
+                        <div class="code-header">New CSS Classes for v2.0 Features</div>
+                        <div class="code-example with-header">
+                            <pre><code>/* Company mention styling */
+.company-mention {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px dotted var(--accent-color);
+  transition: all 0.3s ease;
+}
+
+.company-mention:hover {
+  border-bottom-style: solid;
+  background: rgba(var(--accent-color-rgb), 0.1);
+}
+
+/* Institution link styling */
+.institution-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Project URL buttons */
+.project-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--accent-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 0.25rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.project-link:hover {
+  background: var(--accent-color-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Dark theme support for all new elements */
+[data-theme="dark"] .company-mention,
+[data-theme="dark"] .institution-link {
+  color: var(--accent-color-dark);
+  border-color: var(--accent-color-dark);
+}</code></pre>
                         </div>
                     </div>
                 </section>
@@ -2467,8 +2793,23 @@ tags = ["JavaScript", "React", "Performance", "Best Practices"]</code></pre>
                 <!-- Resume Configuration Section -->
                 <section id="resume-config" class="content-section">
                     <h2>📄 Resume Configuration</h2>
-                    <p>Create a comprehensive digital resume with work experience, education, skills, and achievements.</p>
+                    <p>Create a comprehensive digital resume with the latest v2.0 features including @mentions, enhanced URLs, and smart education display.</p>
                     
+                    <div class="config-section">
+                        <h3 class="config-title">🆕 v2.0 Enhanced Features</h3>
+                        <p class="config-description">New capabilities that make your resume more interactive and professional.</p>
+                        
+                        <h4>✨ Key v2.0 Enhancements</h4>
+                        <ul class="feature-list">
+                            <li><strong>@Mention System:</strong> Convert company mentions to clickable links automatically</li>
+                            <li><strong>Dual Project URLs:</strong> Support for both live demo and GitHub repository links</li>
+                            <li><strong>Institution URLs:</strong> Clickable educational institution names</li>
+                            <li><strong>Smart Marks Display:</strong> Proper handling of XII/X marks vs university GPA</li>
+                            <li><strong>Company URLs:</strong> Make work experience company names clickable</li>
+                            <li><strong>TOML-First:</strong> Complete configuration control without JavaScript hardcoding</li>
+                        </ul>
+                    </div>
+
                     <div class="config-section">
                         <h3 class="config-title">👤 Personal Information</h3>
                         <p class="config-description">Professional contact information and personal branding.</p>
@@ -2482,25 +2823,79 @@ title = "Senior Software Engineer"        # Current or target position
 email = "nishikanta@example.com"           # Professional email address
 phone = "+1 (555) 123-4567"              # Phone number (optional)
 website = "https://yourportfolio.com"     # Portfolio website
-location = "San Francisco, CA"           # Current location
+location = "Bengaluru, KA"               # Current location
 linkedin = "https://linkedin.com/in/yourprofile" # LinkedIn profile
-github = "https://github.com/NishikantaRay" # GitHub profile
+github = "https://github.com/NishikantaRay" # GitHub profile</code></pre>
+                        </div>
+                    </div>
 
-# Professional summary
+                    <div class="config-section">
+                        <h3 class="config-title">🔗 Company URL Mapping (NEW)</h3>
+                        <p class="config-description">Define company URLs for automatic @mention linking.</p>
+                        
+                        <div class="code-header">Company URL Configuration</div>
+                        <div class="code-example with-header">
+                            <pre><code># Company URL mappings for @mention system
+[companies]
+letsflo = "https://letsflo.com"           # Maps @letsflo to "Lets Flo" link
+teceads = "https://teceads.com"           # Maps @teceads to "Teceads" link
+microsoft = "https://microsoft.com"       # Maps @microsoft to "Microsoft" link
+google = "https://google.com"             # Maps @google to "Google" link
+# Add any company you mention in your resume</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🏢 How Company Mapping Works</h5>
+                            <p><strong>Automatic Detection:</strong> System scans text for @company patterns.<br>
+                            <strong>Smart Formatting:</strong> @letsflo becomes "Lets Flo" with proper spacing.<br>
+                            <strong>Professional Links:</strong> All company mentions become clickable external links.<br>
+                            <strong>Fallback Safe:</strong> Unknown @mentions remain as plain text.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">📝 Professional Summary with @Mentions</h3>
+                        <p class="config-description">Enhanced summary section with automatic company link generation.</p>
+                        
+                        <div class="code-header">Summary with @Mention Support</div>
+                        <div class="code-example with-header">
+                            <pre><code># Professional summary with @mentions
 [summary]
 text = """
-Experienced full-stack developer with 5+ years building scalable web applications.
-Passionate about clean code, user experience, and modern technologies.
-Proven track record of leading teams and delivering high-quality software solutions.
+Experienced Full Stack Developer with 5+ years at @letsflo and @teceads.
+Passionate about creating scalable applications and leading development teams.
+Previously collaborated with @microsoft teams on enterprise solutions.
 """
 
-# Work experience section
+# The system automatically converts:
+# @letsflo → clickable "Lets Flo" link (https://letsflo.com)
+# @teceads → clickable "Teceads" link (https://teceads.com) 
+# @microsoft → clickable "Microsoft" link (https://microsoft.com)</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>💡 @Mention Best Practices</h5>
+                            <p><strong>Use sparingly:</strong> Only mention companies that add value to your story.<br>
+                            <strong>Keep it natural:</strong> Write normally, @mentions work within flowing text.<br>
+                            <strong>Define all companies:</strong> Add URL mappings for any company you @mention.<br>
+                            <strong>Professional tone:</strong> Maintain professional language throughout.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">💼 Work Experience with Company URLs</h3>
+                        <p class="config-description">Enhanced work experience with clickable company names.</p>
+                        
+                        <div class="code-header">Enhanced Work Experience</div>
+                        <div class="code-example with-header">
+                            <pre><code># Work experience section with company URLs
 [[experience]]
-company = "Tech Solutions Inc."           # Company name
+company = "Lets Flo"                      # Company name
+company_url = "https://letsflo.com"       # Makes company name clickable
 position = "Senior Software Engineer"     # Job title
-location = "San Francisco, CA"           # Work location
+location = "Bengaluru, KA"               # Work location
 start_date = "2022-01"                   # Start date (YYYY-MM)
-end_date = "present"                     # End date or "present"
+end_date = "Present"                     # End date or "Present"
 description = """
 Lead a team of 4 developers building scalable web applications.
 Architected microservices using Node.js and React, improving performance by 40%.
@@ -2512,6 +2907,132 @@ achievements = [
     "Mentored 3 junior developers, 2 received promotions"
 ]
 technologies = ["JavaScript", "React", "Node.js", "MongoDB", "AWS"]</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🎓 Enhanced Education System</h3>
+                        <p class="config-description">Smart education display with institution URLs and proper marks handling.</p>
+                        
+                        <div class="code-header">Education with Institution URLs and Marks</div>
+                        <div class="code-example with-header">
+                            <pre><code># School education with marks display
+[[education]]
+degree = "XII (Science)"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"  # Clickable institution name
+location = "Bhubaneswar, Odisha"
+graduation_year = "2019"
+notes = "79.67%"                         # Displays as "Marks: 79.67%"
+
+[[education]]
+degree = "X"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"
+location = "Bhubaneswar, Odisha" 
+graduation_year = "2017"
+notes = "77.5%"                          # Displays as "Marks: 77.5%"
+
+# University education with CGPA
+[[education]]
+degree = "Bachelor of Technology in Computer Science"
+institution = "Indian Institute of Technology"
+institution_url = "https://iit.ac.in"
+location = "Delhi, India"
+graduation_year = "2021"
+gpa = "8.5"                              # Displays as "CGPA: 8.5"
+relevant_coursework = [
+    "Data Structures and Algorithms",
+    "Software Engineering", 
+    "Database Systems"
+]
+honors = ["Dean's List", "Merit Scholarship"]</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🎯 Smart Education Display</h5>
+                            <p><strong>Marks vs GPA:</strong> System automatically shows "Marks: X%" for XII/X and "CGPA: X" for university.<br>
+                            <strong>Institution Links:</strong> All institution names become clickable with professional styling.<br>
+                            <strong>Flexible Notes:</strong> Support additional information like honors, coursework, or achievements.<br>
+                            <strong>Date Handling:</strong> Supports various date formats and graduation year display.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🚀 Projects with Dual URL Support</h3>
+                        <p class="config-description">Enhanced project showcase with live demo and repository links.</p>
+                        
+                        <div class="code-header">Projects with Live and GitHub URLs</div>
+                        <div class="code-example with-header">
+                            <pre><code># Projects with enhanced URL support
+[[projects]]
+name = "Live Server Lite"
+description = "A lightweight live server extension for VS Code development"
+technologies = ["JavaScript", "Node.js", "VS Code API"]
+start_date = "2023"
+end_date = "2024"
+
+# Dual URL support - both are optional
+live_url = "https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-server-lite"
+github_url = "https://github.com/NishikantaRay/live-server-lite"
+
+highlights = [
+    "2000+ installations on VS Code Marketplace",
+    "Hot reload functionality for rapid development", 
+    "Cross-platform compatibility and easy setup",
+    "Lightweight alternative to traditional live servers"
+]
+
+[[projects]]
+name = "Bootstrap 5 Extension Pack"
+description = "Comprehensive VS Code extension pack for Bootstrap 5 development"
+technologies = ["Bootstrap 5", "CSS", "HTML", "VS Code Extensions"]
+start_date = "2023"
+end_date = "2024"
+live_url = "https://marketplace.visualstudio.com/items?itemName=NishikantaRay.bootstrap5-snippets"
+github_url = "https://github.com/NishikantaRay/bootstrap5-extension-pack"
+highlights = [
+    "Complete Bootstrap 5 snippet collection",
+    "IntelliSense support for faster development",
+    "Comprehensive component library integration"
+]</code></pre>
+                        </div>
+
+                        <div class="comment-explanation">
+                            <h5>🌐 Project URL Features</h5>
+                            <p><strong>Dual Support:</strong> Both live_url and github_url are optional but recommended.<br>
+                            <strong>Professional Buttons:</strong> URLs render as styled buttons with icons.<br>
+                            <strong>External Links:</strong> All project links open in new tabs.<br>
+                            <strong>Mobile Friendly:</strong> Responsive button layout for all screen sizes.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3 class="config-title">🛠️ Technical Skills</h3>
+                        <p class="config-description">Organize skills by categories with proficiency levels.</p>
+                        
+                        <div class="code-header">Skills Organization</div>
+                        <div class="code-example with-header">
+                            <pre><code># Technical skills organized by category
+[skills.frontend]
+category = "Frontend Development"
+technologies = ["React", "Vue.js", "Angular", "TypeScript", "Sass"]
+proficiency = "Expert"
+
+[skills.backend]
+category = "Backend Development"  
+technologies = ["Node.js", "Python", "Java", "PostgreSQL", "MongoDB"]
+proficiency = "Advanced"
+
+[skills.tools]
+category = "Tools & Technologies"
+technologies = ["Docker", "AWS", "Git", "Jenkins", "Kubernetes"]
+proficiency = "Intermediate"
+
+[skills.mobile]
+category = "Mobile Development"
+technologies = ["React Native", "Flutter", "iOS", "Android"]
+proficiency = "Intermediate"</code></pre>
                         </div>
                     </div>
                 </section>

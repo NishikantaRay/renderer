@@ -314,6 +314,158 @@ TypeScript provides excellent developer experience...
 
 ### Configuration File: `config/resume.toml`
 
+## 🆕 Latest v2.0 Resume Features
+
+### ✨ **TOML-First Architecture**
+Complete configuration control through TOML files with no JavaScript hardcoding:
+
+```toml
+# Everything configurable through TOML
+[personal]
+name = "Nishikanta Ray"
+title = "Full-Stack Developer"
+location = "Bengaluru, KA"
+email = "your@email.com"
+```
+
+### 🔗 **@Mention Company System**
+Smart company mention processing with automatic link generation:
+
+```toml
+[companies]
+letsflo = "https://letsflo.com"
+teceads = "https://teceads.com"
+microsoft = "https://microsoft.com"
+
+[summary]
+text = "Experienced developer with 5+ years at @letsflo and @teceads. Passionate about modern web technologies."
+```
+
+**How it Works:**
+- Write `@letsflo` in your summary
+- System converts to clickable "Lets Flo" link
+- URL comes from `[companies]` section
+- Professional styling with hover effects
+
+### 🌐 **Enhanced URL Support**
+Comprehensive URL linking system across all sections:
+
+#### Work Experience URLs
+```toml
+[[experience]]
+position = "Senior Full Stack Developer"
+company = "Lets Flo"
+company_url = "https://letsflo.com"
+# Creates clickable company name
+```
+
+#### Education Institution URLs
+```toml
+[[education]]
+degree = "XII (Science)"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"
+notes = "79.67%"  # Displays marks for XII/X
+```
+
+#### Project URLs (Dual Support)
+```toml
+[[projects]]
+name = "Live Server Lite"
+description = "VS Code extension with 2000+ installations"
+live_url = "https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-server-lite"
+github_url = "https://github.com/NishikantaRay/live-server-lite"
+highlights = [
+    "2000+ installations on VS Code Marketplace",
+    "Hot reload functionality for rapid development",
+    "Cross-platform compatibility"
+]
+```
+
+### 📊 **Education System Enhancements**
+Advanced education configuration with multiple display options:
+
+```toml
+# XII/X Education with Marks
+[[education]]
+degree = "XII (Science)"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"
+location = "Bhubaneswar, Odisha"
+graduation_year = "2019"
+notes = "79.67%"  # Shows as marks for XII/X
+
+# University Education with GPA
+[[education]]
+degree = "Bachelor of Technology in Computer Science"
+institution = "Indian Institute of Technology"
+institution_url = "https://iit.ac.in"
+location = "Delhi, India"
+graduation_year = "2021"
+gpa = "8.5"       # Shows as CGPA for university
+```
+
+### 🎨 **Professional Styling System**
+Automatic CSS class application for all interactive elements:
+
+```css
+/* Company mentions in summary */
+.company-mention {
+  color: var(--accent-color);
+  font-weight: 500;
+  border-bottom: 1px dotted var(--accent-color);
+  transition: all 0.3s ease;
+}
+
+/* Institution links */
+.institution-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Project URLs as buttons */
+.project-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--accent-color);
+  color: white;
+  border-radius: 4px;
+  margin: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .company-mention,
+[data-theme="dark"] .institution-link {
+  color: var(--accent-color-dark);
+}
+```
+
+### 🔧 **Enhanced TOML Parser**
+Manual TOML parsing system with advanced features:
+
+```javascript
+class TOMLParser {
+  parseTomlManually(tomlContent) {
+    // Advanced parsing with error handling
+    // Supports all TOML features:
+    // - Arrays: [[education]], [[projects]]
+    // - Objects: [personal], [companies]
+    // - Nested structures: [skills.frontend]
+    // - Multi-line strings and arrays
+    
+    return {
+      personal: { /* parsed personal info */ },
+      companies: { /* company URL mappings */ },
+      experience: [ /* work experience array */ ],
+      education: [ /* education array */ ],
+      projects: [ /* projects with URLs */ ]
+    };
+  }
+}
+```
+
 ### Personal Information
 
 ```toml
@@ -325,28 +477,38 @@ phone = "+1234567890"
 website = "https://renderer.nishikanta.in"
 github = "https://github.com/NishikantaRay"
 linkedin = "https://linkedin.com/in/NishikantaRay"
-location = "Your City, Country"
+location = "Bengaluru, KA"
 ```
 
-### Professional Summary
+### Professional Summary with Smart @Mentions
 
 ```toml
+[companies]
+letsflo = "https://letsflo.com"
+teceads = "https://teceads.com"
+
 [summary]
 text = """
-Experienced Full Stack Developer with 5+ years of expertise in modern web technologies. 
+Experienced Full Stack Developer with 5+ years of expertise at @letsflo and @teceads. 
 Passionate about creating scalable applications and leading development teams. 
 Proven track record of delivering high-quality software solutions.
 """
 ```
 
-### Work Experience
+**@Mention Features:**
+- Automatic detection of `@company` patterns
+- Converts to clickable company links
+- Professional styling with hover effects
+- Fallback to plain text if company not in mapping
+
+### Work Experience with Company URLs
 
 ```toml
 [[experience]]
 position = "Senior Full Stack Developer"
-company = "TechCorp Solutions"
-company_url = "https://techcorp.com"
-location = "San Francisco, CA"
+company = "Lets Flo"
+company_url = "https://letsflo.com"
+location = "Bengaluru, KA"
 start_date = "2022-01"
 end_date = "Present"
 description = "Led development of scalable web applications using React and Node.js"
@@ -358,40 +520,79 @@ achievements = [
 technologies = ["React", "Node.js", "TypeScript", "AWS"]
 ```
 
-### Education
+### Enhanced Education System
 
 ```toml
+# High School with Marks Display
 [[education]]
-degree = "Master of Science in Computer Science"
-institution = "Stanford University"
-location = "Stanford, CA"
+degree = "XII (Science)"
+institution = "D.A.V. Public School"
+institution_url = "https://davpublicschool.com"
+location = "Bhubaneswar, Odisha"
+graduation_year = "2019"
+notes = "79.67%"
+
+# University with GPA
+[[education]]
+degree = "Bachelor of Technology in Computer Science"
+institution = "Indian Institute of Technology"
+institution_url = "https://iit.ac.in"
+location = "Delhi, India"
 graduation_year = "2021"
-gpa = "3.9"
+gpa = "8.5"
 achievements = [
     "Dean's List for 4 consecutive semesters",
     "Graduate Research Assistant in AI Lab"
 ]
 ```
 
-### Projects
+**Education Features:**
+- `notes` field for XII/X marks display
+- `gpa` field for university-level education
+- `institution_url` for clickable institution names
+- Flexible date formats and graduation years
+
+### Projects with Dual URL Support
 
 ```toml
 [[projects]]
-name = "E-commerce Platform"
-description = "Full-stack e-commerce solution with payment integration"
-start_date = "2023-01"
-end_date = "2023-06"
-technologies = ["React", "Node.js", "MongoDB", "Stripe"]
-github_url = "https://github.com/NishikantaRay/ecommerce"
-live_url = "https://demo-ecommerce.com"
+name = "Live Server Lite"
+description = "A lightweight live server extension for VS Code development"
+start_date = "2023"
+end_date = "2024"
+technologies = ["JavaScript", "Node.js", "VS Code API"]
+live_url = "https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-server-lite"
+github_url = "https://github.com/NishikantaRay/live-server-lite"
 highlights = [
-    "Built responsive frontend with React and TypeScript",
-    "Implemented secure payment processing with Stripe",
-    "Deployed on AWS with auto-scaling capabilities"
+    "2000+ installations on VS Code Marketplace",
+    "Hot reload functionality for rapid development",
+    "Lightweight alternative to traditional live servers",
+    "Cross-platform compatibility and easy setup"
+]
+
+[[projects]]
+name = "Bootstrap 5 Extension Pack"
+description = "Comprehensive VS Code extension pack for Bootstrap 5 development"
+start_date = "2023"
+end_date = "2024"
+technologies = ["Bootstrap 5", "CSS", "HTML", "VS Code Extensions"]
+live_url = "https://marketplace.visualstudio.com/items?itemName=NishikantaRay.bootstrap5-snippets"
+github_url = "https://github.com/NishikantaRay/bootstrap5-extension-pack"
+highlights = [
+    "Complete Bootstrap 5 snippet collection",
+    "IntelliSense support for faster development",
+    "Comprehensive component library integration",
+    "Enhanced developer productivity tools"
 ]
 ```
 
-### Skills
+**Project URL Features:**
+- `live_url` for deployed/published projects
+- `github_url` for source code repositories
+- Both URLs render as styled buttons
+- Professional spacing and presentation
+
+### Skills with Enhanced Categories
 
 ```toml
 [skills.frontend]
@@ -408,9 +609,14 @@ proficiency = "Advanced"
 category = "Tools & Technologies"
 technologies = ["Docker", "AWS", "Git", "Jenkins", "Kubernetes"]
 proficiency = "Intermediate"
+
+[skills.mobile]
+category = "Mobile Development"
+technologies = ["React Native", "Flutter", "iOS", "Android"]
+proficiency = "Intermediate"
 ```
 
-### Achievements
+### Achievements and Certifications
 
 ```toml
 [[achievements]]
@@ -422,23 +628,152 @@ description = "Professional certification in cloud architecture"
 
 [[achievements]]
 title = "Best Developer Award"
-issuer = "TechCorp Solutions"
+issuer = "Lets Flo"
 date = "2023-12"
 type = "award"
 description = "Recognized for outstanding performance and innovation"
+
+[[achievements]]
+title = "Open Source Contributor"
+issuer = "GitHub"
+date = "2023"
+type = "contribution"
+description = "Active contributor to multiple open source projects"
 ```
 
-### Display Settings
+### Advanced Display Settings
 
 ```toml
 [settings]
-show_gpa = true                    # Show GPA information
-show_location = true               # Show location information
+show_gpa = true                    # Show GPA/CGPA information
+show_location = true               # Show location information  
 show_phone = true                  # Show phone number
 date_format = "MMM YYYY"          # Date format: "Jan 2023"
 enable_share_button = true         # Enable resume sharing
 max_achievements_per_section = 5   # Limit achievements displayed
+enable_company_links = true        # Enable company URL linking
+enable_institution_links = true   # Enable institution URL linking
+enable_project_urls = true         # Enable project URL buttons
+enable_mentions = true             # Enable @mention processing
 ```
+
+## Advanced TOML Features
+
+### Manual TOML Parser Implementation
+
+The resume system uses a sophisticated manual TOML parser:
+
+```javascript
+parseTomlManually(tomlContent) {
+  const result = {};
+  const lines = tomlContent.split('\n');
+  let currentSection = null;
+  let currentArray = null;
+  let isInMultilineString = false;
+  
+  // Advanced parsing logic supporting:
+  // - Nested sections: [skills.frontend]
+  // - Array tables: [[experience]]
+  // - Multi-line strings and arrays
+  // - Error handling and validation
+  
+  return result;
+}
+```
+
+### @Mention Processing System
+
+```javascript
+processTextWithMentions(text, companies) {
+  if (!companies || typeof text !== 'string') return text;
+  
+  return text.replace(/@(\w+)/g, (match, company) => {
+    const url = companies[company.toLowerCase()];
+    if (url) {
+      const displayName = this.formatCompanyName(company);
+      return `<a href="${url}" class="company-mention" target="_blank">${displayName}</a>`;
+    }
+    return match;
+  });
+}
+
+formatCompanyName(company) {
+  // Converts "letsflo" to "Lets Flo"
+  const nameMap = {
+    'letsflo': 'Lets Flo',
+    'teceads': 'Teceads'
+  };
+  return nameMap[company.toLowerCase()] || 
+         company.charAt(0).toUpperCase() + company.slice(1);
+}
+```
+
+### URL Generation and Styling
+
+```javascript
+generateProjectUrls(project) {
+  let urlsHtml = '';
+  
+  if (project.live_url) {
+    urlsHtml += `<a href="${project.live_url}" class="project-link" target="_blank">
+      <i class="icon-external"></i> Live Demo
+    </a>`;
+  }
+  
+  if (project.github_url) {
+    urlsHtml += `<a href="${project.github_url}" class="project-link github-link" target="_blank">
+      <i class="icon-github"></i> GitHub
+    </a>`;
+  }
+  
+  return urlsHtml;
+}
+```
+
+## Production Features
+
+### Console Cleanup System
+All debugging logs are removed for production:
+
+```bash
+# Automatic console cleanup
+sed -i '' '/console\.log/d' js/resume-config-toml.js
+sed -i '' '/console\.warn/d' js/resume-config-toml.js
+sed -i '' '/console\.error/d' js/resume-config-toml.js
+```
+
+### Error Handling and Fallbacks
+
+```javascript
+class ResumeRenderer {
+  constructor() {
+    this.fallbackConfig = {
+      personal: { name: "Name not configured" },
+      companies: {},
+      experience: [],
+      education: [],
+      projects: []
+    };
+  }
+  
+  async loadAndRender() {
+    try {
+      const config = await this.loadConfig();
+      this.render(config);
+    } catch (error) {
+      console.warn('Using fallback configuration');
+      this.render(this.fallbackConfig);
+    }
+  }
+}
+```
+
+### Performance Optimizations
+
+- **Efficient TOML Parsing**: Single-pass parsing algorithm
+- **Lazy Loading**: Content loaded only when needed
+- **Caching**: Configuration caching for better performance
+- **Minification**: Production builds with minified code
 
 ---
 

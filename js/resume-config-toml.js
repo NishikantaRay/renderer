@@ -380,7 +380,7 @@ class ResumeConfig {
     getMinimalConfig() {
         return {
             personal: {
-                name: "John Doe",
+                name: "Nishikanta Ray",
                 title: "Senior Full Stack Developer",
                 phone: "+1 (555) 123-4567",
                 email: "john.doe@email.com",
@@ -420,7 +420,7 @@ class ResumeConfig {
             personal: {
                 name: "Nishikanta Ray",
                 title: "Your Title",
-                email: "your.email@example.com",
+                email: "nishikantaray@gmail.com",
                 phone: "+1 (555) 123-4567",
                 website: "https://renderer.nishikanta.in",
                 github: "https://github.com/NishikantaRay",

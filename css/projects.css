@@ -143,6 +143,50 @@ body {
     display: none;
 }
 
+/* Mobile Navigation Styles */
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block !important;
+    }
+
+    .nav-container {
+        justify-content: flex-end;
+    }
+
+    .nav-mobile-spacer {
+        display: block;
+        flex: 1;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        background: var(--bg);
+        flex-direction: column;
+        gap: 0;
+        padding: var(--space-4);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+    }
+
+    .nav-links.mobile-open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-link {
+        display: block;
+        padding: var(--space-3) var(--space-4);
+        border-radius: 0.375rem;
+    }
+}
+
 .theme-toggle {
     background: none;
     border: none;

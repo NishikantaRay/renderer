@@ -6,7 +6,7 @@
 
 window.RESUME_CONFIG_JS = {
     personal: {
-        name: "John Doe",
+        name: "Nishikanta Ray",
         title: "Senior Full Stack Developer",
         phone: "+1 (555) 123-4567",
         email: "john.doe@email.com",

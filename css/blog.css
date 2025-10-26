@@ -913,7 +913,7 @@ body {
   }
 
   .mobile-menu-button {
-    display: block;
+    display: block !important;
   }
 
   .nav-controls {

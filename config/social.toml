@@ -38,7 +38,7 @@ enabled = true
 [[links]]
 id = "email"
 name = "Email"
-url = "mailto:nishikantaray@example.com"
+url = "mailto:nishikantaray@gmail.com"
 icon = "fas fa-envelope"
 target = "_self"
 enabled = true

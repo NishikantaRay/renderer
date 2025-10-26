@@ -11,11 +11,15 @@ class BlogConfigTOML {
 
     async init() {
         try {
-            console.log('Forcing JavaScript fallback for debugging...');
+            // Try to load TOML configuration first
+            const tomlSuccess = await this.loadTOMLConfig();
+            if (tomlSuccess) {
+                this.isInitialized = true;
+                return true;
+            }
             
             // Force fallback to JavaScript configuration for debugging
             if (window.BLOG_CONFIG) {
-                console.log('Using JavaScript blog configuration as fallback');
                 this.config = this.convertJSConfigToTOMLFormat(window.BLOG_CONFIG);
                 this.isInitialized = true;
                 return true;
@@ -35,8 +39,16 @@ class BlogConfigTOML {
 
     async loadTOMLConfig() {
         try {
-            // Temporarily skip TOML loading and force fallback to debug
-            throw new Error('TOML loading temporarily disabled for debugging');
+            // Fetch TOML file first
+            const response = await fetch('./config/blog.toml?t=' + Date.now());
+            if (!response.ok) {
+                throw new Error(`Failed to fetch blog.toml: ${response.status}`);
+            }
+
+            const tomlText = await response.text();
+            
+            // Try to parse with a simple TOML parser
+            let tomlData;
             
             // Check if TOML parser is available
             let tomlParser = null;
@@ -44,63 +56,13 @@ class BlogConfigTOML {
             // Try different ways to access the TOML parser
             if (window.TOML) {
                 tomlParser = window.TOML;
+                tomlData = tomlParser.parse(tomlText);
             } else if (window.toml) {
                 tomlParser = window.toml;
-            } else if (window.SmolToml) {
-                tomlParser = window.SmolToml;
-            } else if (typeof TOML !== 'undefined') {
-                tomlParser = TOML;
-            } else {
-                // Try to load TOML parser dynamically
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/smol-toml@1.3.0/dist/index.min.js';
-                document.head.appendChild(script);
-                
-                await new Promise((resolve, reject) => {
-                    script.onload = () => {
-                        // Check again for the parser after loading
-                        if (window.TOML) {
-                            tomlParser = window.TOML;
-                        } else if (window.toml) {
-                            tomlParser = window.toml;
-                        } else if (window.SmolToml) {
-                            tomlParser = window.SmolToml;
-                        } else if (typeof TOML !== 'undefined') {
-                            tomlParser = TOML;
-                        }
-                        
-                        if (tomlParser) {
-                            resolve();
-                        } else {
-                            reject(new Error('TOML parser still not available after loading'));
-                        }
-                    };
-                    script.onerror = (error) => {
-                        reject(error);
-                    };
-                });
-            }
-
-            if (!tomlParser) {
-                throw new Error('TOML parser is not available');
-            }
-
-            // Fetch TOML file
-            const response = await fetch('./config/blog.toml');
-            if (!response.ok) {
-                throw new Error(`Failed to fetch blog.toml: ${response.status}`);
-            }
-
-            const tomlText = await response.text();
-            
-            // Parse TOML with the available parser
-            let tomlData;
-            if (tomlParser.parse) {
                 tomlData = tomlParser.parse(tomlText);
-            } else if (typeof tomlParser === 'function') {
-                tomlData = tomlParser(tomlText);
             } else {
-                throw new Error('Unknown TOML parser interface');
+                // Use a simple TOML parser implementation
+                tomlData = this.parseSimpleTOML(tomlText);
             }
             
             this.config = this.processTOMLConfig(tomlData);
@@ -108,6 +70,127 @@ class BlogConfigTOML {
         } catch (error) {
             return false;
         }
+    }
+
+    parseSimpleTOML(tomlText) {
+        // Simple TOML parser for basic structures
+        const lines = tomlText.split('\n');
+        const result = {};
+        let currentSection = result;
+        let currentSectionName = '';
+        let currentArray = null;
+        let currentArrayName = '';
+        let multiLineValue = '';
+        let multiLineKey = '';
+        let inMultiLineArray = false;
+        
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            
+            // Skip empty lines and comments
+            if (!line || line.startsWith('#')) continue;
+            
+            // Handle section headers
+            if (line.startsWith('[') && line.endsWith(']')) {
+                const sectionName = line.slice(1, -1);
+                
+                if (sectionName.startsWith('[') && sectionName.endsWith(']')) {
+                    // Array of tables [[posts]]
+                    const arrayName = sectionName.slice(1, -1);
+                    if (!result[arrayName]) {
+                        result[arrayName] = [];
+                    }
+                    currentArray = {};
+                    result[arrayName].push(currentArray);
+                    currentSection = currentArray;
+                    currentArrayName = arrayName;
+                } else {
+                    // Regular section [blog]
+                    if (!result[sectionName]) {
+                        result[sectionName] = {};
+                    }
+                    currentSection = result[sectionName];
+                    currentSectionName = sectionName;
+                    currentArray = null;
+                }
+                continue;
+            }
+            
+            // Handle key-value pairs
+            if (line.includes('=')) {
+                const [key, ...valueParts] = line.split('=');
+                const cleanKey = key.trim();
+                let value = valueParts.join('=').trim();
+                
+                // Handle multi-line arrays
+                if (value.startsWith('[') && !value.endsWith(']')) {
+                    inMultiLineArray = true;
+                    multiLineKey = cleanKey;
+                    multiLineValue = value;
+                    continue;
+                }
+                
+                // Remove quotes
+                if ((value.startsWith('"') && value.endsWith('"')) || 
+                    (value.startsWith("'") && value.endsWith("'"))) {
+                    value = value.slice(1, -1);
+                }
+                
+                // Parse arrays
+                if (value.startsWith('[') && value.endsWith(']')) {
+                    const arrayContent = value.slice(1, -1);
+                    if (arrayContent.trim()) {
+                        value = arrayContent.split(',').map(item => {
+                            item = item.trim();
+                            if ((item.startsWith('"') && item.endsWith('"')) || 
+                                (item.startsWith("'") && item.endsWith("'"))) {
+                                return item.slice(1, -1);
+                            }
+                            return item;
+                        });
+                    } else {
+                        value = [];
+                    }
+                }
+                
+                // Parse numbers and booleans
+                if (value === 'true') value = true;
+                else if (value === 'false') value = false;
+                else if (!isNaN(value) && !isNaN(parseFloat(value))) {
+                    value = parseFloat(value);
+                }
+                
+                currentSection[cleanKey] = value;
+            } else if (inMultiLineArray) {
+                // Continue building multi-line array
+                multiLineValue += ' ' + line;
+                
+                if (line.endsWith(']')) {
+                    // End of multi-line array
+                    inMultiLineArray = false;
+                    
+                    // Parse the complete array
+                    let value = multiLineValue.trim();
+                    if (value.startsWith('[') && value.endsWith(']')) {
+                        const arrayContent = value.slice(1, -1);
+                        value = arrayContent.split(',').map(item => {
+                            item = item.trim();
+                            if ((item.startsWith('"') && item.endsWith('"')) || 
+                                (item.startsWith("'") && item.endsWith("'"))) {
+                                return item.slice(1, -1);
+                            }
+                            return item;
+                        }).filter(item => item); // Remove empty items
+                    }
+                    
+                    currentSection[multiLineKey] = value;
+                    multiLineValue = '';
+                    multiLineKey = '';
+                }
+            }
+        }
+        
+        return result;
     }
 
     processTOMLConfig(tomlData) {

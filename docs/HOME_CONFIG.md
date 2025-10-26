@@ -4,31 +4,65 @@ The home page is now fully configurable through the `config/home.toml` file. Thi
 
 ## Configuration Structure
 
+### SEO Configuration (New in v2.1)
+Configure search engine optimization and social media sharing:
+
+```toml
+[seo]
+title = "Your Name - Software Engineer & Full Stack Developer"
+description = "A passionate Full Stack Developer with expertise in web development and innovative solutions."
+keywords = "Full Stack Developer, Software Engineer, JavaScript, React, Node.js, Web Developer"
+author = "Your Name"
+og_image = "https://avatars.githubusercontent.com/u/YOUR_ID?v=4"  # Image for social media sharing
+og_url = "https://yourwebsite.com/"  # Canonical URL
+twitter_card = "summary_large_image"  # Twitter card type
+twitter_creator = "@yourusername"  # Your Twitter handle
+```
+
+**SEO Features:**
+- **Dynamic Page Title**: Updates `<title>` tag automatically
+- **Meta Description**: For search engine results
+- **Keywords**: Helps with SEO (though less important nowadays)
+- **Open Graph Tags**: Rich previews on Facebook, LinkedIn
+- **Twitter Cards**: Rich previews on Twitter
+- **Automatic Meta Tag Creation**: Creates tags if they don't exist
+
 ### Hero Section
 Configure the main hero section at the top of the page:
 
 ```toml
 [hero]
-name = "Nishikanta Ray"                    # Main title displayed
-title = "Full-Stack Developer"       # Subtitle (optional)
-intro = [                            # Array of intro paragraphs
+name = "Your Name"                      # Main title displayed
+title = "Full-Stack Developer"          # Subtitle (optional)
+profile_image = "https://avatars.githubusercontent.com/u/YOUR_ID?v=4"  # Profile image URL (New in v2.1)
+intro = [                               # Array of intro paragraphs
     "First paragraph of introduction...",
     "Second paragraph with more details..."
 ]
 
 [hero.actions]
-primary_text = "Hire Me"             # Primary button text
-primary_link = "resume.html"         # Primary button link
-secondary_text = "Let's Talk"        # Secondary button text  
-secondary_link = "#contact"          # Secondary button link
+primary_text = "Hire Me"                # Primary button text
+primary_link = "resume.html"            # Primary button link
+secondary_text = "Let's Talk"           # Secondary button text  
+secondary_link = "https://your-contact-form.com"  # External or internal link (v2.1 supports external)
 ```
+
+**Hero Section Features (v2.1):**
+- **Profile Image**: Circular image displayed above name
+  - Supports GitHub avatars, local images, or any URL
+  - 120px diameter with hover scale effect
+  - Professional border and shadow styling
+- **External Link Support**: `secondary_link` can now be external URL
+  - Automatically opens in new tab if URL starts with `http://` or `https://`
+  - Adds proper security attributes (`rel="noopener noreferrer"`)
+- **Smooth Loading**: Content fades in smoothly (no flash of unstyled content)
 
 ### Client Section
 Configure the client logos showcase:
 
 ```toml
 [freelance_clients]
-enabled = true                       # Show/hide this section
+enabled = true                       # Show/hide this section (v2.1: properly hides when false)
 title = "Trusted by Clients"        # Section title
 subtitle = "Companies I've worked with"  # Section subtitle
 contact_email = "your@email.com"    # Contact button email
@@ -43,12 +77,17 @@ period = "Oct-Dec 2024"           # Work period
 project = "Project Description"    # Brief project description
 ```
 
+**Section Visibility (v2.1):**
+- Set `enabled = false` to completely hide the section
+- No flickering on page load (CSS hides section initially)
+- Smooth fade-in when `enabled = true`
+
 ### Products Section
 Configure the latest products showcase:
 
 ```toml
 [latest_products]
-enabled = true                      # Show/hide this section
+enabled = true                      # Show/hide this section (v2.1: improved hiding)
 title = "Latest Products"          # Section title
 subtitle = "Tools and apps I've built"  # Section subtitle
 view_all_text = "View All Products"    # View all button text

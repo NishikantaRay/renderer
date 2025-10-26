@@ -20,7 +20,7 @@ npm run dev
 
 ### 2. **Essential Configuration**
 Update these files with your information:
-- `config/home.toml` - Your name, title, and hero section
+- `config/home.toml` - Your name, title, hero section, **SEO settings** (v2.1)
 - `config/resume.toml` - Your professional information with @mention support
 - `config/social.toml` - Your social media links
 
@@ -30,7 +30,73 @@ Add your content to:
 - `content/projects.md` - Projects showcase
 - `content/blog.md` - Blog posts and articles
 
-## ✨ Latest Features (v2.0)
+## ✨ Latest Features (v2.1 - October 2025)
+
+### 🔍 **SEO & Social Media Optimization** (NEW)
+- **Complete SEO Configuration**: Manage all SEO meta tags via TOML
+- **Open Graph Support**: Rich previews on Facebook, LinkedIn, and other platforms
+- **Twitter Cards**: Optimized sharing for Twitter
+- **Dynamic Meta Tags**: Automatic creation and updates of all SEO tags
+- **Search Engine Ready**: Proper descriptions, keywords, and author tags
+
+```toml
+[seo]
+title = "Your Name - Full Stack Developer"
+description = "Professional portfolio showcasing projects and experience"
+keywords = "Developer, JavaScript, React, Portfolio"
+og_image = "https://your-image.com/og.jpg"
+twitter_creator = "@yourusername"
+```
+
+### 🖼️ **Profile Image System** (NEW)
+- **Hero Section Profile**: Circular profile image above your name
+- **GitHub Avatar Support**: Direct integration with GitHub avatars
+- **Hover Effects**: Professional scale and border color transitions
+- **Configurable**: Set any image URL in `home.toml`
+
+```toml
+[hero]
+profile_image = "https://avatars.githubusercontent.com/u/YOUR_ID?v=4"
+```
+
+### 👁️ **Smart Section Visibility** (NEW)
+- **Conditional Rendering**: Show/hide sections via `enabled` flag
+- **No Flickering**: CSS-first hiding prevents flash of unwanted content
+- **Smooth Transitions**: Elegant fade-in animations when enabled
+- **Performance**: Sections not loaded when disabled
+
+```toml
+[freelance_clients]
+enabled = false  # Completely hides this section
+
+[latest_products]
+enabled = true   # Shows this section
+```
+
+### 🔗 **External Link Support** (NEW)
+- **Contact Form Integration**: Link to external contact forms (Mailchimp, Google Forms, etc.)
+- **Auto-Detection**: Automatically opens external links in new tab
+- **Security**: Proper `rel="noopener noreferrer"` attributes
+- **Flexible Actions**: Hero buttons can link anywhere
+
+```toml
+[hero.actions]
+secondary_link = "https://your-contact-form.com"  # External link supported
+```
+
+### 📱 **Mobile Navigation Fixes** (NEW)
+- **Hamburger Menu**: Fixed visibility across all pages
+- **Proper Positioning**: Right-aligned menu on mobile devices
+- **Consistent Behavior**: Unified navigation experience
+- **CSS Improvements**: Better specificity and !important flags where needed
+
+### ❤️ **Enhanced Footer** (NEW)
+- **Dynamic Year**: JavaScript-powered year using `Date()`
+- **Renderer Credit**: Links to https://renderer.nishikanta.in/
+- **Heart Emoji**: Professional touch with ❤️
+- **TOML-Driven**: Gets name from configuration
+
+## ✨ Previous Features (v2.0)
 
 ### 🎯 **TOML-First Architecture**
 - **Complete Configuration Control**: Everything is now configurable through TOML files
@@ -68,7 +134,7 @@ Add your content to:
 
 | Document | Purpose | Key Features |
 |----------|---------|--------------|
-| [`HOME_CONFIG.md`](./HOME_CONFIG.md) | Home page setup | Hero section, clients, products, dashboard |
+| [`HOME_CONFIG.md`](./HOME_CONFIG.md) | Home page setup | Hero, **SEO** (v2.1), **Profile Image** (v2.1), sections visibility |
 | [`PROJECTS_CONFIG.md`](./PROJECTS_CONFIG.md) | Projects showcase | Analytics, filtering, GitHub integration |
 | [`BLOG_CONFIG.md`](./BLOG_CONFIG.md) | Blog system | Posts, pagination, categories, search |
 | [`RESUME_CONFIG.md`](./RESUME_CONFIG.md) | Interactive resume | Experience, skills, achievements |
@@ -79,6 +145,7 @@ Add your content to:
 | Document | Purpose | For Who |
 |----------|---------|----------|
 | [`COMPLETE_FEATURES_GUIDE.md`](./COMPLETE_FEATURES_GUIDE.md) | All features & customization | Developers, Advanced users |
+| [`CHANGELOG.md`](./CHANGELOG.md) | Version history & updates | Everyone - **See v2.1 updates!** |
 | [`DASHBOARD-CONFIG.md`](./DASHBOARD-CONFIG.md) | Analytics dashboard | Data-driven users |
 | [`ENHANCED-CONFIG-PROPOSAL.md`](./ENHANCED-CONFIG-PROPOSAL.md) | Future enhancements | Contributors |
 

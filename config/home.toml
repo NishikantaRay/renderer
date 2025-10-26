@@ -4,6 +4,17 @@
 # Home Page Configuration
 # Configure all content and settings for the home page
 
+# SEO Configuration
+[seo]
+title = "Your Name - Portfolio"
+description = "Professional portfolio showcasing projects and experience."
+keywords = "Portfolio, Web Developer, Software Engineer, Projects"
+author = "Your Name"
+og_image = "https://ui-avatars.com/api/?name=Your+Name&size=240&background=0D8ABC&color=fff"
+og_url = "https://yourwebsite.com"
+twitter_card = "summary_large_image"
+twitter_creator = "@yourusername"
+
 [hero]
 name = "Nishikanta Ray"
 title = "Software Engineer & Full Stack Developer"

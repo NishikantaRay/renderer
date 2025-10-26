@@ -13,6 +13,7 @@ class MinimalPortfolio {
     this.setupTheme();
     this.setupEventListeners();
     await this.loadHomeConfig();
+    this.updateSEO();
     await this.loadAllContent();
     this.setupNavigation();
     this.setupDashboard();
@@ -392,6 +393,53 @@ class MinimalPortfolio {
     
     if (footerElement) {
       footerElement.innerHTML = `&copy; ${currentYear} ${name}. Built with <a href="https://renderer.nishikanta.in/" target="_blank" rel="noopener noreferrer">Renderer</a> ❤️`;
+    }
+  }
+
+  updateSEO() {
+    if (!this.homeConfig?.seo) return;
+
+    const seo = this.homeConfig.seo;
+
+    // Update title
+    if (seo.title) {
+      document.title = seo.title;
+    }
+
+    // Update or create meta tags
+    this.updateMetaTag('name', 'description', seo.description);
+    this.updateMetaTag('name', 'keywords', seo.keywords);
+    this.updateMetaTag('name', 'author', seo.author);
+
+    // Open Graph tags
+    this.updateMetaTag('property', 'og:title', seo.title);
+    this.updateMetaTag('property', 'og:description', seo.description);
+    this.updateMetaTag('property', 'og:image', seo.og_image);
+    this.updateMetaTag('property', 'og:url', seo.og_url);
+    this.updateMetaTag('property', 'og:type', 'website');
+
+    // Twitter Card tags
+    this.updateMetaTag('name', 'twitter:card', seo.twitter_card);
+    this.updateMetaTag('name', 'twitter:creator', seo.twitter_creator);
+    this.updateMetaTag('name', 'twitter:title', seo.title);
+    this.updateMetaTag('name', 'twitter:description', seo.description);
+    this.updateMetaTag('name', 'twitter:image', seo.og_image);
+
+    console.log('SEO meta tags updated from TOML configuration');
+  }
+
+  updateMetaTag(attribute, attributeValue, content) {
+    if (!content) return;
+
+    let element = document.querySelector(`meta[${attribute}="${attributeValue}"]`);
+    
+    if (element) {
+      element.setAttribute('content', content);
+    } else {
+      element = document.createElement('meta');
+      element.setAttribute(attribute, attributeValue);
+      element.setAttribute('content', content);
+      document.head.appendChild(element);
     }
   }
 

@@ -603,6 +603,7 @@ class ResumeConfig {
                 </div>
                 <div class="item-description">
                     ${this.config.settings.show_gpa && edu.gpa ? `<p><strong>GPA:</strong> ${edu.gpa}</p>` : ''}
+                    ${edu.notes ? `<p>${edu.notes}</p>` : ''}
                     ${edu.relevant_coursework && edu.relevant_coursework.length > 0 ? `
                         <p><strong>Relevant Coursework:</strong> ${edu.relevant_coursework.join(', ')}</p>
                     ` : ''}

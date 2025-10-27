@@ -248,9 +248,8 @@ class SocialConfig {
         const css = this.generateSocialCSS();
 
         console.log('Generated HTML length:', html.length);
-        console.log('Generated HTML:', html);
 
-        // Update CSS
+        // Update CSS first
         let styleElement = document.getElementById('social-config-styles');
         if (!styleElement) {
             styleElement = document.createElement('style');
@@ -259,10 +258,27 @@ class SocialConfig {
         }
         styleElement.textContent = css;
 
-        // Update HTML
+        // Update HTML with smooth transition
         containers.forEach((container, index) => {
             console.log(`Updating container ${index}:`, container);
+            
+            // Hide container during update to prevent flash
+            const originalOpacity = container.style.opacity;
+            container.style.opacity = '0';
+            container.style.transition = 'opacity 0.3s ease';
+            
+            // Update content
             container.innerHTML = html;
+            
+            // Force reflow and show with fade-in
+            container.offsetHeight;
+            container.style.opacity = '1';
+            
+            // Clean up after transition
+            setTimeout(() => {
+                container.style.opacity = originalOpacity;
+                container.style.transition = '';
+            }, 300);
         });
         
         console.log('Social links update completed');
@@ -277,15 +293,6 @@ class SocialConfig {
 
 // Create global instance
 window.socialConfig = new SocialConfig();
-
-// Auto-initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', async () => {
-        await window.socialConfig.init();
-    });
-} else {
-    window.socialConfig.init();
-}
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {

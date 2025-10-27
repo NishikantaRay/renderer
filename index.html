@@ -6,24 +6,51 @@
     <title>Nishikanta Ray - Software Engineer & Full Stack Developer</title>
     <meta name="description" content="A passionate Full Stack Developer, explorer, and freelancer with 2+ years of experience in designing, developing, and delivering innovative web solutions.">
     
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <!-- DNS Prefetch and Preconnect for external resources -->
+    <link rel="dns-prefetch" href="//avatars.githubusercontent.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//rsms.me">
+    <link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin>
+    <link rel="preconnect" href="https://rsms.me" crossorigin>
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://avatars.githubusercontent.com/u/62615392?v=4" as="image" type="image/jpeg">
+    <link rel="preload" href="./css/critical.css" as="style">
+    <link rel="preload" href="./js/fast-init.js" as="script">
+    <link rel="preload" href="./js/lazy-loader.js" as="script">
+    <link rel="preload" href="./js/toml-loader.js" as="script">
+    <link rel="preload" href="./config/home.toml" as="fetch" crossorigin>
     
-    <!-- Chart.js for analytics -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <!-- Prefetch likely next resources -->
+    <link rel="prefetch" href="./js/home.js">
+    <link rel="prefetch" href="./js/social-config-toml.js">
+    <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js">
     
-    <!-- TOML parser -->
-    <script src="https://cdn.jsdelivr.net/npm/js-toml@0.5.0/dist/toml.min.js"></script>
+    <!-- Critical CSS (inline core styles for above-the-fold content) -->
+    <link rel="stylesheet" href="./css/critical.css">
     
-    <!-- Dashboard Configuration -->
-    <script src="js/dashboard-config.js"></script>
+    <!-- Fonts - Load asynchronously -->
+    <link rel="preload" href="https://rsms.me/inter/inter.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://rsms.me/inter/inter.css"></noscript>
     
-    <!-- Markdown parser -->
-    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
-    <link rel="stylesheet" href="./css/home.css">
+    <!-- Font Awesome - Defer loading -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <!-- Non-critical CSS - Load asynchronously -->
+    <link rel="preload" href="./css/home.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="./css/home.css"></noscript>
+    
+    <!-- Progressive Enhancement: Ensure critical functionality without JavaScript -->
+    <noscript>
+        <style>
+            .hero-intro, .hero-actions { opacity: 1 !important; }
+            .nav-links { display: flex !important; }
+            .mobile-menu-toggle { display: none !important; }
+            .js-only { display: none !important; }
+        </style>
+    </noscript>
 </head>
 <body>
     <!-- Navigation -->
@@ -67,7 +94,14 @@
         <!-- Hero Section -->
         <section id="home" class="hero">
             <div class="hero-profile-image">
-                <img src="https://ui-avatars.com/api/?name=Your+Name&size=240&background=0D8ABC&color=fff" alt="Nishikanta Ray" class="profile-img">
+                <img src="https://avatars.githubusercontent.com/u/62615392?v=4" 
+                     alt="Nishikanta Ray" 
+                     class="profile-img"
+                     width="120" 
+                     height="120"
+                     loading="eager"
+                     decoding="async"
+                     fetchpriority="high">
             </div>
             <h1 class="hero-title">Nishikanta Ray</h1>
             <div class="hero-intro">
@@ -75,8 +109,29 @@
                 <p>Currently working at @letsflo and actively contributing to the open-source community. I specialize in JavaScript, TypeScript, React, Node.js, and modern web technologies. Check out my <a href="projects.html">projects</a> and <a href="blog.html">blog</a> for insights into my development journey.</p>
             </div>
             <div class="social-links" id="social-links">
-                <!-- Social links will be populated by JavaScript -->
+                <!-- Social links will be loaded by JavaScript -->
             </div>
+            
+            <!-- NoScript fallback social links -->
+            <noscript>
+                <div class="social-links">
+                    <a href="https://github.com/NishikantaRay" target="_blank" class="social-link" title="GitHub" rel="noopener noreferrer">
+                        <span class="social-icon">📂</span>
+                    </a>
+                    <a href="https://linkedin.com/in/nishikanta-ray-7786a0196" target="_blank" class="social-link" title="LinkedIn" rel="noopener noreferrer">
+                        <span class="social-icon">💼</span>
+                    </a>
+                    <a href="https://twitter.com/NishikantaRay5" target="_blank" class="social-link" title="Twitter" rel="noopener noreferrer">
+                        <span class="social-icon">🐦</span>
+                    </a>
+                    <a href="mailto:nishikantaray1@gmail.com" class="social-link" title="Email">
+                        <span class="social-icon">✉️</span>
+                    </a>
+                    <a href="https://youtube.com/@nishikantaray5637" target="_blank" class="social-link" title="YouTube" rel="noopener noreferrer">
+                        <span class="social-icon">📺</span>
+                    </a>
+                </div>
+            </noscript>
             
             <!-- Action Buttons -->
             <div class="hero-actions">
@@ -228,18 +283,65 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; <span id="footer-year"></span> Your Name. Built with <a href="https://renderer.nishikanta.in/" target="_blank" rel="noopener noreferrer">Renderer</a> ❤️</p>
+        <p>&copy; <span id="footer-year"></span> Nishikanta Ray. Built with <a href="https://renderer.nishikanta.in/" target="_blank" rel="noopener noreferrer">Renderer</a> ❤️</p>
     </footer>
     
     <script>
         document.getElementById('footer-year').textContent = new Date().getFullYear();
     </script>
     
-    <!-- Load TOML parser utility first -->
-    <script src="./js/toml-loader.js"></script>
-    <!-- Load configuration scripts -->
-    <script src="./js/social-config-toml.js"></script>
-    <!-- Load main application -->
-    <script src="./js/home.js"></script>
+    <!-- Fast initialization system -->
+    <script defer src="./js/lazy-loader.js"></script>
+    <script defer src="./js/toml-loader.js"></script>
+    <script defer src="./js/performance-monitor.js"></script>
+    <script defer src="./js/fast-init.js"></script>
+    
+    <!-- Load enhanced features only when needed -->
+    <script>
+        // Load full portfolio features after initial critical loading
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                // Load social config and full portfolio only if needed
+                const loadFullFeatures = () => {
+                    if (!window.fullFeaturesLoaded) {
+                        window.fullFeaturesLoaded = true;
+                        
+                        // Load social config
+                        if (!document.querySelector('script[src*="social-config"]')) {
+                            const script1 = document.createElement('script');
+                            script1.src = './js/social-config-toml.js';
+                            script1.defer = true;
+                            document.head.appendChild(script1);
+                        }
+                        
+                        // Load dashboard config only if dashboard is enabled
+                        if (!document.querySelector('script[src*="dashboard-config"]')) {
+                            const script2 = document.createElement('script');
+                            script2.src = './js/dashboard-config.js';
+                            script2.defer = true;
+                            document.head.appendChild(script2);
+                        }
+                        
+                        // Load full home.js for advanced features
+                        if (!document.querySelector('script[src*="home.js"]')) {
+                            const script3 = document.createElement('script');
+                            script3.src = './js/home.js';
+                            script3.defer = true;
+                            document.head.appendChild(script3);
+                        }
+                    }
+                };
+                
+                // Load on user interaction or after delay
+                const events = ['click', 'scroll', 'keydown', 'touchstart'];
+                events.forEach(event => {
+                    document.addEventListener(event, loadFullFeatures, { once: true, passive: true });
+                });
+                
+                // Fallback: load after 2 seconds anyway
+                setTimeout(loadFullFeatures, 2000);
+            }, 500);
+        });
+    </script>
 </body>
 </html>

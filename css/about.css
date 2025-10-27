@@ -303,10 +303,22 @@ blockquote {
     visibility: visible;
   }
 
+  [data-theme="dark"] .nav-links {
+    background: rgba(10, 10, 10, 0.95);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  }
+
   .nav-link {
     display: block;
-    padding: var(--space-3) var(--space-4);
-    border-radius: 0.375rem;
+    padding: var(--space-3) var(--space-6);
+    margin: 0 var(--space-6);
+    text-align: center;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+
+  [data-theme="dark"] .nav-link:hover {
+    background: rgba(255, 255, 255, 0.05);
   }
 }
 

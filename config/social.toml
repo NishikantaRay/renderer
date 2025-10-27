@@ -14,7 +14,7 @@ spacing = "1rem"         # Spacing between links
 [[links]]
 id = "github"
 name = "GitHub"
-url = "https://github.com/NishikantaRay"
+url = "https://github.com/johndoe"
 icon = "fab fa-github"
 target = "_blank"
 enabled = true
@@ -22,7 +22,7 @@ enabled = true
 [[links]]
 id = "linkedin"
 name = "LinkedIn"
-url = "https://linkedin.com/in/nishikantaray"
+url = "https://linkedin.com/in/johndoe"
 icon = "fab fa-linkedin"
 target = "_blank"
 enabled = true
@@ -30,7 +30,7 @@ enabled = true
 [[links]]
 id = "twitter"
 name = "Twitter"
-url = "https://twitter.com/nishikantaray"
+url = "https://twitter.com/johndoe"
 icon = "fab fa-twitter"
 target = "_blank"
 enabled = true
@@ -38,7 +38,7 @@ enabled = true
 [[links]]
 id = "email"
 name = "Email"
-url = "mailto:nishikantaray@gmail.com"
+url = "mailto:john.doe@example.com"
 icon = "fas fa-envelope"
 target = "_self"
 enabled = true

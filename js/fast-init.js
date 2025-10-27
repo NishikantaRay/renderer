@@ -81,9 +81,9 @@ class FastPortfolioInit {
     getFallbackConfig() {
         return {
             hero: {
-                name: "Nishikanta Ray",
+                name: "John Doe",
                 title: "Software Engineer & Full Stack Developer",
-                profile_image: "https://avatars.githubusercontent.com/u/62615392?v=4",
+                profile_image: "https://ui-avatars.com/api/?name=John+Doe&size=240&background=0D8ABC&color=fff",
                 intro: ["A passionate Software Engineer with expertise in full-stack development."],
                 actions: {
                     primary_text: "Hire Me",
@@ -123,8 +123,17 @@ class FastPortfolioInit {
             const navLinks = document.getElementById("nav-links");
             
             if (mobileToggle && navLinks) {
-                mobileToggle.addEventListener("click", () => {
+                // Toggle mobile menu on hamburger click
+                mobileToggle.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent event bubbling
                     navLinks.classList.toggle("mobile-open");
+                });
+                
+                // Close mobile menu when clicking on a navigation link
+                navLinks.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("nav-link")) {
+                        navLinks.classList.remove("mobile-open");
+                    }
                 });
                 
                 // Close mobile menu when clicking outside
@@ -299,38 +308,38 @@ class FastPortfolioInit {
             
             if (hasFontAwesome) {
                 socialContainer.innerHTML = `
-                    <a href="https://github.com/NishikantaRay" target="_blank" class="social-link" title="GitHub" rel="noopener noreferrer">
+                    <a href="https://github.com/johndoe" target="_blank" class="social-link" title="GitHub" rel="noopener noreferrer">
                         <span class="social-icon"><i class="fab fa-github"></i></span>
                     </a>
-                    <a href="https://linkedin.com/in/nishikanta-ray-7786a0196" target="_blank" class="social-link" title="LinkedIn" rel="noopener noreferrer">
+                    <a href="https://linkedin.com/in/johndoe" target="_blank" class="social-link" title="LinkedIn" rel="noopener noreferrer">
                         <span class="social-icon"><i class="fab fa-linkedin"></i></span>
                     </a>
-                    <a href="https://twitter.com/NishikantaRay5" target="_blank" class="social-link" title="Twitter" rel="noopener noreferrer">
+                    <a href="https://twitter.com/johndoe" target="_blank" class="social-link" title="Twitter" rel="noopener noreferrer">
                         <span class="social-icon"><i class="fab fa-twitter"></i></span>
                     </a>
-                    <a href="mailto:nishikantaray1@gmail.com" class="social-link" title="Email">
+                    <a href="mailto:john.doe@example.com" class="social-link" title="Email">
                         <span class="social-icon"><i class="fas fa-envelope"></i></span>
                     </a>
-                    <a href="https://youtube.com/@nishikantaray5637" target="_blank" class="social-link" title="YouTube" rel="noopener noreferrer">
+                    <a href="https://youtube.com/@johndoe" target="_blank" class="social-link" title="YouTube" rel="noopener noreferrer">
                         <span class="social-icon"><i class="fab fa-youtube"></i></span>
                     </a>
                 `;
             } else {
                 // Emoji fallback for when Font Awesome isn't available
                 socialContainer.innerHTML = `
-                    <a href="https://github.com/NishikantaRay" target="_blank" class="social-link" title="GitHub" rel="noopener noreferrer">
+                    <a href="https://github.com/johndoe" target="_blank" class="social-link" title="GitHub" rel="noopener noreferrer">
                         <span class="social-icon">📂</span>
                     </a>
-                    <a href="https://linkedin.com/in/nishikanta-ray-7786a0196" target="_blank" class="social-link" title="LinkedIn" rel="noopener noreferrer">
+                    <a href="https://linkedin.com/in/johndoe" target="_blank" class="social-link" title="LinkedIn" rel="noopener noreferrer">
                         <span class="social-icon">💼</span>
                     </a>
-                    <a href="https://twitter.com/NishikantaRay5" target="_blank" class="social-link" title="Twitter" rel="noopener noreferrer">
+                    <a href="https://twitter.com/johndoe" target="_blank" class="social-link" title="Twitter" rel="noopener noreferrer">
                         <span class="social-icon">🐦</span>
                     </a>
-                    <a href="mailto:nishikantaray1@gmail.com" class="social-link" title="Email">
+                    <a href="mailto:john.doe@example.com" class="social-link" title="Email">
                         <span class="social-icon">✉️</span>
                     </a>
-                    <a href="https://youtube.com/@nishikantaray5637" target="_blank" class="social-link" title="YouTube" rel="noopener noreferrer">
+                    <a href="https://youtube.com/@johndoe" target="_blank" class="social-link" title="YouTube" rel="noopener noreferrer">
                         <span class="social-icon">📺</span>
                     </a>
                 `;
@@ -370,11 +379,9 @@ class FastPortfolioInit {
     scheduleOptionalFeatures() {
         // Load heavy features after user interaction or timeout
         const loadHeavyFeatures = () => {
-            if (window.lazyLoader) {
-                // Load markdown parser if needed
-                window.lazyLoader.loadScript('https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js')
-                    .catch(error => console.warn('Failed to load Marked.js:', error));
-            }
+            // Marked.js is now loaded on-demand in home.js when needed
+            // This space can be used for other optional features
+            console.log('🔧 Optional features area ready for future enhancements');
         };
 
         // Load after user interaction or 3 seconds

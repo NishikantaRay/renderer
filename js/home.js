@@ -50,29 +50,6 @@ class MinimalPortfolio {
       localStorage.setItem("theme", this.currentTheme);
     });
 
-    // Mobile menu toggle
-    const mobileToggle = document.getElementById("mobile-menu-toggle");
-    const navLinks = document.getElementById("nav-links");
-    if (mobileToggle && navLinks) {
-      mobileToggle.addEventListener("click", () => {
-        navLinks.classList.toggle("mobile-open");
-      });
-
-      // Close mobile menu when clicking on a link
-      navLinks.addEventListener("click", (e) => {
-        if (e.target.classList.contains("nav-link")) {
-          navLinks.classList.remove("mobile-open");
-        }
-      });
-
-      // Close mobile menu when clicking outside
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".nav")) {
-          navLinks.classList.remove("mobile-open");
-        }
-      });
-    }
-
     // Navigation - handle both internal links and external page links
     document.querySelectorAll(".nav-link, .nav-brand").forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -500,6 +477,9 @@ class MinimalPortfolio {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
       const markdown = await response.text();
+      
+      // Ensure marked library is loaded before using it
+      await this.ensureMarkedLoaded();
       const html = marked.parse(markdown);
 
       this.contentCache.set(section, html);
@@ -528,6 +508,38 @@ class MinimalPortfolio {
                         </p>
                     `;
     }
+  }
+
+  async ensureMarkedLoaded() {
+    // Check if marked is already available
+    if (typeof marked !== 'undefined') {
+      return Promise.resolve();
+    }
+
+    // Check if lazy loader is available
+    if (window.lazyLoader && typeof window.lazyLoader.loadScript === 'function') {
+      try {
+        await window.lazyLoader.loadScript('https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js');
+        return Promise.resolve();
+      } catch (error) {
+        console.warn('Failed to load marked via lazy loader:', error);
+      }
+    }
+
+    // Fallback: load marked directly
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js';
+      script.onload = () => {
+        console.log('✅ Marked.js loaded successfully');
+        resolve();
+      };
+      script.onerror = () => {
+        console.error('❌ Failed to load Marked.js');
+        reject(new Error('Failed to load marked library'));
+      };
+      document.head.appendChild(script);
+    });
   }
 
   setupContentLinks(container) {

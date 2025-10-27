@@ -1023,3 +1023,60 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Mobile Navigation Styles */
+@media (max-width: 768px) {
+    .nav-container {
+        justify-content: space-between;
+        padding: 0 var(--space-4);
+    }
+
+    .nav-mobile-spacer {
+        display: block;
+        width: 44px; /* Same width as controls */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        gap: 0;
+        padding: var(--space-4);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 99;
+    }
+
+    .nav-links.mobile-open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-link {
+        display: block;
+        padding: var(--space-3) 0;
+        border-bottom: 1px solid var(--border);
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .nav-link:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-menu-toggle {
+        display: block !important;
+    }
+
+    .main {
+        padding: 0 var(--space-4);
+    }
+}

@@ -16,9 +16,9 @@ twitter_card = "summary_large_image"
 twitter_creator = "@yourusername"
 
 [hero]
-name = "Nishikanta Ray"
-title = "Software Engineer & Full Stack Developer"
-profile_image = "https://ui-avatars.com/api/?name=Your+Name&size=240&background=0D8ABC&color=fff"  # Profile image URL
+name = "John Doe"
+title = "Full Stack Developer & Software Engineer"
+profile_image = "https://ui-avatars.com/api/?name=John+Doe&size=240&background=0D8ABC&color=fff"  # Profile image URL
 intro = [
     "I work on web development, user experience design, and modern frontend technologies among other digital things.",
     "This website is an archive of my work and thoughts. Currently, I'm into React, TypeScript, and building modern web applications. If you fancy a longer introduction, try the about page, or check out my blog for recent thoughts and insights."
@@ -38,7 +38,7 @@ enabled_sections = ["freelance-clients", "latest-products", "dashboard"]
 enabled = true
 title = "Trusted by Clients"
 subtitle = "Companies I've worked with"
-contact_email = "nishikantaray@example.com"
+contact_email = "john.doe@example.com"
 contact_text = "Contact Me"
 
 # Client logos and information - supports emoji or image URL
@@ -141,7 +141,7 @@ technologies = ["React", "Node.js", "MongoDB", "Tailwind"]
 version = "v2.1.0"
 users = "500+ users"
 live_url = "https://portfoliobuilder.example.com"
-github_url = "https://github.com/NishikantaRay/portfolio-builder"
+github_url = "https://github.com/johndoe/portfolio-builder"
 
 [[latest_products.products]]
 id = 2
@@ -152,7 +152,7 @@ technologies = ["Vue.js", "Firebase", "Prism.js", "PWA"]
 version = "v1.5.2"
 users = "250+ users"
 live_url = "https://snippets.example.com"
-github_url = "https://github.com/NishikantaRay/snippet-manager"
+github_url = "https://github.com/johndoe/snippet-manager"
 
 [[latest_products.products]]
 id = 3
@@ -163,7 +163,7 @@ technologies = ["Electron", "TypeScript", "Jest", "Axios"]
 version = "v0.8.0 beta"
 users = "Beta testing"
 live_url = ""
-github_url = "https://github.com/NishikantaRay/api-tester"
+github_url = "https://github.com/johndoe/api-tester"
 
 [dashboard]
 enabled = false  # Set to true to enable dashboard

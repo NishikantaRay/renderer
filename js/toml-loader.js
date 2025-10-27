@@ -39,34 +39,34 @@ class TomlLoader {
     async loadTomlParser() {
         // Check if parser is already globally available
         if (window.toml && window.toml.parse) {
-            console.log('Using existing window.toml parser');
+            // Console log removed
             return window.toml;
         }
 
         if (window.TOML && window.TOML.parse) {
-            console.log('Using existing window.TOML parser');
+            // Console log removed
             return window.TOML;
         }
 
         // Wait a bit for scripts to load if they're still loading
-        console.log('No TOML parser found immediately, waiting for scripts to load...');
+        // Console log removed
         await new Promise(resolve => setTimeout(resolve, 500));
 
         // Check again after waiting
         if (window.toml && window.toml.parse) {
-            console.log('Using window.toml parser after wait');
+            // Console log removed
             return window.toml;
         }
 
         if (window.TOML && window.TOML.parse) {
-            console.log('Using window.TOML parser after wait');
+            // Console log removed
             return window.TOML;
         }
 
-        console.log('No existing TOML parser found, trying simple fallback parser instead of CDNs...');
+        // Console log removed
 
         // Instead of trying CDNs (which are failing), go directly to simple parser
-        console.log('Creating simple inline TOML parser fallback');
+        // Console log removed
         return this.createSimpleTomlParser();
     }
 
@@ -113,12 +113,12 @@ class TomlLoader {
         }
 
         try {
-            console.log('Parsing TOML with parser type:', parser._isSimpleParser ? 'simple-fallback' : 'external');
+            // Console log removed
             const result = parser.parse(tomlContent);
-            console.log('TOML parsing successful, result keys:', Object.keys(result));
+            // Console log removed
             return result;
         } catch (parseError) {
-            console.error('TOML parsing error:', parseError);
+            // Console error removed;
             throw new Error(`TOML parsing failed: ${parseError.message}`);
         }
     }
@@ -139,11 +139,11 @@ class TomlLoader {
 
     // Create a simple TOML parser for basic parsing when CDNs fail
     createSimpleTomlParser() {
-        console.log('Creating simple inline TOML parser fallback');
+        // Console log removed
         return {
             _isSimpleParser: true,
             parse: (tomlString) => {
-                console.log('Using simple TOML parser fallback');
+                // Console log removed
                 return this.parseTomlSimple(tomlString);
             }
         };

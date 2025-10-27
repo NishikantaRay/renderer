@@ -11,7 +11,7 @@ class FastPortfolioInit {
     }
 
     async init() {
-        console.log('🚀 Starting fast portfolio initialization...');
+        // Starting fast portfolio initialization
         
         // Phase 1: Critical content and basic functionality
         await this.loadCriticalContent();
@@ -40,10 +40,8 @@ class FastPortfolioInit {
             await this.loadHeroContent();
             
             this.criticalResourcesLoaded = true;
-            console.log(`✅ Critical content loaded in ${Math.round(performance.now() - startTime)}ms`);
             
         } catch (error) {
-            console.error('Failed to load critical content:', error);
             this.fallbackInit();
         }
     }
@@ -58,7 +56,6 @@ class FastPortfolioInit {
                 ]);
                 return config;
             } catch (error) {
-                console.warn('Using fallback config due to:', error.message);
                 return this.getFallbackConfig();
             }
         }
@@ -73,7 +70,7 @@ class FastPortfolioInit {
                 return window.tomlLoader ? await window.tomlLoader.parse(tomlText) : this.getFallbackConfig();
             }
         } catch (error) {
-            console.warn('Failed to load home config:', error);
+            // Failed to load home config
         }
         return this.getFallbackConfig();
     }
@@ -212,9 +209,8 @@ class FastPortfolioInit {
                 await this.loadSocialLinks();
                 await this.loadOptionalSections();
                 this.enhancementsLoaded = true;
-                console.log('✅ Enhancements loaded');
             } catch (error) {
-                console.warn('Some enhancements failed to load:', error);
+                // Some enhancements failed to load
             }
         }, 100);
     }
@@ -250,7 +246,6 @@ class FastPortfolioInit {
                     await Promise.race([initPromise, timeoutPromise]);
                     await window.socialConfig.updateSocialLinks('#social-links');
                 } catch (error) {
-                    console.warn('Social config failed or timed out, using fallback:', error);
                     this.loadFallbackSocialLinks();
                 }
             } else {
@@ -258,7 +253,6 @@ class FastPortfolioInit {
                 this.loadFallbackSocialLinks();
             }
         } catch (error) {
-            console.warn('Failed to load social links, using fallback:', error);
             this.loadFallbackSocialLinks();
         }
     }
@@ -381,7 +375,6 @@ class FastPortfolioInit {
         const loadHeavyFeatures = () => {
             // Marked.js is now loaded on-demand in home.js when needed
             // This space can be used for other optional features
-            console.log('🔧 Optional features area ready for future enhancements');
         };
 
         // Load after user interaction or 3 seconds
@@ -396,7 +389,7 @@ class FastPortfolioInit {
     }
 
     fallbackInit() {
-        console.warn('Using fallback initialization');
+        // Using fallback initialization
         
         // Basic theme setup
         this.setupTheme();
@@ -411,7 +404,7 @@ class FastPortfolioInit {
 
     logPerformance() {
         const totalTime = performance.now() - this.initStartTime;
-        console.log(`🏁 Portfolio initialized in ${Math.round(totalTime)}ms`);
+        // Portfolio initialized
         
         // Log to performance observer if available
         if ('performance' in window && 'measure' in performance) {

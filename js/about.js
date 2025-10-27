@@ -74,7 +74,7 @@ class PortfolioPage {
 
       this.renderContent(html);
     } catch (error) {
-      console.error("Failed to load content:", error);
+      // Console error removed;
       this.renderFallbackContent();
     }
   }

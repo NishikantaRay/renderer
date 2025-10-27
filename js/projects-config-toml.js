@@ -17,7 +17,7 @@ class ProjectsConfig {
             }
 
             const tomlContent = await response.text();
-            console.log('TOML content loaded, attempting to parse...');
+            // Console log removed
             
             // Try multiple parsing approaches
             let parsedConfig;
@@ -29,7 +29,7 @@ class ProjectsConfig {
                     parsedConfig = await window.tomlLoader.parse(tomlContent);
                     parseMethod = 'tomlLoader';
                 } catch (e) {
-                    console.warn('tomlLoader failed:', e.message);
+                    // Console warn removed;
                 }
             }
             
@@ -40,7 +40,7 @@ class ProjectsConfig {
                         parsedConfig = window.toml.parse(tomlContent);
                         parseMethod = 'window.toml';
                     } catch (e) {
-                        console.warn('window.toml failed:', e.message);
+                        // Console warn removed;
                     }
                 }
             }
@@ -51,7 +51,7 @@ class ProjectsConfig {
                         parsedConfig = window.TOML.parse(tomlContent);
                         parseMethod = 'window.TOML';
                     } catch (e) {
-                        console.warn('window.TOML failed:', e.message);
+                        // Console warn removed;
                     }
                 }
             }
@@ -63,7 +63,7 @@ class ProjectsConfig {
                     parsedConfig = simpleParser.parse(tomlContent);
                     parseMethod = 'simpleParser';
                 } catch (e) {
-                    console.warn('simpleParser failed:', e.message);
+                    // Console warn removed;
                 }
             }
             
@@ -72,10 +72,10 @@ class ProjectsConfig {
             }
             
             this.config = parsedConfig;
-            console.log(`Projects configuration loaded successfully using ${parseMethod}`);
+            // Console log removed
             return this.config;
         } catch (error) {
-            console.warn('Failed to load projects configuration, using fallback:', error);
+            // Console warn removed;
             this.config = this.fallbackConfig;
             return this.config;
         }
@@ -128,7 +128,7 @@ class ProjectsConfig {
         // Analytics sections
         if (!this.isEnabled('analytics')) {
             rules.push('.analytics-section { display: none !important; }');
-            console.log('Adding CSS rule to hide analytics section');
+            // Console log removed
         } else {
             if (!this.isEnabled('analytics', 'charts')) {
                 rules.push('.analytics-card:has(canvas) { display: none !important; }');
@@ -185,7 +185,7 @@ class ProjectsConfig {
         // Add data attributes for CSS targeting
         if (!this.isEnabled('analytics')) {
             document.body.setAttribute('data-analytics-disabled', 'true');
-            console.log('Added data-analytics-disabled attribute to body');
+            // Console log removed
         }
 
         // Apply theme-specific configurations
@@ -407,7 +407,7 @@ class ProjectsConfig {
 
     // Debug helper
     logConfig() {
-        console.log('Current Projects Configuration:', this.getConfig());
+        // Console log removed
     }
 }
 

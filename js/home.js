@@ -6,7 +6,9 @@ class MinimalPortfolio {
         ? "dark"
         : "light");
     this.contentCache = new Map();
-    this.homeConfig = null;    this.init().catch(error => console.error('Failed to initialize portfolio:', error));
+    this.homeConfig = null;    this.init().catch(error => {
+      // Failed to initialize portfolio
+    });
   }
 
   async init() {
@@ -126,32 +128,31 @@ class MinimalPortfolio {
 
   async loadHomeConfig() {
     try {
-      console.log('Loading home configuration...');
+      // Loading home configuration
       
       // Try to load TOML configuration
       const response = await fetch('./config/home.toml');
-      console.log('Fetch response status:', response.status, response.ok);
+      // Fetch response status available
       
       if (response.ok) {
         const tomlText = await response.text();
-        console.log('TOML text loaded, length:', tomlText.length);
-        console.log('First 200 chars:', tomlText.substring(0, 200));
+        // TOML text loaded
         
         // Use the shared TOML loader
         try {
           this.homeConfig = await window.tomlLoader.parse(tomlText);
-          console.log('Home config loaded from TOML:', this.homeConfig);
+          // Home config loaded from TOML
         } catch (parseError) {
-          console.warn('TOML parsing failed, using fallback config:', parseError.message);
+          // TOML parsing failed, using fallback config
           this.homeConfig = this.getHomeConfigFallback();
         }
       } else {
         throw new Error('Failed to fetch home.toml');
       }
     } catch (error) {
-      console.warn('Loading home config fallback:', error);
+      // Loading home config fallback
       this.homeConfig = this.getHomeConfigFallback();
-      console.log('Using fallback config:', this.homeConfig);
+      // Using fallback config
     }
   }
 
@@ -326,7 +327,7 @@ class MinimalPortfolio {
       } else if (typeof hero.intro === 'string') {
         introContent = `<p>${hero.intro}</p>`;
       } else {
-        console.warn('Hero intro is not a string or array:', typeof hero.intro, hero.intro);
+        // Hero intro is not a string or array - using default
         introContent = '<p>Welcome to my portfolio</p>';
       }
       introElement.innerHTML = introContent;
@@ -402,7 +403,7 @@ class MinimalPortfolio {
     this.updateMetaTag('name', 'twitter:description', seo.description);
     this.updateMetaTag('name', 'twitter:image', seo.og_image);
 
-    console.log('SEO meta tags updated from TOML configuration');
+    // Console log removed
   }
 
   updateMetaTag(attribute, attributeValue, content) {
@@ -485,7 +486,7 @@ class MinimalPortfolio {
       this.contentCache.set(section, html);
       this.renderContent(section, html);
     } catch (error) {
-      console.error(`Failed to load ${section}:`, error);
+      // Console error removed;
       this.renderError(section);
     }
   }
@@ -522,7 +523,7 @@ class MinimalPortfolio {
         await window.lazyLoader.loadScript('https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js');
         return Promise.resolve();
       } catch (error) {
-        console.warn('Failed to load marked via lazy loader:', error);
+        // Console warn removed;
       }
     }
 
@@ -531,11 +532,11 @@ class MinimalPortfolio {
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js';
       script.onload = () => {
-        console.log('✅ Marked.js loaded successfully');
+        // Console log removed
         resolve();
       };
       script.onerror = () => {
-        console.error('❌ Failed to load Marked.js');
+        // Console error removed;
         reject(new Error('Failed to load marked library'));
       };
       document.head.appendChild(script);
@@ -1031,7 +1032,7 @@ class MinimalPortfolio {
   async setupSocialLinks() {
     // Use the new TOML-based social configuration
     if (typeof window.socialConfig === "undefined") {
-      console.warn("TOML social config not found");
+      // Console warn removed;
       return;
     }
 
@@ -1045,7 +1046,7 @@ class MinimalPortfolio {
       // Update social links using the TOML configuration
       await window.socialConfig.updateSocialLinks('#social-links');
     } catch (error) {
-      console.error('Failed to setup social links:', error);
+      // Console error removed;
       // Fallback to default
       socialContainer.innerHTML = `
         <a href="https://github.com/NishikantaRay" target="_blank" class="social-link" title="GitHub">
@@ -1079,7 +1080,7 @@ class MinimalPortfolio {
         section.style.display = 'none';
         section.classList.remove('section-visible');
       }
-      console.log('Freelance projects section disabled');
+      // Console log removed
       return;
     }
 
@@ -1090,21 +1091,21 @@ class MinimalPortfolio {
 
     const container = document.getElementById('freelanceProjectsContainer');
     if (!container) {
-      console.error('Freelance projects container not found');
+      // Console error removed;
       return;
     }
 
-    console.log('Loading freelance projects...');
+    // Console log removed
     // Show loading state
     container.innerHTML = '<div class="projects-loading"><div class="loading-spinner"></div>Loading projects...</div>';
 
     try {
       // Simulate API call - replace with actual data source
       const projects = await this.getFreelanceProjects();
-      console.log('Freelance projects loaded:', projects);
+      // Console log removed
       this.renderFreelanceProjects(container, projects);
     } catch (error) {
-      console.error('Failed to load freelance projects:', error);
+      // Console error removed;
       container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Failed to load projects</p>';
     }
   }
@@ -1184,7 +1185,7 @@ class MinimalPortfolio {
         section.style.display = 'none';
         section.classList.remove('section-visible');
       }
-      console.log('Latest products section disabled');
+      // Console log removed
       return;
     }
 
@@ -1195,35 +1196,35 @@ class MinimalPortfolio {
 
     const container = document.getElementById('productsContainer');
     if (!container) {
-      console.error('Products container not found');
+      // Console error removed;
       return;
     }
 
-    console.log('Loading latest products...');
+    // Console log removed
     // Show loading state
     container.innerHTML = '<div class="products-loading"><div class="loading-spinner"></div>Loading products...</div>';
 
     try {
       // Simulate API call - replace with actual data source
       const products = await this.getLatestProducts();
-      console.log('Products loaded:', products);
+      // Console log removed
       this.renderLatestProducts(container, products);
     } catch (error) {
-      console.error('Failed to load latest products:', error);
+      // Console error removed;
       container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Failed to load products</p>';
     }
   }
 
   async getLatestProducts() {
-    console.log('getLatestProducts called');
+    // Console log removed
     
     // Return products from configuration if available
     if (this.homeConfig?.latest_products?.products && this.homeConfig.latest_products.products.length > 0) {
-      console.log('Returning products from config:', this.homeConfig.latest_products.products.length, 'products');
+      // Console log removed
       return this.homeConfig.latest_products.products;
     }
 
-    console.log('Using fallback products');
+    // Console log removed
     // Fallback data if configuration is not available
     return [
       {
@@ -1252,15 +1253,15 @@ class MinimalPortfolio {
   }
 
   renderLatestProducts(container, products) {
-    console.log('renderLatestProducts called with:', products);
+    // Console log removed
     
     if (!products || products.length === 0) {
-      console.warn('No products to render, showing fallback message');
+      // Console warn removed;
       container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No products available</p>';
       return;
     }
 
-    console.log('Rendering', products.length, 'products');
+    // Console log removed
     const productsHtml = products.map((product, index) => `
       <div class="product-card" style="animation: slideInUp 0.6s ease ${index * 0.1}s both" onclick="this.classList.toggle('expanded')">
         <div class="product-header">
@@ -1287,7 +1288,7 @@ class MinimalPortfolio {
     `).join('');
 
     container.innerHTML = productsHtml;
-    console.log('Products rendered successfully');
+    // Console log removed
     
     // Add click handlers for product cards
     container.querySelectorAll('.product-card').forEach(card => {

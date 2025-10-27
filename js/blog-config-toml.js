@@ -24,13 +24,13 @@ class BlogConfigTOML {
                 this.isInitialized = true;
                 return true;
             } else {
-                console.error('No fallback configuration available');
+                // Console error removed;
                 this.config = this.getDefaultConfig();
                 this.isInitialized = false;
                 return false;
             }
         } catch (error) {
-            console.error('Error initializing blog config:', error);
+            // Console error removed;
             this.config = this.getDefaultConfig();
             this.isInitialized = false;
             return false;
@@ -245,7 +245,7 @@ class BlogConfigTOML {
     }
 
     convertJSConfigToTOMLFormat(jsConfig) {
-        console.log('Converting JS config to TOML format...');
+        // Console log removed
         return {
             title: jsConfig.title,
             description: jsConfig.description,
@@ -399,7 +399,7 @@ class BlogConfigTOML {
     // Markdown loading methods
     async loadMarkdownContent(contentPath) {
         try {
-            console.log('Attempting to load markdown content for:', contentPath);
+            // Console log removed
             const response = await fetch(`./content/${contentPath}`);
             if (!response.ok) {
                 throw new Error(`Failed to load ${contentPath}: ${response.status}`);
@@ -418,19 +418,19 @@ class BlogConfigTOML {
             
             return { content, metadata: {} };
         } catch (error) {
-            console.log('Failed to load markdown file, looking for fallback content...', error.message);
+            // Console log removed
             
             // Fallback: try to get content from blog config
             const postId = contentPath.replace('.md', '');
             const post = this.config.posts.find(p => p.id === postId);
             
             if (post && post.fallbackContent) {
-                console.log('Found fallback content for post:', postId);
+                // Console log removed
                 return { content: post.fallbackContent, metadata: {} };
             }
             
             // If no fallback content found, return error message
-            console.error('No fallback content found for post:', postId);
+            // Console error removed;
             return { 
                 content: '<div class="error"><h2>Content not available</h2><p>Sorry, this content is temporarily unavailable. Please try again later.</p></div>', 
                 metadata: {} 

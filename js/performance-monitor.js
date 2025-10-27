@@ -88,7 +88,7 @@ class PerformanceMonitor {
             observer.observe({ entryTypes: ['paint', 'largest-contentful-paint'] });
         } catch (e) {
             // Fallback for browsers that don't support these metrics
-            console.log('Some performance metrics not supported in this browser');
+            // Console log removed
         }
 
         // Cumulative Layout Shift
@@ -121,7 +121,7 @@ class PerformanceMonitor {
 
     generateReport() {
         if (!this.isSupported) {
-            console.log('⚠️ Performance API not supported in this browser');
+            // Console log removed
             return;
         }
 
@@ -152,31 +152,31 @@ class PerformanceMonitor {
 
     logReport() {
         console.group('🚀 Performance Report');
-        console.log('📊 Core Metrics:');
-        console.log(`  • Time to First Byte: ${this.metrics.ttfb}ms`);
-        console.log(`  • First Contentful Paint: ${this.metrics.firstContentfulPaint || 'N/A'}ms`);
-        console.log(`  • Largest Contentful Paint: ${this.metrics.largestContentfulPaint || 'N/A'}ms`);
-        console.log(`  • DOM Ready: ${this.metrics.domReadyTime}ms`);
-        console.log(`  • Window Load: ${this.metrics.windowLoadTime}ms`);
-        console.log(`  • Time to Interactive: ${this.metrics.timeToInteractive}ms`);
+        // Console log removed
+        // Console log removed
+        // Console log removed
+        // Console log removed
+        // Console log removed
+        // Console log removed
+        // Console log removed
         
-        console.log('🎯 Critical Resources:');
-        console.log(`  • Critical CSS: ${this.metrics.criticalCSSTime || 'N/A'}ms`);
-        console.log(`  • Critical JS: ${this.metrics.criticalJSTime || 'N/A'}ms`);
-        console.log(`  • Profile Image: ${this.metrics.profileImageTime || 'N/A'}ms`);
+        // Console log removed
+        // Console log removed
+        // Console log removed
+        // Console log removed
         
-        console.log('📈 Web Vitals:');
-        console.log(`  • Cumulative Layout Shift: ${this.metrics.cumulativeLayoutShift || 'N/A'}`);
+        // Console log removed
+        // Console log removed
         
-        console.log('📦 Resources:');
-        console.log(`  • Total Resources: ${this.metrics.totalResources}`);
-        console.log(`  • Total Transfer Size: ${this.metrics.totalTransferSize}KB`);
+        // Console log removed
+        // Console log removed
+        // Console log removed
         
         // Performance grades
         const grades = this.calculateGrades();
-        console.log('🏆 Performance Grades:');
+        // Console log removed
         Object.entries(grades).forEach(([metric, grade]) => {
-            console.log(`  • ${metric}: ${grade.grade} (${grade.value})`);
+            // Console log removed
         });
         
         console.groupEnd();

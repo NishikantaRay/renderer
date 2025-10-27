@@ -71,7 +71,7 @@ class PortfolioPage {
 
       this.renderContent(html, socialConfig);
     } catch (error) {
-      console.error("Failed to load content:", error);
+      // Console error removed;
       this.renderFallbackContent();
     }
   }
@@ -85,7 +85,7 @@ class PortfolioPage {
       }
       throw new Error('Social config not available');
     } catch (error) {
-      console.warn('Loading social config fallback:', error);
+      // Console warn removed;
       return this.getSocialFallback();
     }
   }

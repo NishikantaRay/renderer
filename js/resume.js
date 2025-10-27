@@ -34,16 +34,16 @@ class ResumeTheme {
       const success = await window.resumeConfig.init();
       
       if (success) {
-        console.log('Resume configuration loaded successfully');
+        // Console log removed
       } else {
-        console.warn('Resume configuration failed, using fallback');
+        // Console warn removed;
       }
       
       // Update resume content
       await window.resumeConfig.updateResume('#resume-container');
       
     } catch (error) {
-      console.error('Failed to load resume content:', error);
+      // Console error removed;
       this.renderError();
     }
   }

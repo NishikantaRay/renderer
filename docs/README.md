@@ -5,6 +5,27 @@
 
 ---
 
+## 🤖 AI-Powered Setup with MCP Server (NEW!)
+
+**Want to create your portfolio with AI assistance?** Check out the [Renderer MCP Server](MCP_SERVER.md)!
+
+With our Model Context Protocol server, you can:
+- 🚀 **Generate complete configurations** - Just describe what you want
+- ✅ **Validate TOML files** - Get instant feedback on errors
+- 💡 **Learn features** - Ask questions in natural language
+- 📝 **Get examples** - See real-world configuration samples
+
+**Quick Setup:**
+```bash
+npm install -g renderer-mcp-server
+# Configure in Claude Desktop, then just ask:
+# "Create a portfolio for me with projects and resume"
+```
+
+**[→ Read the complete MCP Server guide](MCP_SERVER.md)**
+
+---
+
 ## 🚀 Quick Start
 
 ### 1. **First Time Setup**
@@ -144,6 +165,7 @@ secondary_link = "https://your-contact-form.com"  # External link supported
 
 | Document | Purpose | For Who |
 |----------|---------|----------|
+| [`MCP_SERVER.md`](./MCP_SERVER.md) | **AI Assistant Setup** | **Everyone - Get AI help!** |
 | [`COMPLETE_FEATURES_GUIDE.md`](./COMPLETE_FEATURES_GUIDE.md) | All features & customization | Developers, Advanced users |
 | [`CHANGELOG.md`](./CHANGELOG.md) | Version history & updates | Everyone - **See v2.1 updates!** |
 | [`DASHBOARD-CONFIG.md`](./DASHBOARD-CONFIG.md) | Analytics dashboard | Data-driven users |

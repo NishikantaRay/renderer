@@ -47,7 +47,50 @@
 - 🚀 **Performance Options** - Lazy loading, caching, and optimizations
 - 🔧 **Debug Mode** - Built-in debugging and development tools
 
+### **🤖 AI-Powered Setup (NEW!)**
+- 🎯 **MCP Server Integration** - AI assistant for Renderer framework
+- 💬 **Natural Language Configuration** - Just describe what you want
+- ✅ **Instant Validation** - Check your TOML files with AI
+- 📝 **Template Generation** - Generate complete configs automatically
+- 📚 **Smart Documentation** - Ask questions, get instant answers
+
+**[→ Get started with Renderer MCP Server](docs/MCP_SERVER.md)**
+
 ## 🚀 Quick Start
+
+### Option 1: AI-Assisted Setup (Recommended!) 🤖
+
+**Get your portfolio up in 15 minutes with AI help:**
+
+```bash
+# 1. Install the MCP server
+npm install -g renderer-mcp-server
+
+# 2. Configure Claude Desktop
+# Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
+{
+  "mcpServers": {
+    "renderer": {
+      "command": "renderer-mcp"
+    }
+  }
+}
+
+# 3. Restart Claude Desktop and ask:
+# "Create a portfolio for [Your Name] with projects and resume"
+```
+
+**Benefits:**
+- ✅ Generate complete configurations automatically
+- ✅ Validate TOML files instantly
+- ✅ Get answers to any Renderer question
+- ✅ Save 85% setup time
+
+**[→ Full MCP Server Guide](docs/MCP_SERVER.md)**
+
+---
+
+### Option 2: Traditional Setup
 
 ```bash
 # Clone the repository
@@ -67,10 +110,11 @@ open http://localhost:8000
 
 **💡 Pro Tip:** Visit the live documentation at [renderer.nishikanta.in/docs](https://renderer.nishikanta.in/docs) for comprehensive setup guides and configuration examples!
 
-## � Documentation
+## 📚 Documentation
 
 🌐 **[Complete Documentation](https://renderer.nishikanta.in/docs)** - Interactive documentation hub with:
 
+- **🤖 [AI Assistant (MCP Server)](docs/MCP_SERVER.md)** - Get AI help with setup and configuration
 - **Configuration Guides** - Step-by-step TOML configuration examples
 - **Feature Tutorials** - How to implement each portfolio feature
 - **Code Examples** - Copy-paste ready code snippets
@@ -79,6 +123,7 @@ open http://localhost:8000
 - **Troubleshooting** - Common issues and solutions
 
 **Quick Documentation Links:**
+- 🤖 **[AI Assistant Guide (NEW!)](docs/MCP_SERVER.md)** - Get AI help with Renderer
 - 🏠 [Home Configuration](https://renderer.nishikanta.in/docs#home-config)
 - 🚀 [Projects Setup](https://renderer.nishikanta.in/docs#projects-config)
 - 📝 [Blog System](https://renderer.nishikanta.in/docs#blog-config)

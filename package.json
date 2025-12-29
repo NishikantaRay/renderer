@@ -1,16 +1,34 @@
 {
-  "name": "minimal-portfolio",
-  "version": "1.0.0",
-  "description": "A minimal personal portfolio using markdown to HTML converter",
+  "name": "renderer",
+  "version": "2.1.0",
+  "description": "Zero-build TOML-driven portfolio framework with AI-powered setup",
   "main": "index.html",
+  "bin": {
+    "renderer": "./bin/renderer.js"
+  },
   "scripts": {
     "dev": "npx serve -l 3000",
-    "start": "npx serve -l 3000"
+    "start": "npx serve -l 3000",
+    "serve": "node bin/renderer.js serve",
+    "build": "node bin/renderer.js build",
+    "validate": "node bin/renderer.js validate"
   },
-  "keywords": ["portfolio", "markdown", "minimal", "personal"],
+  "keywords": [
+    "portfolio",
+    "toml",
+    "minimal",
+    "personal",
+    "static-site",
+    "zero-build",
+    "mcp",
+    "ai-powered"
+  ],
   "author": "Nishikanta Ray",
   "license": "MIT",
   "devDependencies": {
     "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

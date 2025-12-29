@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John Doe - Software Engineer & Full Stack Developer</title>
-    <meta name="description" content="A passionate Full Stack Developer, explorer, and freelancer with 2+ years of experience in designing, developing, and delivering innovative web solutions.">
-    
+    <meta name="description"
+        content="A passionate Full Stack Developer, explorer, and freelancer with 2+ years of experience in designing, developing, and delivering innovative web solutions.">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#0969da">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <!-- DNS Prefetch and Preconnect for external resources -->
     <link rel="dns-prefetch" href="//ui-avatars.com">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -13,45 +21,67 @@
     <link rel="dns-prefetch" href="//rsms.me">
     <link rel="preconnect" href="https://ui-avatars.com" crossorigin>
     <link rel="preconnect" href="https://rsms.me" crossorigin>
-    
+
     <!-- Preload critical resources -->
-    <link rel="preload" href="https://ui-avatars.com/api/?name=John+Doe&size=240&background=0D8ABC&color=fff" as="image" type="image/png">
+    <link rel="preload" href="https://ui-avatars.com/api/?name=John+Doe&size=240&background=0D8ABC&color=fff" as="image"
+        type="image/png">
     <link rel="preload" href="./css/critical.css" as="style">
     <link rel="preload" href="./js/fast-init.js" as="script">
     <link rel="preload" href="./js/lazy-loader.js" as="script">
     <link rel="preload" href="./js/toml-loader.js" as="script">
     <link rel="preload" href="./config/home.toml" as="fetch" crossorigin>
-    
+
     <!-- Prefetch likely next resources -->
     <link rel="prefetch" href="./js/home.js">
     <link rel="prefetch" href="./js/social-config-toml.js">
     <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js">
-    
+
     <!-- Critical CSS (inline core styles for above-the-fold content) -->
     <link rel="stylesheet" href="./css/critical.css">
-    
+
     <!-- Fonts - Load asynchronously -->
-    <link rel="preload" href="https://rsms.me/inter/inter.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://rsms.me/inter/inter.css"></noscript>
-    
+    <link rel="preload" href="https://rsms.me/inter/inter.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    </noscript>
+
     <!-- Font Awesome - Defer loading -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
+
     <!-- Non-critical CSS - Load asynchronously -->
     <link rel="preload" href="./css/home.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="./css/home.css"></noscript>
-    
+    <noscript>
+        <link rel="stylesheet" href="./css/home.css">
+    </noscript>
+
     <!-- Progressive Enhancement: Ensure critical functionality without JavaScript -->
     <noscript>
         <style>
-            .hero-intro, .hero-actions { opacity: 1 !important; }
-            .nav-links { display: flex !important; }
-            .mobile-menu-toggle { display: none !important; }
-            .js-only { display: none !important; }
+            .hero-intro,
+            .hero-actions {
+                opacity: 1 !important;
+            }
+
+            .nav-links {
+                display: flex !important;
+            }
+
+            .mobile-menu-toggle {
+                display: none !important;
+            }
+
+            .js-only {
+                display: none !important;
+            }
         </style>
     </noscript>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="nav">
@@ -94,45 +124,47 @@
         <!-- Hero Section -->
         <section id="home" class="hero">
             <div class="hero-profile-image">
-                <img src="https://ui-avatars.com/api/?name=John+Doe&size=240&background=0D8ABC&color=fff" 
-                     alt="John Doe" 
-                     class="profile-img"
-                     width="120" 
-                     height="120"
-                     loading="eager"
-                     decoding="async"
-                     fetchpriority="high">
+                <img src="https://ui-avatars.com/api/?name=John+Doe&size=240&background=0D8ABC&color=fff" alt="John Doe"
+                    class="profile-img" width="120" height="120" loading="eager" decoding="async" fetchpriority="high">
             </div>
             <h1 class="hero-title">John Doe</h1>
             <div class="hero-intro">
-                <p>A passionate Full Stack Developer, explorer, and freelancer with 2+ years of experience in designing, developing, and delivering innovative web solutions.</p>
-                <p>Currently working at @letsflo and actively contributing to the open-source community. I specialize in JavaScript, TypeScript, React, Node.js, and modern web technologies. Check out my <a href="projects.html">projects</a> and <a href="blog.html">blog</a> for insights into my development journey.</p>
+                <p>A passionate Full Stack Developer, explorer, and freelancer with 2+ years of experience in designing,
+                    developing, and delivering innovative web solutions.</p>
+                <p>Currently working at @letsflo and actively contributing to the open-source community. I specialize in
+                    JavaScript, TypeScript, React, Node.js, and modern web technologies. Check out my <a
+                        href="projects.html">projects</a> and <a href="blog.html">blog</a> for insights into my
+                    development journey.</p>
             </div>
             <div class="social-links" id="social-links">
                 <!-- Social links will be loaded by JavaScript -->
             </div>
-            
+
             <!-- NoScript fallback social links -->
             <noscript>
                 <div class="social-links">
-                    <a href="https://github.com/johndoe" target="_blank" class="social-link" title="GitHub" rel="noopener noreferrer">
+                    <a href="https://github.com/johndoe" target="_blank" class="social-link" title="GitHub"
+                        rel="noopener noreferrer">
                         <span class="social-icon">📂</span>
                     </a>
-                    <a href="https://linkedin.com/in/johndoe" target="_blank" class="social-link" title="LinkedIn" rel="noopener noreferrer">
+                    <a href="https://linkedin.com/in/johndoe" target="_blank" class="social-link" title="LinkedIn"
+                        rel="noopener noreferrer">
                         <span class="social-icon">💼</span>
                     </a>
-                    <a href="https://twitter.com/johndoe" target="_blank" class="social-link" title="Twitter" rel="noopener noreferrer">
+                    <a href="https://twitter.com/johndoe" target="_blank" class="social-link" title="Twitter"
+                        rel="noopener noreferrer">
                         <span class="social-icon">🐦</span>
                     </a>
                     <a href="mailto:john.doe@example.com" class="social-link" title="Email">
                         <span class="social-icon">✉️</span>
                     </a>
-                    <a href="https://youtube.com/@johndoe" target="_blank" class="social-link" title="YouTube" rel="noopener noreferrer">
+                    <a href="https://youtube.com/@johndoe" target="_blank" class="social-link" title="YouTube"
+                        rel="noopener noreferrer">
                         <span class="social-icon">📺</span>
                     </a>
                 </div>
             </noscript>
-            
+
             <!-- Action Buttons -->
             <div class="hero-actions">
                 <a href="resume.html" class="btn btn-primary">
@@ -145,7 +177,8 @@
                     </svg>
                     Hire Me
                 </a>
-                <a href="https://us10.list-manage.com/contact-form?u=6de222a2f25969efb260c03d4&form_id=f68d4e9f93e132f6e275d7e4ee0bd76a" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                <a href="https://us10.list-manage.com/contact-form?u=6de222a2f25969efb260c03d4&form_id=f68d4e9f93e132f6e275d7e4ee0bd76a"
+                    class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
@@ -191,7 +224,7 @@
         <!-- Dashboard Analytics Section -->
         <section id="dashboard" class="dashboard" style="display: none;">
             <h2 class="dashboard-title">Dashboard & Analytics</h2>
-            
+
             <!-- Main Analytics Grid -->
             <div class="dashboard-grid">
                 <!-- Recent Projects Chart -->
@@ -214,7 +247,9 @@
                     <div class="card-header">
                         <h3 class="card-title">Tech Stack</h3>
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                            </path>
                         </svg>
                     </div>
                     <div class="chart-container">
@@ -245,7 +280,7 @@
                         </svg>
                     </div>
                     <div class="activity-container" id="recentActivity">
-                      
+
                     </div>
                 </div>
             </div>
@@ -254,20 +289,20 @@
             <div class="dashboard-section" data-section="skills_progress">
                 <h3 class="section-subtitle">Skills Progress</h3>
                 <div class="skills-grid" id="skillsProgress">
-                   
+
                 </div>
             </div>
 
             <!-- Statistics Grid -->
             <div class="stats-grid" id="dashboardStats" data-section="statistics">
-               
+
             </div>
 
             <!-- Code Quality Metrics -->
             <div class="dashboard-section" data-section="code_quality">
                 <h3 class="section-subtitle">Code Quality</h3>
                 <div class="quality-grid" id="codeQuality">
-                    
+
                 </div>
             </div>
 
@@ -275,7 +310,7 @@
             <div class="dashboard-section" data-section="learning_progress">
                 <h3 class="section-subtitle">Currently Learning</h3>
                 <div class="learning-grid" id="learningProgress">
-                    
+
                 </div>
             </div>
         </section>
@@ -283,29 +318,34 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; <span id="footer-year"></span> John Doe. Built with <a href="https://portfolio.example.com/" target="_blank" rel="noopener noreferrer">Portfolio Template</a> ❤️</p>
+        <p>&copy; <span id="footer-year"></span> John Doe. Built with <a href="https://portfolio.example.com/"
+                target="_blank" rel="noopener noreferrer">Portfolio Template</a> ❤️</p>
     </footer>
-    
+
     <script>
         document.getElementById('footer-year').textContent = new Date().getFullYear();
     </script>
-    
+
     <!-- Fast initialization system -->
     <script defer src="./js/lazy-loader.js"></script>
     <script defer src="./js/toml-loader.js"></script>
     <script defer src="./js/performance-monitor.js"></script>
     <script defer src="./js/fast-init.js"></script>
-    
+
+    <!-- Service Worker & Image Optimization -->
+    <script defer src="./js/sw-manager.js"></script>
+    <script defer src="./js/image-optimizer.js"></script>
+
     <!-- Load enhanced features only when needed -->
     <script>
         // Load full portfolio features after initial critical loading
-        window.addEventListener('load', function() {
-            setTimeout(function() {
+        window.addEventListener('load', function () {
+            setTimeout(function () {
                 // Load social config and full portfolio only if needed
                 const loadFullFeatures = () => {
                     if (!window.fullFeaturesLoaded) {
                         window.fullFeaturesLoaded = true;
-                        
+
                         // Load social config
                         if (!document.querySelector('script[src*="social-config"]')) {
                             const script1 = document.createElement('script');
@@ -313,7 +353,7 @@
                             script1.defer = true;
                             document.head.appendChild(script1);
                         }
-                        
+
                         // Load dashboard config only if dashboard is enabled
                         if (!document.querySelector('script[src*="dashboard-config"]')) {
                             const script2 = document.createElement('script');
@@ -321,7 +361,7 @@
                             script2.defer = true;
                             document.head.appendChild(script2);
                         }
-                        
+
                         // Load full home.js for advanced features
                         if (!document.querySelector('script[src*="home.js"]')) {
                             const script3 = document.createElement('script');
@@ -331,17 +371,18 @@
                         }
                     }
                 };
-                
+
                 // Load on user interaction or after delay
                 const events = ['click', 'scroll', 'keydown', 'touchstart'];
                 events.forEach(event => {
                     document.addEventListener(event, loadFullFeatures, { once: true, passive: true });
                 });
-                
+
                 // Fallback: load after 2 seconds anyway
                 setTimeout(loadFullFeatures, 2000);
             }, 500);
         });
     </script>
 </body>
+
 </html>

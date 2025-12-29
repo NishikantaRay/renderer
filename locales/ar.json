@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "about": "عن",
+    "projects": "المشاريع",
+    "blog": "المدونة",
+    "resume": "السيرة الذاتية",
+    "contact": "اتصل",
+    "docs": "التوثيق"
+  },
+  "hero": {
+    "greeting": "مرحباً، أنا",
+    "tagline": "مطور Full Stack ومصمم",
+    "description": "أقوم بإنشاء تجارب ويب جميلة وعالية الأداء",
+    "cta_primary": "عرض أعمالي",
+    "cta_secondary": "تواصل معي"
+  },
+  "projects": {
+    "title": "المشاريع",
+    "view_all": "عرض جميع المشاريع",
+    "view_project": "عرض المشروع",
+    "live_demo": "عرض توضيحي مباشر",
+    "source_code": "الكود المصدري",
+    "technologies": "التقنيات المستخدمة",
+    "filter_all": "الكل",
+    "no_projects": "لم يتم العثور على مشاريع"
+  },
+  "blog": {
+    "title": "المدونة",
+    "read_more": "اقرأ المزيد",
+    "read_article": "اقرأ المقال",
+    "published_on": "نُشر في",
+    "reading_time": "{{count}} دقيقة للقراءة",
+    "tags": "العلامات",
+    "latest_posts": "آخر المنشورات",
+    "all_posts": "جميع المنشورات",
+    "no_posts": "لم يتم العثور على منشورات"
+  },
+  "resume": {
+    "title": "السيرة الذاتية",
+    "download": "تحميل السيرة الذاتية",
+    "experience": "الخبرة",
+    "education": "التعليم",
+    "skills": "المهارات",
+    "certifications": "الشهادات",
+    "languages": "اللغات",
+    "present": "الحاضر"
+  },
+  "contact": {
+    "title": "تواصل معي",
+    "name": "الاسم",
+    "name_placeholder": "اسمك",
+    "email": "البريد الإلكتروني",
+    "email_placeholder": "your@email.com",
+    "message": "الرسالة",
+    "message_placeholder": "رسالتك هنا...",
+    "send": "إرسال الرسالة",
+    "sending": "جاري الإرسال...",
+    "success": "تم إرسال الرسالة بنجاح!",
+    "error": "فشل إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+    "social_title": "تواصل معي"
+  },
+  "time": {
+    "just_now": "للتو",
+    "minutes_ago": "منذ {{count}} دقيقة",
+    "hours_ago": "منذ {{count}} ساعة",
+    "days_ago": "منذ {{count}} يوم",
+    "months_ago": "منذ {{count}} شهر",
+    "years_ago": "منذ {{count}} سنة"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "language": "اللغة",
+    "theme": "السمة",
+    "light_mode": "الوضع الفاتح",
+    "dark_mode": "الوضع الداكن"
+  },
+  "footer": {
+    "built_with": "مبني بـ",
+    "powered_by": "مدعوم من Renderer",
+    "copyright": "© {{year}} جميع الحقوق محفوظة"
+  }
+}

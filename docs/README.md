@@ -24,6 +24,30 @@ npm install -g renderer-mcp-server
 
 **[→ Read the complete MCP Server guide](MCP_SERVER.md)**
 
+## 🎨 Visual TOML Editor (NEW!)
+
+**No more manual TOML editing!** Use our beautiful web-based editor:
+
+✨ **Key Features:**
+- 📝 **Form-based interface** - Fill forms, not code
+- 🎯 **Zero syntax errors** - Validation built-in
+- 👁️ **Real-time preview** - See TOML as you type
+- 💾 **Multiple export options** - Download, copy, or validate
+- 🌓 **Dark/Light themes** - Comfortable viewing
+- 📱 **Mobile-friendly** - Works on any device
+
+**Quick Start:**
+```bash
+# Open the editor
+open editor.html
+# Or access via browser
+http://localhost:3000/editor.html
+```
+
+**Supports all config types:** Home, Projects, Blog, Resume, Social
+
+**[→ Read the complete Editor guide](EDITOR.md)**
+
 ---
 
 ## 🚀 Quick Start

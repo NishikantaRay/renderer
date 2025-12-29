@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "blog": "Blog",
+    "resume": "CV",
+    "contact": "Contact",
+    "docs": "Documentation"
+  },
+  "hero": {
+    "greeting": "Salut, je suis",
+    "tagline": "Développeur Full Stack et Designer",
+    "description": "Je crée de belles expériences web performantes",
+    "cta_primary": "Voir Mon Travail",
+    "cta_secondary": "Me Contacter"
+  },
+  "projects": {
+    "title": "Projets",
+    "view_all": "Voir Tous les Projets",
+    "view_project": "Voir le Projet",
+    "live_demo": "Démo en Direct",
+    "source_code": "Code Source",
+    "technologies": "Technologies Utilisées",
+    "filter_all": "Tous",
+    "no_projects": "Aucun projet trouvé"
+  },
+  "blog": {
+    "title": "Blog",
+    "read_more": "Lire Plus",
+    "read_article": "Lire l'Article",
+    "published_on": "Publié le",
+    "reading_time": "{{count}} min de lecture",
+    "tags": "Étiquettes",
+    "latest_posts": "Derniers Articles",
+    "all_posts": "Tous les Articles",
+    "no_posts": "Aucun article trouvé"
+  },
+  "resume": {
+    "title": "CV",
+    "download": "Télécharger le CV",
+    "experience": "Expérience",
+    "education": "Éducation",
+    "skills": "Compétences",
+    "certifications": "Certifications",
+    "languages": "Langues",
+    "present": "Présent"
+  },
+  "contact": {
+    "title": "Contactez-moi",
+    "name": "Nom",
+    "name_placeholder": "Votre Nom",
+    "email": "Email",
+    "email_placeholder": "votre@email.com",
+    "message": "Message",
+    "message_placeholder": "Votre message ici...",
+    "send": "Envoyer le Message",
+    "sending": "Envoi...",
+    "success": "Message envoyé avec succès!",
+    "error": "Échec de l'envoi du message. Veuillez réessayer.",
+    "social_title": "Connectez-vous avec Moi"
+  },
+  "time": {
+    "just_now": "À l'instant",
+    "minutes_ago": "il y a {{count}} minutes",
+    "hours_ago": "il y a {{count}} heures",
+    "days_ago": "il y a {{count}} jours",
+    "months_ago": "il y a {{count}} mois",
+    "years_ago": "il y a {{count}} ans"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "language": "Langue",
+    "theme": "Thème",
+    "light_mode": "Mode Clair",
+    "dark_mode": "Mode Sombre"
+  },
+  "footer": {
+    "built_with": "Construit avec",
+    "powered_by": "Propulsé par Renderer",
+    "copyright": "© {{year}} Tous droits réservés"
+  }
+}

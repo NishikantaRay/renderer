@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual TOML Editor - Renderer</title>
+    <meta name="description" content="Visual configuration editor for Renderer portfolio">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+    <style>
+        :root {
+            --primary-color: #0969da;
+            --primary-light: #58a6ff;
+            --primary-dark: #0550ae;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --bg-color: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-color: #171717;
+            --text-muted: #737373;
+            --border-color: #e5e5e5;
+            --border-radius: 8px;
+            --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            --font-family: 'Inter var', 'Inter', system-ui, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0a0a0a;
+            --bg-secondary: #171717;
+            --text-color: #f5f5f5;
+            --text-muted: #a3a3a3;
+            --border-color: #262626;
+            --primary-color: #58a6ff;
+            --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .toolbar-left,
+        .toolbar-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(9, 105, 218, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        select.config-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .editor-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .panel-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group label .required {
+            color: var(--danger-color);
+        }
+
+        .form-group .help-text {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            font-family: var(--font-family);
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        .array-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .array-input input {
+            flex: 1;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            min-width: auto;
+        }
+
+        .code-preview {
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .code-preview .comment {
+            color: #8b949e;
+        }
+
+        .code-preview .section {
+            color: #ff7b72;
+        }
+
+        .code-preview .key {
+            color: #79c0ff;
+        }
+
+        .code-preview .value {
+            color: #a5d6ff;
+        }
+
+        .code-preview .string {
+            color: #a5d6ff;
+        }
+
+        .code-preview .boolean {
+            color: #ffa657;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(9, 105, 218, 0.1);
+            border: 1px solid rgba(9, 105, 218, 0.3);
+            color: var(--primary-color);
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            color: var(--success-color);
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #856404;
+        }
+
+        .section-divider {
+            margin: 2rem 0;
+            padding: 1rem 0;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .editor-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar-left,
+            .toolbar-right {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .validation-error {
+            color: var(--danger-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .field-group {
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle btn btn-secondary" onclick="toggleTheme()" aria-label="Toggle theme">
+        <span id="theme-icon">🌙</span>
+    </button>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎨 Visual TOML Editor</h1>
+            <p>Configure your Renderer portfolio with an easy-to-use visual interface</p>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <select class="config-select" id="configType" onchange="loadConfigType()">
+                    <option value="home">Home Configuration</option>
+                    <option value="projects">Projects Configuration</option>
+                    <option value="blog">Blog Configuration</option>
+                    <option value="resume">Resume Configuration</option>
+                    <option value="social">Social Links</option>
+                </select>
+                <button class="btn btn-secondary" onclick="loadExistingConfig()">
+                    📂 Load Existing
+                </button>
+                <button class="btn btn-secondary" onclick="resetForm()">
+                    🔄 Reset
+                </button>
+            </div>
+            <div class="toolbar-right">
+                <button class="btn btn-success" onclick="downloadConfig()">
+                    💾 Download TOML
+                </button>
+                <button class="btn btn-secondary" onclick="copyToClipboard()">
+                    📋 Copy to Clipboard
+                </button>
+                <button class="btn" onclick="validateConfig()">
+                    ✅ Validate
+                </button>
+            </div>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="alertContainer"></div>
+
+        <!-- Editor Layout -->
+        <div class="editor-layout">
+            <!-- Form Panel -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <h2>Configuration Form</h2>
+                    <span id="configBadge"
+                        style="padding: 0.25rem 0.75rem; background: var(--primary-color); color: white; border-radius: 12px; font-size: 0.875rem;">Home</span>
+                </div>
+                <div id="formContainer">
+                    <!-- Form will be dynamically generated -->
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <h2>TOML Preview</h2>
+                    <span style="font-size: 0.875rem; color: var(--text-muted);">config/<span
+                            id="fileName">home.toml</span></span>
+                </div>
+                <div class="code-preview" id="codePreview">
+                    # Your configuration will appear here
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/toml-loader.js"></script>
+    <script>
+        // Configuration schemas
+        const configSchemas = {
+            home: {
+                sections: [
+                    {
+                        title: 'Profile Information',
+                        fields: [
+                            { name: 'profile.name', label: 'Your Name', type: 'text', required: true, placeholder: 'John Doe' },
+                            { name: 'profile.tagline', label: 'Tagline', type: 'text', required: true, placeholder: 'Full Stack Developer' },
+                            { name: 'profile.email', label: 'Email', type: 'email', placeholder: 'john@example.com' },
+                            { name: 'profile.phone', label: 'Phone', type: 'tel', placeholder: '+1-555-123-4567' }
+                        ]
+                    },
+                    {
+                        title: 'Hero Section',
+                        fields: [
+                            { name: 'hero.profile_image', label: 'Profile Image URL', type: 'url', placeholder: 'https://avatars.githubusercontent.com/u/YOUR_ID', help: 'Profile image displayed in hero section' },
+                            { name: 'hero.title', label: 'Hero Title', type: 'text', required: true, placeholder: "Hi, I'm John 👋" },
+                            { name: 'hero.subtitle', label: 'Subtitle', type: 'text', placeholder: 'Building amazing things' },
+                            { name: 'hero.intro', label: 'Introduction', type: 'textarea', placeholder: 'One line per paragraph', help: 'Each line becomes a separate paragraph' },
+                            { name: 'hero.show_cta', label: 'Show CTA Buttons', type: 'checkbox', default: true }
+                        ]
+                    },
+                    {
+                        title: 'Call-to-Action Buttons',
+                        fields: [
+                            { name: 'hero.actions.primary_text', label: 'Primary Button Text', type: 'text', placeholder: 'View My Work' },
+                            { name: 'hero.actions.primary_link', label: 'Primary Button Link', type: 'text', placeholder: 'projects.html' },
+                            { name: 'hero.actions.secondary_text', label: 'Secondary Button Text', type: 'text', placeholder: 'Get In Touch' },
+                            { name: 'hero.actions.secondary_link', label: 'Secondary Button Link', type: 'text', placeholder: 'contact.html' }
+                        ]
+                    },
+                    {
+                        title: 'SEO Configuration',
+                        fields: [
+                            { name: 'seo.title', label: 'SEO Title', type: 'text', placeholder: 'Your Name - Full Stack Developer' },
+                            { name: 'seo.description', label: 'Meta Description', type: 'textarea', placeholder: 'Professional portfolio showcasing projects and experience' },
+                            { name: 'seo.keywords', label: 'Keywords', type: 'text', placeholder: 'Developer, JavaScript, React, Portfolio' },
+                            { name: 'seo.og_image', label: 'Open Graph Image', type: 'url', placeholder: 'https://yoursite.com/og-image.jpg' },
+                            { name: 'seo.twitter_creator', label: 'Twitter Handle', type: 'text', placeholder: '@yourusername' }
+                        ]
+                    },
+                    {
+                        title: 'Theme Settings',
+                        fields: [
+                            { name: 'theme.mode', label: 'Theme Mode', type: 'select', options: ['auto', 'light', 'dark'], default: 'auto' },
+                            { name: 'theme.accent_color', label: 'Accent Color', type: 'color', default: '#0066cc' }
+                        ]
+                    },
+                    {
+                        title: 'Features',
+                        fields: [
+                            { name: 'features.show_about', label: 'Show About Section', type: 'checkbox', default: true },
+                            { name: 'features.show_skills', label: 'Show Skills', type: 'checkbox', default: true },
+                            { name: 'features.show_social', label: 'Show Social Links', type: 'checkbox', default: true }
+                        ]
+                    }
+                ]
+            },
+            projects: {
+                sections: [
+                    {
+                        title: 'Projects Configuration',
+                        fields: [
+                            { name: 'title', label: 'Page Title', type: 'text', default: 'My Projects' },
+                            { name: 'description', label: 'Page Description', type: 'textarea', placeholder: 'Showcase of my work' }
+                        ]
+                    },
+                    {
+                        title: 'Features',
+                        fields: [
+                            { name: 'features.filtering', label: 'Enable Project Filtering', type: 'checkbox', default: true },
+                            { name: 'features.search', label: 'Enable Search', type: 'checkbox', default: true },
+                            { name: 'features.analytics', label: 'Enable Analytics', type: 'checkbox', default: false }
+                        ]
+                    }
+                ]
+            },
+            blog: {
+                sections: [
+                    {
+                        title: 'Blog Settings',
+                        fields: [
+                            { name: 'title', label: 'Blog Title', type: 'text', default: 'Blog' },
+                            { name: 'posts_per_page', label: 'Posts Per Page', type: 'number', default: 10, min: 1, max: 50 },
+                            { name: 'show_excerpts', label: 'Show Post Excerpts', type: 'checkbox', default: true }
+                        ]
+                    }
+                ]
+            },
+            resume: {
+                sections: [
+                    {
+                        title: 'Personal Information',
+                        fields: [
+                            { name: 'personal.name', label: 'Full Name', type: 'text', required: true },
+                            { name: 'personal.title', label: 'Job Title', type: 'text', required: true },
+                            { name: 'personal.email', label: 'Email', type: 'email' },
+                            { name: 'personal.phone', label: 'Phone', type: 'tel' },
+                            { name: 'personal.location', label: 'Location', type: 'text', placeholder: 'City, State' }
+                        ]
+                    }
+                ]
+            },
+            social: {
+                sections: [
+                    {
+                        title: 'Social Links',
+                        fields: [
+                            { name: 'social.github', label: 'GitHub', type: 'text', placeholder: 'username' },
+                            { name: 'social.linkedin', label: 'LinkedIn', type: 'text', placeholder: 'username' },
+                            { name: 'social.twitter', label: 'Twitter', type: 'text', placeholder: '@username' },
+                            { name: 'social.email', label: 'Email', type: 'email' }
+                        ]
+                    },
+                    {
+                        title: 'Settings',
+                        fields: [
+                            { name: 'social.settings.show_icons', label: 'Show Icons', type: 'checkbox', default: true },
+                            { name: 'social.settings.open_in_new_tab', label: 'Open in New Tab', type: 'checkbox', default: true }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Current state
+        let currentConfig = 'home';
+        let formData = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadConfigType();
+        });
+
+        // Theme management
+        function initTheme() {
+            const theme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeIcon(theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Load configuration type
+        function loadConfigType() {
+            currentConfig = document.getElementById('configType').value;
+            document.getElementById('configBadge').textContent = currentConfig.charAt(0).toUpperCase() + currentConfig.slice(1);
+            document.getElementById('fileName').textContent = `${currentConfig}.toml`;
+            generateForm();
+            updatePreview();
+        }
+
+        // Generate form from schema
+        function generateForm() {
+            const schema = configSchemas[currentConfig];
+            const container = document.getElementById('formContainer');
+            container.innerHTML = '';
+
+            schema.sections.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section-divider';
+
+                const sectionTitle = document.createElement('div');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.title;
+                sectionDiv.appendChild(sectionTitle);
+
+                section.fields.forEach(field => {
+                    const formGroup = document.createElement('div');
+                    formGroup.className = 'form-group';
+
+                    const label = document.createElement('label');
+                    label.textContent = field.label;
+                    if (field.required) {
+                        const req = document.createElement('span');
+                        req.className = 'required';
+                        req.textContent = ' *';
+                        label.appendChild(req);
+                    }
+                    formGroup.appendChild(label);
+
+                    let input;
+                    const fieldValue = getNestedValue(formData, field.name) || field.default || '';
+
+                    if (field.type === 'textarea') {
+                        input = document.createElement('textarea');
+                        input.className = 'form-control';
+                        input.value = fieldValue;
+                    } else if (field.type === 'select') {
+                        input = document.createElement('select');
+                        input.className = 'form-control';
+                        field.options.forEach(opt => {
+                            const option = document.createElement('option');
+                            option.value = opt;
+                            option.textContent = opt;
+                            if (opt === fieldValue) option.selected = true;
+                            input.appendChild(option);
+                        });
+                    } else if (field.type === 'checkbox') {
+                        const checkboxGroup = document.createElement('div');
+                        checkboxGroup.className = 'checkbox-group';
+                        input = document.createElement('input');
+                        input.type = 'checkbox';
+                        input.checked = fieldValue === true || fieldValue === 'true';
+                        checkboxGroup.appendChild(input);
+                        checkboxGroup.appendChild(label.cloneNode(true));
+                        formGroup.innerHTML = '';
+                        formGroup.appendChild(checkboxGroup);
+                    } else {
+                        input = document.createElement('input');
+                        input.type = field.type || 'text';
+                        input.className = 'form-control';
+                        input.value = fieldValue;
+                        if (field.placeholder) input.placeholder = field.placeholder;
+                        if (field.min !== undefined) input.min = field.min;
+                        if (field.max !== undefined) input.max = field.max;
+                    }
+
+                    input.dataset.fieldName = field.name;
+                    input.addEventListener('input', handleInputChange);
+                    input.addEventListener('change', handleInputChange);
+
+                    if (field.type !== 'checkbox') {
+                        formGroup.appendChild(input);
+                    }
+
+                    if (field.help) {
+                        const help = document.createElement('span');
+                        help.className = 'help-text';
+                        help.textContent = field.help;
+                        formGroup.appendChild(help);
+                    }
+
+                    sectionDiv.appendChild(formGroup);
+                });
+
+                container.appendChild(sectionDiv);
+            });
+        }
+
+        // Handle input changes
+        function handleInputChange(e) {
+            const fieldName = e.target.dataset.fieldName;
+            let value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+
+            setNestedValue(formData, fieldName, value);
+            updatePreview();
+        }
+
+        // Update TOML preview
+        function updatePreview() {
+            const toml = generateTOML(formData);
+            document.getElementById('codePreview').innerHTML = syntaxHighlight(toml);
+        }
+
+        // Generate TOML string from data
+        function generateTOML(data) {
+            let toml = `# ${currentConfig.charAt(0).toUpperCase() + currentConfig.slice(1)} Configuration\n`;
+            toml += `# Generated by Renderer Visual Editor\n\n`;
+            toml += objectToTOML(data, '');
+            return toml;
+        }
+
+        function objectToTOML(obj, prefix = '', depth = 0) {
+            let toml = '';
+            const indent = '  '.repeat(depth);
+
+            // Group by sections
+            const sections = {};
+            const simpleKeys = [];
+
+            for (const [key, value] of Object.entries(obj)) {
+                if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+                    sections[key] = value;
+                } else {
+                    simpleKeys.push(key);
+                }
+            }
+
+            // Output simple key-value pairs first
+            simpleKeys.forEach(key => {
+                const value = obj[key];
+                toml += formatTOMLValue(key, value, indent);
+            });
+
+            if (simpleKeys.length > 0 && Object.keys(sections).length > 0) {
+                toml += '\n';
+            }
+
+            // Output sections
+            Object.entries(sections).forEach(([key, value], index) => {
+                if (index > 0) toml += '\n';
+                const sectionName = prefix ? `${prefix}.${key}` : key;
+                toml += `${indent}[${sectionName}]\n`;
+                toml += objectToTOML(value, '', depth + 1);
+            });
+
+            return toml;
+        }
+
+        function formatTOMLValue(key, value, indent = '') {
+            if (value === '' || value === null || value === undefined) return '';
+
+            if (typeof value === 'boolean') {
+                return `${indent}${key} = ${value}\n`;
+            } else if (typeof value === 'number') {
+                return `${indent}${key} = ${value}\n`;
+            } else if (Array.isArray(value)) {
+                const items = value.map(v => `"${v}"`).join(', ');
+                return `${indent}${key} = [${items}]\n`;
+            } else {
+                return `${indent}${key} = "${value}"\n`;
+            }
+        }
+
+        // Syntax highlighting
+        function syntaxHighlight(toml) {
+            return toml
+                .replace(/#.*/g, '<span class="comment">$&</span>')
+                .replace(/\[([^\]]+)\]/g, '<span class="section">[$1]</span>')
+                .replace(/^(\w+(?:\.\w+)*)\s*=/gm, '<span class="key">$1</span> =')
+                .replace(/=\s*"([^"]*)"/g, '= <span class="string">"$1"</span>')
+                .replace(/=\s*(true|false)/g, '= <span class="boolean">$1</span>')
+                .replace(/=\s*(\d+)/g, '= <span class="value">$1</span>');
+        }
+
+        // Utility functions
+        function getNestedValue(obj, path) {
+            return path.split('.').reduce((current, key) => current?.[key], obj);
+        }
+
+        function setNestedValue(obj, path, value) {
+            const keys = path.split('.');
+            const lastKey = keys.pop();
+            const target = keys.reduce((current, key) => {
+                if (!current[key]) current[key] = {};
+                return current[key];
+            }, obj);
+            target[lastKey] = value;
+        }
+
+        // Actions
+        function downloadConfig() {
+            const toml = generateTOML(formData);
+            const blob = new Blob([toml], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentConfig}.toml`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showAlert('Configuration downloaded successfully!', 'success');
+        }
+
+        function copyToClipboard() {
+            const toml = generateTOML(formData);
+            navigator.clipboard.writeText(toml).then(() => {
+                showAlert('Configuration copied to clipboard!', 'success');
+            }).catch(() => {
+                showAlert('Failed to copy to clipboard', 'warning');
+            });
+        }
+
+        function validateConfig() {
+            // Basic validation
+            const schema = configSchemas[currentConfig];
+            const errors = [];
+
+            schema.sections.forEach(section => {
+                section.fields.forEach(field => {
+                    if (field.required) {
+                        const value = getNestedValue(formData, field.name);
+                        if (!value) {
+                            errors.push(`${field.label} is required`);
+                        }
+                    }
+                });
+            });
+
+            if (errors.length === 0) {
+                showAlert('✅ Configuration is valid!', 'success');
+            } else {
+                showAlert(`⚠️ Validation errors:\n${errors.join('\n')}`, 'warning');
+            }
+        }
+
+        function resetForm() {
+            if (confirm('Reset all fields? This will clear your current configuration.')) {
+                formData = {};
+                generateForm();
+                updatePreview();
+                showAlert('Form reset successfully', 'info');
+            }
+        }
+
+        async function loadExistingConfig() {
+            try {
+                const response = await fetch(`./config/${currentConfig}.toml`);
+                if (response.ok) {
+                    const tomlText = await response.text();
+                    // Parse TOML (simplified - you'd need a proper parser)
+                    showAlert(`Loaded existing ${currentConfig}.toml`, 'success');
+                } else {
+                    showAlert('Configuration file not found', 'warning');
+                }
+            } catch (error) {
+                showAlert('Failed to load configuration', 'warning');
+            }
+        }
+
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `<strong>${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</strong> ${message}`;
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.style.transition = 'opacity 0.3s';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
